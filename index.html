@@ -2718,20 +2718,21 @@ function startRace(){
   }
 
   if (announcer.active){
-    // Announcer calls the start himself. Intro + countdown are ONE short turn
-    // so there's no dead gap between them — the race launches the instant he
-    // finishes "GO!". Kept tight (one hype line) so the gun isn't 30s away.
-    setComment("🎙️ Your announcer is taking the mic…", true);
+    // The announcer runs the whole pre-race. When the derby page opens he
+    // announces the field and counts it down, and the gun is held on a fixed
+    // 20-second timer so he always has ample time to finish "GO!" without
+    // being rushed or cut off. (No onDone launch — the wait is deliberate.)
+    setComment("🎙️ Your announcer is calling the race to the line…", true);
     cd.style.display = "flex"; num.textContent = "🎙️";
     enqueueAnnouncer(
       `You're the live race announcer for the Shamrock Derby on Bayshore Boulevard, with ${n} leprechauns racing for a ${money(pot)} pot. ` +
-      `In ONE short, high-energy, funny sentence, hype up the race — then immediately start it by counting down with exactly these words: ` +
-      `"Ready... get set... GO!" Keep the whole thing brief; do not add anything after "GO!".`,
-      { onDone: launchField }
+      `Announce the race with big, high-energy, funny commentary about the field, then count it down and start the race, ` +
+      `ending with exactly these words: "Ready... get set... GO!" ` +
+      `Pace it to run about fifteen to twenty seconds total, and do not say anything after "GO!".`
     );
-    // Failsafe: if the announcer audio never arrives, never leave racers frozen
-    // — launch anyway after a hard cap. onDone above normally fires first.
-    announcer.startFailsafe = setTimeout(launchField, 12000);
+    // Deliberate 20s pre-race window: the race always starts 20 seconds after
+    // the page opens, giving the announcer ample room to announce and count down.
+    announcer.startFailsafe = setTimeout(launchField, 20000);
   } else {
     // Classic visual countdown with beeps.
     setComment("Runners to the line… the bay is calm, the crowd is not!");
