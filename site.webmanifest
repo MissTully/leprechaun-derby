@@ -1,0 +1,13 @@
+{
+  "name": "Shamrock Derby",
+  "short_name": "Shamrock Derby",
+  "description": "Shamrock Derby fundraiser race game with a live AI announcer.",
+  "theme_color": "#12291B",
+  "background_color": "#12291B",
+  "display": "standalone",
+  "icons": [
+    { "src": "/favicon-192.png", "type": "image/png", "sizes": "192x192" },
+    { "src": "/favicon-512.png", "type": "image/png", "sizes": "512x512" },
+    { "src": "/favicon-512.png", "type": "image/png", "sizes": "512x512", "purpose": "maskable" }
+  ]
+}
