@@ -1000,10 +1000,13 @@ function drawLeprechaun(ctx, x, y, scale, lep, phase, state, bib, time){
     pointed elf ears (one droops), a golden aura with orbiting shamrocks
     and coins, jaunty hat tilt, one quizzical eyebrow, gap or gold teeth,
     coin-shaped pupils on the greedy ones, crossed eyes, winks…          */
-function drawLeprechaunPortrait(ctx, px, py, R, lep, t){
+function drawLeprechaunPortrait(ctx, px, py, R, lep, t, happy){
   const u = R/46;
   const OUT = "#26331F";
   const q = Math.floor(lep.blinkSeed*97.7);          // quirk dice (deterministic)
+  // The winner's celebration portrait: force a warm, beaming expression —
+  // both eyes open and a big open grin — instead of the quirky roster faces.
+  if (happy) lep = Object.assign({}, lep, { pers: "cheery" });
   ctx.save(); ctx.translate(px, py);
   ctx.lineJoin = "round"; ctx.lineCap = "round";
 
@@ -1103,7 +1106,7 @@ function drawLeprechaunPortrait(ctx, px, py, R, lep, t){
   }
 
   // ---- eyes with seeded weirdness ----
-  const eq = q % 5;   // 0 normal · 1 one giant eye · 2 crossed · 3 coin pupils · 4 wink
+  const eq = happy ? 0 : q % 5;   // 0 normal · 1 one giant eye · 2 crossed · 3 coin pupils · 4 wink
   eye(-1, eq); eye(1, eq);
   brows();
   if (lep.pers === "nervous"){                        // flying sweat drop
@@ -2841,20 +2844,21 @@ function startRace(){
   }
 
   if (announcer.active){
-    // The announcer runs the whole pre-race. When the derby page opens he
-    // announces the field and counts it down, and the gun is held on a fixed
-    // 90-second timer so he always has ample time to finish "GO!" without
-    // being rushed or cut off. (No onDone launch — the wait is deliberate.)
+    // The announcer opens the broadcast and hypes the field. These are the
+    // actual words spoken (TTS reads them verbatim), queued in order. The gun
+    // is held on a fixed 90-second timer, and launchField()'s "AND THEY'RE OFF"
+    // is what the announcer says as the field drops — so no line pre-empts the
+    // start with a premature "GO!".
     setComment("🎙️ Your announcer is calling the race to the line…", true);
     cd.style.display = "flex"; num.textContent = "🎙️";
-    enqueueAnnouncer(
-      `You're the live race announcer for the Shamrock Derby on Bayshore Boulevard, with ${n} leprechauns racing for a ${money(pot)} pot. ` +
-      `Announce the race with big, high-energy, funny commentary about the field, then count it down and start the race, ` +
-      `ending with exactly these words: "Ready... get set... GO!" ` +
-      `Take your time — you have about ninety seconds, so pace it to run roughly eighty to ninety seconds total — and do not say anything after "GO!".`
-    );
+    [
+      `Ladies and gentlemen — welcome to the Shamrock Derby, live on Bayshore Boulevard!`,
+      `We've got ${n} pint-sized leprechauns toeing the line, all chasing a ${money(pot)} pot of gold.`,
+      `Hats on, buckles shined, and the crowd along the balustrade is absolutely roaring!`,
+      `This one is going to be a beauty, folks — riders to the line, we are moments from the off!`
+    ].forEach(line => enqueueAnnouncer(line, {}));
     // Deliberate 90s pre-race window: the race always starts 90 seconds after
-    // the page opens, giving the announcer ample room to announce and count down.
+    // the page opens, giving the announcer ample room to call the field in.
     announcer.startFailsafe = setTimeout(launchField, 90000);
   } else {
     // Classic visual countdown with beeps.
@@ -3327,38 +3331,34 @@ function canComment(r){
 }
 function setComment(txt, mute){ $("commentText").textContent = txt; race.lastCommentT = race.t; if (!mute) tellAnnouncer(txt); }
 
-/* ============ Live AI Announcer (ElevenLabs Conversational AI) ============
-   Wires BOTH the live race commentary feed and the awards-ceremony
-   narration to a real ElevenLabs agent, so the same voice/persona calls
-   the whole broadcast start to finish instead of switching to the plain
-   browser voice for awards. The ElevenLabs agent is PRIVATE, so this game
-   (a static file with no server of its own) calls a small deployed
-   backend — shamrock-derby-announcer-api on Vercel — which holds the
-   ElevenLabs API key and hands back a short-lived signed connection URL.
-   The key itself never touches the browser.
+/* ============ Live AI Announcer (ElevenLabs Text-to-Speech) ============
+   The announcer only ANNOUNCES — it never listens or converses — so this uses
+   one-way ElevenLabs Text-to-Speech, NOT the two-way Conversational AI agent.
+   That means NO microphone is ever requested: each written line is sent to a
+   small same-origin backend (/api/tts, a Vercel serverless function) that holds
+   the ElevenLabs API key server-side, synthesizes the line in the announcer's
+   voice, and returns the audio. The key never touches the browser.
    - tellAnnouncer(): hooked into setComment(). Race events fire fast, so we
      keep only the freshest un-spoken line — a backlog would play long after
      the moment it described has passed.
    - tellAnnouncerDirect(): hooked into the ceremony's speakLine(). Ceremony
      lines are queued in order so every award announcement is spoken in full.
-   Both feed a single queue that is paced by the agent's ACTUAL speaking
-   state (reported via onModeChange), NOT a fixed timer. The next line is only
-   sent once the agent has finished the current one, so it is never cut off
-   mid-sentence. A fixed throttle can't know how long a given line takes to
-   speak, which is exactly why lines were interrupting each other before.
-   When the announcer is OFF (or fails to connect), speakLine() falls back
-   to the browser's built-in voice exactly as before — nothing about the
-   existing ceremony is removed, just extended.                          */
+   Both feed a single queue paced by ACTUAL audio playback (the next line is
+   only fetched once the current clip's 'ended' fires), so lines never talk
+   over each other. If the backend can't be reached for a line, that one line
+   falls back to the browser's built-in voice so the broadcast never goes
+   silent.                                                                 */
 const announcer = {
-  agentId: "agent_5201kz40jbs5epa8jkpcxyh391d2",
-  // Backend that mints the signed URL. Served same-origin from this project's
-  // /api folder (Vercel serverless function). Change only if you move the backend.
-  signedUrlEndpoint: "/api/get-signed-url",
-  conversation: null, active: false, connecting: false,
-  busy: false,        // true from the moment a line is sent until the agent finishes speaking it
-  queue: [],          // pending lines waiting for the mic to clear; each { txt, race, onDone }
+  agentId: "agent_5201kz40jbs5epa8jkpcxyh391d2",  // used only to look up the announcer's voice server-side
+  // Backend that synthesizes a line of speech. Served same-origin from this
+  // project's /api folder (Vercel serverless function). No microphone involved.
+  ttsEndpoint: "/api/tts",
+  audio: null,        // the HTMLAudioElement currently playing a line (so we can stop it)
+  active: false, connecting: false,
+  busy: false,        // true from the moment a line is fetched until its audio finishes
+  queue: [],          // pending lines waiting for the current clip to finish; each { txt, race, onDone }
   current: null,      // the line currently being spoken (so we can fire its onDone when it ends)
-  watchdog: null,     // safety timer so a dropped/never-spoken line can't stall the queue forever
+  watchdog: null,     // safety timer so a failed fetch/playback can't stall the queue forever
   startFailsafe: null // hard cap so an announcer-called race start can never leave the field frozen
 };
 // Keeps every announcer control in sync: the race-view button and the
@@ -3388,82 +3388,82 @@ function releaseCurrent(){
   if (done){ try{ done(); }catch(e){} }
   pumpAnnouncerQueue();
 }
-// Send the next queued line, but only when the agent isn't mid-line. Setting
-// busy=true right away closes the window where a burst of events could all
-// fire sendUserMessage() before the agent has started speaking the first.
+// Speak the next queued line, but only when nothing is currently playing.
+// Setting busy=true right away closes the window where a burst of events could
+// all start speaking before the first clip has begun.
 function pumpAnnouncerQueue(){
-  if (!announcer.active || !announcer.conversation || announcer.busy) return;
+  if (!announcer.active || announcer.busy) return;
   const item = announcer.queue.shift();
   if (!item) return;
   announcer.busy = true;
   announcer.current = item;
-  try{
-    announcer.conversation.sendUserMessage(item.txt);
-    if (announcer.watchdog) clearTimeout(announcer.watchdog);
-    // If the agent never starts speaking (dropped message, hiccup), don't wedge
-    // the queue — give up on this line after a generous pause and move on. This
-    // also guarantees a line's onDone still fires, so an announcer-driven race
-    // start can never hang waiting on audio that never came.
-    announcer.watchdog = setTimeout(releaseCurrent, 9000);
-  }catch(e){
-    releaseCurrent();
+  speakViaTTS(item.txt);
+}
+// Stop whatever the announcer is currently saying (TTS clip and/or browser voice).
+function stopAnnouncerAudio(){
+  if (announcer.audio){
+    try{ announcer.audio.pause(); announcer.audio.src = ""; }catch(e){}
+    announcer.audio = null;
   }
+  try{ speechSynthesis.cancel(); }catch(e){}
+}
+// Fetch one line of speech from the TTS backend and play it. When the clip ends
+// (or on any failure) we releaseCurrent() to advance the queue. A watchdog guards
+// against a fetch/playback that never resolves so the queue can't wedge.
+async function speakViaTTS(txt){
+  if (announcer.watchdog) clearTimeout(announcer.watchdog);
+  announcer.watchdog = setTimeout(releaseCurrent, 30000);
+  try{
+    const resp = await fetch(`${announcer.ttsEndpoint}?agent_id=${encodeURIComponent(announcer.agentId)}`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ text: txt })
+    });
+    if (!resp.ok) throw new Error(`TTS ${resp.status}`);
+    const url = URL.createObjectURL(await resp.blob());
+    stopAnnouncerAudio();
+    const a = new Audio(url);
+    announcer.audio = a;
+    const done = () => { try{ URL.revokeObjectURL(url); }catch(e){} if (announcer.audio === a) announcer.audio = null; releaseCurrent(); };
+    a.onended = done; a.onerror = done;
+    await a.play();
+  }catch(e){
+    // Backend unreachable for this line — don't go silent, use the browser voice.
+    browserSpeak(txt, releaseCurrent);
+  }
+}
+// Browser speech-synthesis fallback (also used by the ceremony when the
+// announcer is OFF). Fires onEnd when the utterance finishes or can't be spoken.
+function browserSpeak(txt, onEnd){
+  try{
+    if (!window.speechSynthesis){ if (onEnd) onEnd(); return; }
+    speechSynthesis.cancel();
+    const u = new SpeechSynthesisUtterance(txt);
+    u.rate = 1.02; u.pitch = 1.12; u.volume = 1;
+    if (onEnd){ u.onend = onEnd; u.onerror = onEnd; }
+    speechSynthesis.speak(u);
+  }catch(e){ if (onEnd) onEnd(); }
 }
 async function toggleAnnouncer(){
   if (announcer.active || announcer.connecting){
     announcer.active = false; announcer.connecting = false;
+    stopAnnouncerAudio();
     resetAnnouncerState();
     syncAnnouncerUI("🎙️ Live AI Announcer: OFF");
-    if (announcer.conversation){ try{ await announcer.conversation.endSession(); }catch(e){} announcer.conversation = null; }
     return;
   }
-  announcer.connecting = true;
-  syncAnnouncerUI("🎙️ Announcer: connecting…");
-  try{
-    const resp = await fetch(`${announcer.signedUrlEndpoint}?agent_id=${encodeURIComponent(announcer.agentId)}`);
-    const body = await resp.json();
-    if (!resp.ok || !body.signedUrl){
-      throw new Error(body.error || `Backend returned ${resp.status}`);
-    }
-    const { Conversation } = await import("https://cdn.jsdelivr.net/npm/@elevenlabs/client/+esm");
-    announcer.conversation = await Conversation.startSession({
-      signedUrl: body.signedUrl,
-      onModeChange: (m) => {
-        // The agent flips to "speaking" when audio starts and back to
-        // "listening" when it finishes. We treat the end of a spoken turn as
-        // the cue to release the mic and send whatever is next in the queue.
-        if (m && m.mode === "speaking"){
-          if (announcer.watchdog){ clearTimeout(announcer.watchdog); announcer.watchdog = null; }
-        } else {
-          releaseCurrent();
-        }
-      },
-      onDisconnect: () => {
-        announcer.active = false; announcer.connecting = false; announcer.conversation = null;
-        resetAnnouncerState();
-        syncAnnouncerUI("🎙️ Live AI Announcer: OFF");
-      },
-      onError: () => {
-        announcer.active = false; announcer.connecting = false; announcer.conversation = null;
-        resetAnnouncerState();
-        syncAnnouncerUI("🎙️ Announcer unavailable — retry?");
-      }
-    });
-    announcer.active = true; announcer.connecting = false;
-    resetAnnouncerState();
-    syncAnnouncerUI("🎙️ Live AI Announcer: ON");
-  }catch(e){
-    announcer.active = false; announcer.connecting = false; announcer.conversation = null;
-    resetAnnouncerState();
-    syncAnnouncerUI("🎙️ Announcer unavailable — retry?");
-    console.warn("ElevenLabs announcer failed to start:", e);
-  }
+  // One-way announcer: no microphone, no conversation, no connection to hold
+  // open. Turning it on simply routes the broadcast's lines through the TTS
+  // backend; each line is fetched and played on demand.
+  announcer.active = true; announcer.connecting = false;
+  resetAnnouncerState();
+  syncAnnouncerUI("🎙️ Live AI Announcer: ON");
 }
 // Core enqueue. opts.race collapses the backlog to the freshest race call;
 // opts.onDone fires once THIS line has been fully spoken (or given up on).
 function enqueueAnnouncer(txt, opts){
   opts = opts || {};
-  if (!announcer.active || !announcer.conversation) return false;
+  if (!announcer.active) return false;
   if (opts.race) announcer.queue = announcer.queue.filter(item => !item.race);
   announcer.queue.push({ txt, race: !!opts.race, onDone: opts.onDone || null });
   pumpAnnouncerQueue();
@@ -3679,10 +3679,16 @@ function crownWinner(r){
 function showAwardsGate(){
   if (!cer.active) $("awardsGate").style.display = "flex";   // don't cover a replay already in progress
 }
-function beginAwards(){
+async function beginAwards(){
   $("awardsGate").style.display = "none";
   const pot = state.contestants.length * state.fee;
   const cause = $("causeInput").value.trim() || "the fundraiser";
+  // The awards are called by the live AI announcer. If narration is on but the
+  // announcer isn't connected yet, bring Fitzy up first so he does the honors —
+  // the browser voice is only a fallback when the connection can't be made.
+  if (cer.voiceOn && !announcer.active && !announcer.connecting){
+    try{ await toggleAnnouncer(); }catch(e){}
+  }
   if (race.winnerRef) startCeremony(race.winnerRef, race.awardsData || [], pot, cause);
 }
 function showWinnerCard(){
@@ -3693,7 +3699,7 @@ function showWinnerCard(){
   let wt = 0;
   (function winnerAnim(){
     wctx.clearRect(0,0,wc.width,wc.height);
-    drawLeprechaun(wctx, 150, 312, 92, r.c.lep, wt*6, "win", r.c.bib, wt);
+    drawLeprechaunPortrait(wctx, 150, 188, 66, r.c.lep, wt, true);
     wt += 1/60;
     if ($("winnerOverlay").style.display === "flex") requestAnimationFrame(winnerAnim);
   })();
@@ -3784,7 +3790,8 @@ function animateCerCanvas(){
       c2.fillStyle = "#F2B824";
       c2.fillRect(90, 368, 180, 6);
       if (cer.champScene) drawPot(c2, 88, 402, 92, tt);
-      drawLeprechaun(c2, 190, 366, 96, cer.racer.c.lep, tt*7, "win", cer.racer.c.bib, tt);
+      // front-facing, beaming winner rising from the podium
+      drawLeprechaunPortrait(c2, 180, 206, 78, cer.racer.c.lep, tt, true);
     }
     tt += 1/60;
     cer.raf = requestAnimationFrame(anim);
@@ -3800,14 +3807,8 @@ function endCeremony(){
 }
 function speakLine(txt){
   if (!cer.voiceOn) return;
-  if (announcer.active && tellAnnouncerDirect(txt)) return;   // same voice/persona as the live commentary
-  if (!window.speechSynthesis) return;
-  try{
-    speechSynthesis.cancel();
-    const u = new SpeechSynthesisUtterance(txt);
-    u.rate = 1.02; u.pitch = 1.12; u.volume = 1;
-    speechSynthesis.speak(u);
-  }catch(e){}
+  if (announcer.active && tellAnnouncerDirect(txt)) return;   // announcer's TTS voice calls the awards
+  browserSpeak(txt);                                          // fallback when the announcer is OFF
 }
 /* shamrock + gold confetti on a temporary full-screen canvas */
 function burstConfetti(count = 130){
@@ -3874,9 +3875,8 @@ $("replayCerBtn").onclick = ()=>{
 $("backBtn").onclick = ()=>{
   cancelAnimationFrame(race.raf);
   cer.active = false; clearCerTimers();
-  try{ speechSynthesis.cancel(); }catch(e){}
-  if (announcer.conversation){ try{ announcer.conversation.endSession(); }catch(e){} }
-  announcer.conversation = null; announcer.active = false; announcer.connecting = false;
+  stopAnnouncerAudio();
+  announcer.active = false; announcer.connecting = false;
   resetAnnouncerState();
   syncAnnouncerUI("🎙️ Live AI Announcer: OFF");
   $("ceremony").style.display = "none";
@@ -3889,9 +3889,8 @@ $("rematchBtn").onclick = ()=>{ $("winnerOverlay").style.display="none"; startRa
 $("againBtn").onclick = ()=>{ $("winnerOverlay").style.display="none"; startRace(); };
 $("newRaceBtn").onclick = ()=>{
   cancelAnimationFrame(race.raf);
-  try{ speechSynthesis.cancel(); }catch(e){}
-  if (announcer.conversation){ try{ announcer.conversation.endSession(); }catch(e){} }
-  announcer.conversation = null; announcer.active = false; announcer.connecting = false;
+  stopAnnouncerAudio();
+  announcer.active = false; announcer.connecting = false;
   resetAnnouncerState();
   syncAnnouncerUI("🎙️ Live AI Announcer: OFF");
   $("winnerOverlay").style.display = "none";
