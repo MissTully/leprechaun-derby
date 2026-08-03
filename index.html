@@ -1,0 +1,3625 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Shamrock Derby — Bayshore Boulevard</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Lilita+One&family=Nunito:wght@600;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root{
+  --emerald:#0E5A31;
+  --shamrock:#1E9E4A;
+  --kelly:#28B85C;
+  --gold:#F2B824;
+  --gold-deep:#D99A0B;
+  --bay:#1B7F8E;
+  --bay-deep:#12606D;
+  --sky-hi:#BFE7F2;
+  --sky-lo:#EAF7FB;
+  --cream:#FBF7EE;
+  --balustrade:#F6F2E9;
+  --ink:#12291B;
+  --card:#FFFFFF;
+  --shadow:0 10px 24px rgba(14,60,34,.18);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%}
+body{
+  font-family:'Nunito',system-ui,sans-serif;
+  color:var(--ink);
+  background:
+    radial-gradient(1200px 500px at 50% -180px, #DFF3E4 0%, transparent 60%),
+    linear-gradient(180deg,#F2FAF3 0%, #E7F3EA 100%);
+  min-height:100%;
+}
+.wrap{max-width:1180px;margin:0 auto;padding:18px 20px 60px}
+
+/* ---------- Header ---------- */
+header{
+  display:flex;align-items:center;justify-content:space-between;gap:16px;
+  padding:14px 22px;border-radius:18px;
+  background:linear-gradient(135deg,var(--emerald) 0%, #14713F 55%, var(--shamrock) 100%);
+  color:#fff;box-shadow:var(--shadow);
+  border:3px solid rgba(255,255,255,.25);
+}
+.brand{display:flex;align-items:center;gap:14px}
+.brand .clover{font-size:38px;filter:drop-shadow(0 3px 0 rgba(0,0,0,.25))}
+h1{font-family:'Lilita One',cursive;font-size:clamp(26px,4vw,40px);letter-spacing:.5px;line-height:1;
+   text-shadow:0 3px 0 rgba(0,0,0,.28)}
+.brand small{display:block;font-weight:800;font-size:12px;letter-spacing:2.4px;text-transform:uppercase;
+   color:#FFE9A8;margin-top:4px}
+.pot-pill{
+  text-align:right;background:rgba(0,0,0,.22);border:2px solid rgba(255,233,168,.6);
+  border-radius:14px;padding:8px 16px;min-width:170px;
+}
+.pot-pill .label{font-size:11px;font-weight:900;letter-spacing:1.8px;text-transform:uppercase;color:#FFE9A8}
+.pot-pill .amount{font-family:'Lilita One',cursive;font-size:30px;color:#fff;text-shadow:0 2px 0 rgba(0,0,0,.3)}
+
+/* ---------- Panels ---------- */
+.grid{display:grid;grid-template-columns:340px 1fr;gap:20px;margin-top:20px}
+@media (max-width:900px){.grid{grid-template-columns:1fr}}
+.panel{background:var(--card);border-radius:18px;box-shadow:var(--shadow);padding:20px;border:1px solid #E3EEE4}
+.panel h2{font-family:'Lilita One',cursive;color:var(--emerald);font-size:21px;margin-bottom:4px}
+.panel .sub{font-size:13px;color:#557a63;font-weight:700;margin-bottom:14px}
+label{display:block;font-size:12px;font-weight:900;letter-spacing:1.2px;text-transform:uppercase;color:#3f6d51;margin:12px 0 5px}
+input[type=text],input[type=number],select{
+  width:100%;padding:11px 13px;border-radius:11px;border:2px solid #CFE3D4;background:#F7FBF7;
+  font:inherit;font-weight:800;color:var(--ink);
+}
+input:focus,select:focus{outline:3px solid #9BD8AF;border-color:var(--shamrock)}
+.row{display:flex;gap:10px}
+.btn{
+  font-family:'Lilita One',cursive;letter-spacing:.6px;font-size:17px;
+  border:none;border-radius:13px;padding:12px 18px;cursor:pointer;color:#fff;
+  background:linear-gradient(180deg,var(--kelly),var(--shamrock) 60%,#178A3F);
+  box-shadow:0 5px 0 #0D5E2B, 0 10px 18px rgba(20,110,60,.35);
+  transition:transform .08s ease, box-shadow .08s ease;
+}
+.btn:hover{transform:translateY(-1px)}
+.btn:active{transform:translateY(3px);box-shadow:0 2px 0 #0D5E2B}
+.btn:disabled{filter:grayscale(.7);opacity:.55;cursor:not-allowed;transform:none}
+.btn.gold{background:linear-gradient(180deg,#FFD34D,var(--gold) 60%,var(--gold-deep));box-shadow:0 5px 0 #A87608,0 10px 18px rgba(210,150,10,.35);color:#4a3200}
+.btn.ghost{background:#fff;color:var(--emerald);box-shadow:0 5px 0 #C9DECF;border:2px solid #C9DECF}
+.btn.big{width:100%;font-size:22px;padding:16px}
+.hint{font-size:12px;color:#6b8f78;font-weight:700;margin-top:8px;line-height:1.5}
+
+/* pot math card */
+.pot-math{margin-top:16px;background:linear-gradient(135deg,#0E5A31,#14713F);border-radius:14px;padding:14px 16px;color:#fff}
+.pot-math .line{display:flex;justify-content:space-between;font-weight:800;font-size:14px;padding:5px 0;border-bottom:1px dashed rgba(255,255,255,.25)}
+.pot-math .line:last-child{border-bottom:none}
+.pot-math .line b{font-family:'Lilita One',cursive;font-size:17px;color:#FFE9A8;letter-spacing:.4px}
+
+/* ---------- Roster ---------- */
+.roster-head{display:flex;justify-content:space-between;align-items:baseline;flex-wrap:wrap;gap:8px}
+.count-chip{background:#EAF6EC;color:var(--emerald);font-weight:900;font-size:13px;border-radius:999px;padding:5px 13px;border:2px solid #CBE7D2}
+.roster{display:grid;grid-template-columns:repeat(auto-fill,minmax(148px,1fr));gap:12px;margin-top:14px}
+.card-lep{
+  position:relative;background:linear-gradient(180deg,#F7FCF6,#EDF7EE);
+  border:2px solid #D7EBDB;border-radius:14px;padding:10px 10px 12px;text-align:center;
+  transition:transform .12s ease;
+}
+.card-lep:hover{transform:translateY(-3px) rotate(-.6deg)}
+.card-lep canvas{width:96px;height:110px;image-rendering:auto}
+.card-lep .bib{
+  position:absolute;top:8px;left:8px;background:var(--gold);color:#4a3200;font-weight:900;
+  border-radius:8px;padding:2px 8px;font-size:13px;box-shadow:0 2px 0 var(--gold-deep);
+}
+.card-lep .nm{font-weight:900;font-size:14px;color:var(--emerald);word-break:break-word;line-height:1.2}
+.card-lep .lp{font-size:11px;font-weight:800;color:#6b8f78}
+.card-lep .tag{font-size:10.5px;font-style:italic;font-weight:700;color:#8aa693}
+.card-lep .rm{
+  position:absolute;top:6px;right:6px;width:22px;height:22px;border-radius:50%;border:none;cursor:pointer;
+  background:#fff;color:#B14545;font-weight:900;box-shadow:0 1px 4px rgba(0,0,0,.2);line-height:1;
+}
+.empty-roster{padding:36px 10px;text-align:center;color:#7fa38d;font-weight:800;font-size:15px;border:2px dashed #CBE0D1;border-radius:14px;margin-top:14px}
+
+/* ---------- Race stage ---------- */
+#raceView{display:none}
+.stage-shell{position:relative;border-radius:20px;overflow:hidden;box-shadow:0 18px 44px rgba(10,60,40,.35);border:4px solid #fff}
+#stage{display:block;width:100%;height:auto;background:#BFE7F2}
+.race-topbar{position:absolute;top:12px;left:12px;right:12px;display:flex;justify-content:space-between;gap:10px;pointer-events:none}
+.badge{
+  background:rgba(10,50,30,.78);backdrop-filter:blur(4px);color:#fff;border-radius:12px;padding:8px 14px;
+  font-weight:900;font-size:13px;border:2px solid rgba(255,255,255,.25);
+}
+.badge b{color:#FFE9A8;font-family:'Lilita One',cursive;font-size:16px;letter-spacing:.4px}
+#leaderboard{
+  position:absolute;right:12px;top:56px;width:212px;pointer-events:none;
+  background:rgba(10,50,30,.72);backdrop-filter:blur(4px);border-radius:14px;padding:10px 12px;
+  border:2px solid rgba(255,255,255,.22);
+}
+#leaderboard h3{font-family:'Lilita One',cursive;color:#FFE9A8;font-size:14px;letter-spacing:1px;margin-bottom:6px}
+#leaderboard .lb-row{display:flex;align-items:center;gap:8px;color:#fff;font-weight:800;font-size:12.5px;padding:3px 0}
+#leaderboard .lb-row .pos{width:18px;color:#FFE9A8;font-weight:900}
+#leaderboard .lb-row .dot{width:12px;height:12px;border-radius:50%;border:2px solid #fff;flex:none}
+#leaderboard .lb-row .lb-name{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+#commentary{
+  margin-top:12px;background:var(--card);border-radius:14px;box-shadow:var(--shadow);
+  padding:12px 18px;display:flex;align-items:center;gap:12px;border:1px solid #E3EEE4;min-height:52px;
+}
+#commentary .mic{font-size:22px}
+#commentary p{font-weight:800;font-size:15px;color:var(--emerald)}
+.race-actions{display:flex;gap:10px;margin-top:12px;flex-wrap:wrap}
+
+/* countdown */
+#countdown{
+  position:absolute;inset:0;display:none;align-items:center;justify-content:center;
+  background:rgba(6,40,24,.35);z-index:5;
+}
+#countdown span{
+  font-family:'Lilita One',cursive;font-size:160px;color:#fff;
+  text-shadow:0 6px 0 rgba(0,0,0,.35), 0 0 40px rgba(255,233,168,.8);
+  animation:pop .95s ease infinite;
+}
+@keyframes pop{0%{transform:scale(.4);opacity:0}25%{transform:scale(1.15);opacity:1}60%{transform:scale(1)}100%{transform:scale(1);opacity:.9}}
+
+/* ---------- Winner overlay ---------- */
+#winnerOverlay{
+  position:fixed;inset:0;display:none;align-items:center;justify-content:center;z-index:50;
+  background:rgba(8,38,22,.72);backdrop-filter:blur(5px);padding:20px;
+}
+.winner-card{
+  background:linear-gradient(180deg,#FFFDF6,#FFF6DE);
+  border-radius:24px;max-width:520px;width:100%;text-align:center;padding:30px 28px 26px;
+  border:5px solid var(--gold);box-shadow:0 30px 80px rgba(0,0,0,.5);
+  animation:rise .5s cubic-bezier(.2,1.4,.4,1);
+}
+@keyframes rise{from{transform:translateY(60px) scale(.9);opacity:0}to{transform:none;opacity:1}}
+.winner-card .trophy{font-size:56px}
+.winner-card h2{font-family:'Lilita One',cursive;color:var(--emerald);font-size:34px;margin:4px 0 2px;letter-spacing:.5px}
+.winner-card .wname{font-family:'Lilita One',cursive;font-size:44px;color:var(--gold-deep);text-shadow:0 2px 0 #fff, 0 4px 0 rgba(0,0,0,.12);line-height:1.05;word-break:break-word}
+.winner-card canvas{width:126px;height:145px;margin:6px auto}
+.awards{margin:0 0 14px;text-align:left;display:grid;gap:6px;max-height:190px;overflow:auto}
+.aw{display:flex;gap:10px;background:#fff;border:2px solid #EBDDB0;border-radius:12px;padding:8px 12px;font-size:13px;font-weight:800;color:#4a3d18;align-items:center}
+.aw .aw-ic{font-size:20px;flex:none}
+.aw b{color:var(--emerald)}
+.aw .aw-why{display:block;font-weight:700;color:#8a7433;font-size:11.5px}
+.payout{
+  display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:14px 0 18px;
+}
+.payout .cell{background:#fff;border:2px solid #EBDDB0;border-radius:14px;padding:12px}
+.payout .cell .k{font-size:11px;font-weight:900;letter-spacing:1.4px;text-transform:uppercase;color:#8a7433}
+.payout .cell .v{font-family:'Lilita One',cursive;font-size:26px;color:var(--emerald)}
+.winner-card .total-line{font-weight:900;color:#6b5a20;font-size:14px;margin-bottom:14px}
+.winner-actions{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+
+footer{margin-top:26px;text-align:center;font-size:12px;font-weight:700;color:#7fa38d;line-height:1.7}
+
+/* ---------- Awards ceremony broadcast ---------- */
+#ceremony{position:fixed;inset:0;display:none;z-index:70;overflow:hidden;
+  background:radial-gradient(1100px 600px at 50% 115%, rgba(27,127,142,.35), transparent 60%),
+             linear-gradient(180deg,#03150B 0%, #0B3A20 60%, #0E5A31 100%);}
+.cer-spot{position:absolute;top:-22%;width:32vw;height:150%;pointer-events:none;
+  background:linear-gradient(180deg,rgba(255,233,168,.20),transparent 68%);
+  transform-origin:top center;filter:blur(8px);}
+.cer-spot.s1{left:16%;animation:sway 5.5s ease-in-out infinite alternate}
+.cer-spot.s2{right:16%;animation:sway 6.5s ease-in-out infinite alternate-reverse}
+@keyframes sway{from{transform:rotate(-13deg)}to{transform:rotate(13deg)}}
+.cer-stage{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;
+  justify-content:center;text-align:center;gap:12px;padding:28px}
+.cer-eyebrow{font-weight:900;letter-spacing:5px;text-transform:uppercase;color:#FFE9A8;
+  font-size:clamp(13px,1.7vw,22px);opacity:0;transform:translateY(16px);transition:.5s}
+.cer-award{font-family:'Lilita One',cursive;color:#fff;font-size:clamp(30px,5.5vw,66px);
+  text-shadow:0 4px 0 rgba(0,0,0,.35);opacity:0;transform:scale(.7);
+  transition:.5s cubic-bezier(.2,1.6,.4,1)}
+.cer-goesto{font-weight:900;color:#BFE7D2;font-size:clamp(16px,2.2vw,26px);opacity:0;transition:.4s}
+.cer-name{font-family:'Lilita One',cursive;color:var(--gold);font-size:clamp(44px,9vw,124px);
+  line-height:1;word-break:break-word;
+  text-shadow:0 3px 0 rgba(255,255,255,.15), 0 9px 0 rgba(0,0,0,.35);
+  opacity:0;transform:scale(.55);transition:.55s cubic-bezier(.2,1.7,.4,1)}
+#cerCanvas{width:min(280px,32vw);height:auto;opacity:0;transform:translateY(24px);transition:.5s}
+.cer-praise{max-width:920px;font-weight:800;color:#EAF7EF;
+  font-size:clamp(17px,2.4vw,30px);opacity:0;transition:.5s;line-height:1.4}
+.cer-prize{font-family:'Lilita One',cursive;color:#FFE9A8;
+  font-size:clamp(28px,4.6vw,58px);opacity:0;transition:.5s;
+  text-shadow:0 4px 0 rgba(0,0,0,.35)}
+#ceremony .on{opacity:1 !important;transform:none !important}
+.cer-controls{position:fixed;bottom:18px;right:18px;display:flex;gap:10px;z-index:71}
+.cer-controls .btn{font-size:14px;padding:9px 14px}
+@media (prefers-reduced-motion: reduce){ .cer-spot{animation:none} }
+@media (prefers-reduced-motion: reduce){
+  #countdown span{animation:none}
+  .winner-card{animation:none}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <div class="brand">
+      <div class="clover">🍀</div>
+      <div>
+        <h1>SHAMROCK DERBY</h1>
+        <small>Bayshore Boulevard · Tampa, Florida</small>
+      </div>
+    </div>
+    <div class="pot-pill">
+      <div class="label">Total Pot</div>
+      <div class="amount" id="potHeader">$0</div>
+    </div>
+  </header>
+
+  <!-- ================= SETUP VIEW ================= -->
+  <div id="setupView" class="grid">
+    <div class="panel">
+      <h2>Race Setup</h2>
+      <div class="sub">The facilitator collects entries, then starts the race.</div>
+
+      <label for="feeInput">Entry fee per contestant ($)</label>
+      <input type="number" id="feeInput" min="1" step="1" value="10">
+
+      <label for="durInput">Race length</label>
+      <select id="durInput">
+        <option value="30">Quick sprint — 30 seconds</option>
+        <option value="60">1 minute</option>
+        <option value="90">90 seconds</option>
+        <option value="150" selected>Full derby — 2 min 30 sec</option>
+      </select>
+
+      <label for="causeInput">Fundraiser / cause name</label>
+      <input type="text" id="causeInput" placeholder="e.g., Riverwalk Youth Fund" value="The Fundraiser">
+
+      <label for="nameInput">Add a contestant (max 20)</label>
+      <div class="row">
+        <input type="text" id="nameInput" placeholder="Contestant name" maxlength="18">
+        <button class="btn" id="addBtn">Add</button>
+      </div>
+      <div class="hint">Each contestant is assigned their own one-of-a-kind leprechaun and bib number.</div>
+
+      <div class="pot-math" id="potMath">
+        <div class="line"><span>Contestants</span><b id="pmCount">0</b></div>
+        <div class="line"><span>Total pot</span><b id="pmPot">$0</b></div>
+        <div class="line"><span>Winner takes (50%)</span><b id="pmWin">$0</b></div>
+        <div class="line"><span id="pmCauseLabel">To the fundraiser (50%)</span><b id="pmCause">$0</b></div>
+      </div>
+
+      <div style="margin-top:16px;display:grid;gap:10px">
+        <button class="btn big gold" id="startBtn" disabled>🏁 Start the Derby</button>
+        <div class="row">
+          <button class="btn ghost" id="demoBtn" style="flex:1">Fill demo field</button>
+          <button class="btn ghost" id="clearBtn" style="flex:1">Clear all</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="panel">
+      <div class="roster-head">
+        <div>
+          <h2>Today's Field</h2>
+          <div class="sub">Every leprechaun is unique — pick your champion before the gun.</div>
+        </div>
+        <div class="count-chip"><span id="rosterCount">0</span> / 20 entered</div>
+      </div>
+      <div class="roster" id="roster"></div>
+      <div class="empty-roster" id="emptyRoster">No contestants yet — add a name to meet your first leprechaun! 🍀</div>
+    </div>
+  </div>
+
+  <!-- ================= RACE VIEW ================= -->
+  <div id="raceView">
+    <div class="stage-shell">
+      <canvas id="stage" width="1280" height="720"></canvas>
+      <div class="race-topbar">
+        <div class="badge">🍀 SHAMROCK DERBY · <b>Bayshore Blvd</b></div>
+        <div class="badge">⏱ <b id="raceClock">0:00</b> · Course <b id="racePct">0%</b></div>
+        <div class="badge">Pot <b id="potRace">$0</b> · Winner takes <b id="winRace">$0</b></div>
+      </div>
+      <div id="leaderboard"><h3>LIVE LEADERS</h3><div id="lbRows"></div></div>
+      <div id="countdown"><span id="countNum">3</span></div>
+    </div>
+    <div id="commentary"><div class="mic">🎙️</div><p id="commentText">The field is loading in at the start line…</p></div>
+    <div class="race-actions">
+      <button class="btn ghost" id="backBtn">← Back to setup</button>
+      <button class="btn ghost" id="announcerBtn">🎙️ Live AI Announcer: OFF</button>
+      <button class="btn gold" id="rematchBtn" style="display:none">🔁 Run it again (same field)</button>
+    </div>
+  </div>
+
+  <footer>
+    Shamrock Derby is a fundraising party game. The app runs the race and does the pot math —
+    all money is collected and paid out in person by your event facilitator.<br>
+    Tip: check your local rules for charitable raffles and 50/50-style drawings before your event.
+  </footer>
+</div>
+
+<!-- ================= AWARDS CEREMONY BROADCAST ================= -->
+<div id="ceremony">
+  <div class="cer-spot s1"></div><div class="cer-spot s2"></div>
+  <div class="cer-stage">
+    <div class="cer-eyebrow" id="cerEyebrow"></div>
+    <div class="cer-award" id="cerAward"></div>
+    <div class="cer-goesto" id="cerGoes"></div>
+    <div class="cer-name" id="cerName"></div>
+    <canvas id="cerCanvas" width="360" height="410"></canvas>
+    <div class="cer-praise" id="cerPraise"></div>
+    <div class="cer-prize" id="cerPrize"></div>
+  </div>
+  <div class="cer-controls">
+    <button class="btn ghost" id="voiceBtn">🔊 Announcer voice: ON</button>
+    <button class="btn gold" id="skipBtn">Skip to results →</button>
+  </div>
+</div>
+
+<!-- ================= WINNER OVERLAY ================= -->
+<div id="winnerOverlay">
+  <div class="winner-card">
+    <div class="trophy">🏆</div>
+    <h2>WINNER OF THE DERBY!</h2>
+    <div class="wname" id="winnerName">—</div>
+    <canvas id="winnerCanvas" width="300" height="344"></canvas>
+    <div class="payout">
+      <div class="cell"><div class="k">Winner takes home</div><div class="v" id="winnerPrize">$0</div></div>
+      <div class="cell"><div class="k" id="causeCellLabel">To the fundraiser</div><div class="v" id="causePrize">$0</div></div>
+    </div>
+    <div class="awards" id="awardsList"></div>
+    <div class="total-line" id="totalLine">Total pot: $0 from 0 contestants</div>
+    <div class="winner-actions">
+      <button class="btn ghost" id="replayCerBtn">🎺 Replay ceremony</button>
+      <button class="btn gold" id="againBtn">🔁 Run it again</button>
+      <button class="btn ghost" id="newRaceBtn">New race</button>
+    </div>
+  </div>
+</div>
+
+<script>
+"use strict";
+/* =====================================================================
+   SHAMROCK DERBY — Bayshore Boulevard
+   Single-file browser game. Sections:
+   1) Utilities & random helpers
+   2) Leprechaun trait generator + vector artist (drawLeprechaun)
+   3) Setup screen logic (roster, pot math)
+   4) Bayshore scenery painters (sky, skyline, bay+dolphins, balustrade, road)
+   5) Race engine (loop, camera, commentary, finish)
+   6) Winner celebration + confetti
+   ===================================================================== */
+
+/* ---------------- 1) Utilities ---------------- */
+const $ = id => document.getElementById(id);
+const rand = (a,b)=>a+Math.random()*(b-a);
+const randi = (a,b)=>Math.floor(rand(a,b+1));
+const pick = arr => arr[Math.floor(Math.random()*arr.length)];
+const clamp = (v,a,b)=>Math.max(a,Math.min(b,v));
+const money = n => "$" + n.toLocaleString(undefined,{maximumFractionDigits:0});
+
+/* Small mulberry32 seeded RNG so each leprechaun's look is stable per race */
+function mulberry32(seed){
+  return function(){
+    seed |= 0; seed = seed + 0x6D2B79F5 | 0;
+    let t = Math.imul(seed ^ seed >>> 15, 1 | seed);
+    t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t;
+    return ((t ^ t >>> 14) >>> 0) / 4294967296;
+  };
+}
+
+/* ---------------- 2) Leprechaun generator ---------------- */
+const COATS   = ["#1E9E4A","#0F7A3B","#2FB56B","#0B5E33","#17A05E","#3C9D2F","#0E8A57","#22803A",
+                 "#E9820E","#C6541B","#1B7F8E","#7A3FA0","#B01E3C","#2456B0","#8A6B1F","#146B4A",
+                 "#4C9A2A","#0A6E63","#A83B8F","#356E12"];
+const HATBANDS= ["#F2B824","#B01E3C","#2456B0","#111111","#E9820E","#7A3FA0","#0A6E63","#FFFFFF"];
+const BEARDS  = ["#C1541B","#E07A2B","#8A4B23","#5C3A1E","#B8B8B8","#F1F1F1","#2E2A26","#D8902F"];
+const SKINS   = ["#FBD3A6","#F2B98B","#E0A276","#C98A5D","#A96C43","#8C5430"];
+const HATS    = ["top","top","top","bowler","flat"];         // top hat most common
+const ACCS    = ["clover","pipe","monocle","coinbelt","scarf","shades","none"];
+const PERS    = [
+  {k:"cheerful", tag:"grinning the whole way"},
+  {k:"fierce",   tag:"runs like it's personal"},
+  {k:"nervous",  tag:"keeps checking behind"},
+  {k:"showboat", tag:"waves to every fan"},
+  {k:"cool",     tag:"too cool to sweat"}
+];
+const VESTS   = ["#F2B824","#B01E3C","#E8E2D0","#2456B0","#0A6E63","#7A3FA0"];
+const SOCKS   = ["#FFFFFF","#F2B824","#B01E3C","#2FB56B","#2456B0"];
+const FIRST   = ["Fizzy","Paddy","Seamus","Lucky","Rory","Finnegan","Bridie","Clover","Tadgh","Nora",
+                 "Sully","Maeve","Doolin","Peggy","Boone","Aisling","Riley","Fiona","Cormac","Darby"];
+const LAST    = ["O'Sprint","McDash","Gallagher","O'Gold","Fitzhop","Quickstep","McNimble","O'Toole",
+                 "Shortstack","Flanagan","O'Zoom","McCoin","Tumbledown","O'Boggle","Greenheel",
+                 "McMuddle","O'Rocket","Skipjack","Trotterly","O'Blarney"];
+
+function makeLeprechaun(index, seed){
+  const r = mulberry32(seed + index*7919);
+  const p = arr => arr[Math.floor(r()*arr.length)];
+  const pd = PERS[Math.floor(r()*PERS.length)];
+  return {
+    coat:      COATS[index % COATS.length],           // guaranteed distinct coat per bib
+    coatDark:  shade(COATS[index % COATS.length], -22),
+    pants:     p(["#123B22","#2C2C2C","#4A2E12","#153B52","#3A123B"]),
+    band:      p(HATBANDS),
+    beard:     p(BEARDS),
+    skin:      p(SKINS),
+    hat:       p(HATS),
+    hatColor:  r()<0.72 ? "#157A3C" : p(["#B01E3C","#2456B0","#111111","#8A6B1F"]),
+    acc:       p(ACCS),
+    pers:      pd.k,                                  // personality: cosmetic only, never affects speed
+    tagline:   pd.tag,
+    freckles:  r() < 0.4,
+    vest:      p(VESTS),
+    sock:      p(SOCKS),
+    height:    0.88 + r()*0.28,   // 0.88–1.16 size personality
+    belly:     0.9 + r()*0.35,
+    lepName:   FIRST[index % FIRST.length] + " " + p(LAST),
+    blinkSeed: r()*10
+  };
+}
+function shade(hex, amt){
+  const n = parseInt(hex.slice(1),16);
+  let rC=(n>>16)+amt, g=((n>>8)&255)+amt, b=(n&255)+amt;
+  rC=clamp(rC,0,255); g=clamp(g,0,255); b=clamp(b,0,255);
+  return "#" + ((rC<<16)|(g<<8)|b).toString(16).padStart(6,"0");
+}
+
+/*  drawLeprechaun — v2 "storybook" art. Side view, facing right.
+    Human proportions (head ≈ 1/5 of height), jointed two-segment limbs
+    with elbows and knees, classic leprechaun costume (tall tapered hat,
+    waistcoat with brass buttons, swallow-tail coat with lapel, knee
+    breeches, long stockings, buckled curl-toe shoes), inked outlines
+    and cel shading. Origin (x,y) = ground under the figure.            */
+/*  volFill — gives a flat vector shape the illusion of volume with three
+    cheap techniques stacked on one fill call:
+    1) a directional gradient (light upper-left, dark lower-right) so the
+       shape reads as rounded instead of flat-colored;
+    2) a thin bright rim-light stroke along the lit edge;
+    3) an optional ambient-occlusion pass the caller can add at creases
+       (see aoDab below) so joints/seams look like they recede.
+    ax,ay -> bx,by describes the light-to-shadow axis for THIS shape,
+    typically its own bounding diagonal. Call fillPath first via the
+    passed-in path builder, or just call ctx.fill() yourself right after —
+    this only swaps ctx.fillStyle for a gradient before you fill.        */
+function volFill(ctx, ax, ay, bx, by, baseColor, lightAmt, darkAmt){
+  const g = ctx.createLinearGradient(ax, ay, bx, by);
+  g.addColorStop(0, shade(baseColor, lightAmt==null?34:lightAmt));
+  g.addColorStop(0.55, baseColor);
+  g.addColorStop(1, shade(baseColor, darkAmt==null?-26:darkAmt));
+  ctx.fillStyle = g;
+}
+function rimLight(ctx, x1,y1,x2,y2, w){
+  ctx.strokeStyle = "rgba(255,255,255,.45)";
+  ctx.lineWidth = w||1.4; ctx.lineCap = "round";
+  ctx.beginPath(); ctx.moveTo(x1,y1); ctx.lineTo(x2,y2); ctx.stroke();
+}
+function aoDab(ctx, x, y, r, strength){
+  const g = ctx.createRadialGradient(x,y,0,x,y,r);
+  g.addColorStop(0, `rgba(10,15,10,${strength==null?0.32:strength})`);
+  g.addColorStop(1, "rgba(10,15,10,0)");
+  ctx.fillStyle = g;
+  ctx.beginPath(); ctx.arc(x,y,r,0,7); ctx.fill();
+}
+/* softBlurShadow — a ground-contact shadow with a real blurred edge
+   (canvas 2D filter, supported in all evergreen browsers) instead of a
+   single hard-edged translucent ellipse. Falls back silently if the
+   filter API is unavailable on an older device. */
+function softBlurShadow(ctx, x, y, rx, ry, alpha){
+  ctx.save();
+  try { ctx.filter = "blur(3px)"; } catch(e){}
+  ctx.fillStyle = `rgba(0,0,0,${alpha==null?0.24:alpha})`;
+  ctx.beginPath(); ctx.ellipse(x, y, rx, ry, 0, 0, 7); ctx.fill();
+  ctx.restore();
+}
+
+function drawLeprechaun(ctx, x, y, scale, lep, phase, state, bib, time){
+  const s = scale * lep.height, u = s/40;
+  const OUT = "#26331F";                        // outline ink
+  ctx.save(); ctx.translate(x, y);
+  ctx.lineJoin = "round"; ctx.lineCap = "round";
+
+  const running = state === "run";
+  const winning = state === "win";
+  const carried = state === "carried";
+
+  // ---- proportions ----
+  const hipY = -37*u, shY = -61*u;
+  const headC = -74*u, headR = 9.5*u;
+  const bodyW = 17*u*lep.belly;
+  const hx = 2*u;                               // head forward offset
+
+  if (state === "fall"){ fallenPose(); ctx.restore(); return; }
+
+  const bob = running ? Math.abs(Math.sin(phase))*5.5*u
+            : winning ? Math.abs(Math.sin(time*8))*9*u
+            : Math.sin(time*2 + lep.blinkSeed)*1.1*u;          // idle breathing
+  ctx.translate(0, -bob);
+  if (running) ctx.rotate(0.10 + (lep.pers === "fierce" ? 0.05 : 0) + Math.sin(phase)*0.02);
+  if (carried) ctx.rotate(-1.15);
+  const ph = carried ? phase*2.6 : phase;
+
+  // ---- build order: back to front ----
+  armDraw(ph, true, false);
+  legDraw(ankleAt(ph + Math.PI));
+  legDraw(ankleAt(ph));
+  torso();
+  head();
+  hat();
+  const wave = running && lep.pers === "showboat" && ((time + lep.blinkSeed*3) % 5) < 0.9;
+  armDraw(ph, false, wave);
+  frontAccessories();
+
+  ctx.restore();
+
+  /* ---------- limb + costume helpers ---------- */
+  function seg(ax,ay,bx,by,w,color){
+    ctx.strokeStyle = OUT; ctx.lineWidth = w + 2.2*u;
+    ctx.beginPath(); ctx.moveTo(ax,ay); ctx.lineTo(bx,by); ctx.stroke();
+    ctx.strokeStyle = color; ctx.lineWidth = w;
+    ctx.beginPath(); ctx.moveTo(ax,ay); ctx.lineTo(bx,by); ctx.stroke();
+  }
+  function ink(w){ ctx.strokeStyle = OUT; ctx.lineWidth = (w||1.5)*u; ctx.stroke(); }
+
+  function ankleAt(p){
+    if (winning)  return { x: Math.sin(time*8)*2*u + 3*u, y: -4*u };
+    if (carried)  return { x: Math.sin(p)*10*u, y: -6*u - Math.max(0, Math.cos(p))*6*u };
+    if (!running) return { x: (Math.cos(p) > 0 ? 6.5 : -5.5)*u, y: 0 };   // standing stance
+    // run cycle: the foot plants while traveling backward, lifts while swinging forward
+    return { x: Math.sin(p)*15*u, y: -Math.max(0, Math.cos(p))*9.5*u };
+  }
+  function legDraw(A){
+    const K = { x: A.x/2 + 7*u, y: (hipY + A.y)/2 + 1*u };     // knee bends forward
+    seg(K.x, K.y, A.x, A.y - 4*u, 4.6*u, lep.sock);            // long stocking shin
+    seg(0, hipY, K.x, K.y, 6.6*u, lep.pants);                  // knee-breech thigh
+    aoDab(ctx, K.x, K.y + 2*u, 5*u, 0.18);                      // knee crease shadow
+    ctx.fillStyle = lep.pants;                                  // breech cuff at the knee
+    ctx.beginPath(); ctx.arc(K.x, K.y, 3.5*u, 0, 7); ctx.fill(); ink(1.2);
+    ctx.fillStyle = "#F2B824";
+    ctx.beginPath(); ctx.arc(K.x + 2.4*u, K.y, 1.1*u, 0, 7); ctx.fill();
+    shoe(A.x, A.y);
+  }
+  function shoe(ax, ay){
+    ctx.fillStyle = "#221812";
+    roundRect(ctx, ax - 5*u, ay - 5.5*u, 12*u, 5.5*u, 2.4*u); ctx.fill(); ink(1.3);
+    ctx.beginPath(); ctx.arc(ax + 7.6*u, ay - 6.8*u, 2.1*u, 0, 7); ctx.fill(); ink(1.1);   // curled toe
+    ctx.fillStyle = "#F2B824";
+    roundRect(ctx, ax - 1*u, ay - 5.2*u, 4.4*u, 4.4*u, 1*u); ctx.fill();
+    ctx.fillStyle = "#221812"; ctx.fillRect(ax + 0.3*u, ay - 3.9*u, 1.6*u, 1.9*u);
+  }
+  function armDraw(p2, back, waving){
+    const S = { x: back ? -bodyW*0.16 : bodyW*0.2, y: shY + 5*u };
+    let Wr, elbowOut = false;
+    if (waving){ Wr = { x: bodyW*0.35 + Math.sin(time*15)*3*u, y: shY - 25*u }; elbowOut = true; }
+    else if (winning){ Wr = { x: (back ? -8 : 9)*u, y: shY - 20*u - Math.abs(Math.sin(time*8))*3*u }; elbowOut = true; }
+    else if (carried){ Wr = { x: S.x + Math.sin(p2 + (back ? 2 : 0))*9*u, y: S.y + 13*u }; }
+    else if (!running){ Wr = { x: S.x + 2.5*u, y: hipY - 3*u }; }
+    else { const sw = Math.sin(p2 + Math.PI) * (back ? -1 : 1);
+           Wr = { x: sw*12*u + 3.5*u, y: shY + 16*u - Math.abs(sw)*4*u }; }
+    const E = { x: (S.x + Wr.x)/2 + (elbowOut ? 4*u : -4.5*u),
+                y: (S.y + Wr.y)/2 + (elbowOut ? 0 : 3*u) };    // elbows point back when pumping
+    const col = back ? lep.coatDark : lep.coat;
+    seg(S.x, S.y, E.x, E.y, 5*u, col);
+    seg(E.x, E.y, Wr.x, Wr.y, 4.4*u, col);
+    ctx.fillStyle = lep.skin;                                   // hand
+    ctx.beginPath(); ctx.arc(Wr.x, Wr.y, 2.9*u, 0, 7); ctx.fill(); ink(1.2);
+  }
+  function torso(){
+    const tailFlick = running ? Math.sin(ph)*3.5*u : 0;
+    volFill(ctx, -bodyW*0.6, shY - 5*u, bodyW*0.7, hipY + 12*u, lep.coat, 36, -30);
+    ctx.beginPath();
+    ctx.moveTo(-bodyW*0.5, shY + 1*u);
+    ctx.quadraticCurveTo(-bodyW*0.78, hipY - 8*u, -bodyW*0.62, hipY + 1*u);
+    ctx.quadraticCurveTo(-bodyW*0.95 - tailFlick, hipY + 11*u, -bodyW*0.34, hipY + 7*u);   // swallow tail
+    ctx.lineTo(bodyW*0.46, hipY + 4*u);
+    ctx.quadraticCurveTo(bodyW*0.8, hipY - 12*u, bodyW*0.5, shY + 3*u);                     // round belly
+    ctx.quadraticCurveTo(0, shY - 3*u, -bodyW*0.5, shY + 1*u);
+    ctx.closePath(); ctx.fill(); ink(1.6);
+    // cel shade on the back half
+    ctx.fillStyle = "rgba(20,35,20,.16)";
+    ctx.beginPath();
+    ctx.moveTo(-bodyW*0.5, shY + 1*u);
+    ctx.quadraticCurveTo(-bodyW*0.78, hipY - 8*u, -bodyW*0.62, hipY + 1*u);
+    ctx.quadraticCurveTo(-bodyW*0.3, hipY - 2*u, -bodyW*0.22, shY + 1*u);
+    ctx.closePath(); ctx.fill();
+    // a bright rim-light catch along the lit shoulder/belly edge
+    ctx.save(); ctx.globalAlpha = 0.5;
+    rimLight(ctx, -bodyW*0.42, shY + 2*u, bodyW*0.42, hipY - 6*u, 1.6*u);
+    ctx.restore();
+    // waistcoat with brass buttons
+    ctx.fillStyle = lep.vest;
+    roundRect(ctx, -1.5*u, shY + 5*u, bodyW*0.48, (hipY - shY) - 3*u, 3*u); ctx.fill(); ink(1.2);
+    ctx.fillStyle = "#F2B824";
+    ctx.beginPath(); ctx.arc(bodyW*0.14, shY + 11*u, 1.2*u, 0, 7);
+    ctx.arc(bodyW*0.14, shY + 16*u, 1.2*u, 0, 7); ctx.fill();
+    // lapel
+    ctx.fillStyle = lep.coatDark;
+
+    ctx.beginPath();
+    ctx.moveTo(-1*u, shY + 3*u);
+    ctx.lineTo(4.5*u, shY + 10*u);
+    ctx.lineTo(-3*u, shY + 12*u);
+    ctx.closePath(); ctx.fill(); ink(1.1);
+    // belt + big buckle
+    ctx.fillStyle = "#221812";
+    roundRect(ctx, -bodyW*0.58, hipY - 4.5*u, bodyW*1.1, 5*u, 1.5*u); ctx.fill(); ink(1.2);
+    ctx.fillStyle = "#F2B824";
+    roundRect(ctx, -3.4*u, hipY - 5.6*u, 7*u, 7*u, 1.6*u); ctx.fill(); ink(1.2);
+    ctx.fillStyle = "#221812"; ctx.fillRect(-1.6*u, hipY - 3.8*u, 3.4*u, 3.6*u);
+    // bib disc on the chest
+    ctx.fillStyle = "#FFFDF2";
+    ctx.beginPath(); ctx.arc(bodyW*0.34, shY + 12*u, 5.6*u, 0, 7); ctx.fill(); ink(1.4);
+    ctx.fillStyle = "#153B22";
+    ctx.font = `900 ${7.6*u}px Nunito, sans-serif`;
+    ctx.textAlign = "center"; ctx.textBaseline = "middle";
+    ctx.fillText(bib, bodyW*0.34, shY + 12.4*u);
+  }
+  function head(){
+    // neck
+    ctx.fillStyle = lep.skin;
+    roundRect(ctx, hx - 2.5*u, shY - 5.5*u, 5*u, 7*u, 1.6*u); ctx.fill(); ink(1.1);
+    // beard mass with scalloped curls
+    ctx.fillStyle = lep.beard;
+    ctx.beginPath();
+    ctx.arc(hx, headC + 2*u, headR*1.28, -0.18*Math.PI, 1.18*Math.PI);
+    ctx.quadraticCurveTo(hx - headR*1.0, headC + headR*1.95, hx - headR*0.4, headC + headR*1.75);
+    ctx.quadraticCurveTo(hx, headC + headR*2.2, hx + headR*0.42, headC + headR*1.78);
+    ctx.quadraticCurveTo(hx + headR*1.05, headC + headR*1.9, hx + headR*1.2, headC + headR*1.05);
+    ctx.closePath(); ctx.fill(); ink(1.5);
+    // strand shading in the beard
+    ctx.strokeStyle = shade(lep.beard, -28); ctx.lineWidth = 1.1*u;
+    ctx.beginPath();
+    ctx.moveTo(hx - headR*0.5, headC + headR*0.9);
+    ctx.quadraticCurveTo(hx - headR*0.4, headC + headR*1.5, hx - headR*0.1, headC + headR*1.8);
+    ctx.moveTo(hx + headR*0.5, headC + headR*0.9);
+    ctx.quadraticCurveTo(hx + headR*0.5, headC + headR*1.4, hx + headR*0.25, headC + headR*1.85);
+    ctx.stroke();
+    // face — radial gradient gives the head real roundness instead of a flat disc
+    const faceG = ctx.createRadialGradient(hx - headR*0.35, headC - headR*0.4, headR*0.15,
+                                            hx + 1.5*u, headC, headR*1.15);
+    faceG.addColorStop(0, shade(lep.skin, 28));
+    faceG.addColorStop(0.6, lep.skin);
+    faceG.addColorStop(1, shade(lep.skin, -20));
+    ctx.fillStyle = faceG;
+    ctx.beginPath(); ctx.arc(hx + 1.5*u, headC, headR, 0, 7); ctx.fill(); ink(1.5);
+    // soft occlusion where the jaw meets the neck/beard
+    aoDab(ctx, hx + headR*0.15, headC + headR*0.85, headR*0.9, 0.16);
+    // ear with inner curve
+    ctx.fillStyle = lep.skin;
+    ctx.beginPath(); ctx.arc(hx - headR*0.8, headC + 0.5*u, 3*u, 0, 7); ctx.fill(); ink(1.1);
+    ctx.strokeStyle = shade(lep.skin, -30); ctx.lineWidth = 0.9*u;
+    ctx.beginPath(); ctx.arc(hx - headR*0.8, headC + 0.5*u, 1.4*u, -1, 2); ctx.stroke();
+    // rosy cheek
+    ctx.fillStyle = "rgba(233,90,90,.4)";
+    ctx.beginPath(); ctx.arc(hx + headR*0.42, headC + 3.2*u, 2.8*u, 0, 7); ctx.fill();
+    // freckles
+    if (lep.freckles){
+      ctx.fillStyle = "rgba(150,90,40,.55)";
+      [[0.3,3.4],[0.5,4.4],[0.4,2.4]].forEach(([fx2,fy])=>{
+        ctx.beginPath(); ctx.arc(hx + headR*fx2, headC + fy*u, 0.85*u, 0, 7); ctx.fill();
+      });
+    }
+    // big friendly nose with a highlight
+    ctx.fillStyle = shade(lep.skin, -14);
+    ctx.beginPath(); ctx.arc(hx + headR*0.98, headC + 2*u, 3.7*u, 0, 7); ctx.fill(); ink(1.2);
+    ctx.fillStyle = "rgba(255,255,255,.45)";
+    ctx.beginPath(); ctx.arc(hx + headR*0.88, headC + 1*u, 1.1*u, 0, 7); ctx.fill();
+    // eye with white, iris, and catchlight (blinks; nervous racers glance back)
+    const blink = (Math.sin(time*1.7 + lep.blinkSeed*7) > 0.97);
+    const glance = lep.pers === "nervous" && running && ((time*0.9 + lep.blinkSeed) % 4) < 0.8;
+    const eyeX = hx + (glance ? headR*0.05 : headR*0.45);
+    if (blink){
+      ctx.strokeStyle = "#1B140C"; ctx.lineWidth = 1.3*u;
+      ctx.beginPath(); ctx.moveTo(eyeX - 1.8*u, headC - 2.5*u); ctx.lineTo(eyeX + 1.8*u, headC - 2.7*u); ctx.stroke();
+    } else {
+      ctx.fillStyle = "#fff";
+      ctx.beginPath(); ctx.ellipse(eyeX, headC - 2.8*u, 2.5*u, 2.9*u, 0, 0, 7); ctx.fill(); ink(1.0);
+      ctx.fillStyle = "#3A2A16";
+      ctx.beginPath(); ctx.arc(eyeX + (glance ? -0.9 : 0.8)*u, headC - 2.6*u, 1.3*u, 0, 7); ctx.fill();
+      ctx.fillStyle = "#fff";
+      ctx.beginPath(); ctx.arc(eyeX + 1.3*u, headC - 3.4*u, 0.5*u, 0, 7); ctx.fill();
+    }
+    if (glance){
+      ctx.fillStyle = "#7FC8E8";
+      ctx.beginPath(); ctx.arc(hx - headR*1.05, headC - 6*u - Math.sin(time*9)*2*u, 1.6*u, 0, 7); ctx.fill();
+    }
+    // bushy brow (angle carries personality)
+    ctx.strokeStyle = lep.beard; ctx.lineWidth = 2.4*u;
+    let b1 = -6.4*u, b2 = -6*u;
+    if (lep.pers === "fierce"){ b1 = -7.6*u; b2 = -5*u; }
+    if (lep.pers === "nervous"){ b1 = -5.4*u; b2 = -7.8*u; }
+    ctx.beginPath(); ctx.moveTo(hx + headR*0.1, headC + b1); ctx.lineTo(hx + headR*0.75, headC + b2); ctx.stroke();
+    // curled mustache
+    ctx.strokeStyle = lep.beard; ctx.lineWidth = 2.2*u;
+    ctx.beginPath();
+    ctx.moveTo(hx + headR*0.5, headC + 4.6*u);
+    ctx.quadraticCurveTo(hx + headR*1.15, headC + 3.6*u, hx + headR*1.3, headC + 5.6*u);
+    ctx.stroke();
+    ctx.beginPath(); ctx.arc(hx + headR*1.32, headC + 6.4*u, 1.1*u, -1.8, 1.4); ctx.stroke();
+    // mouth by personality
+    ctx.strokeStyle = "#1B140C"; ctx.lineWidth = 1.5*u;
+    const mx = hx + headR*0.68, my = headC + 6.8*u;
+    if (lep.pers === "fierce"){
+      ctx.beginPath(); ctx.moveTo(mx - 2.8*u, my); ctx.lineTo(mx + 2.4*u, my - 0.6*u); ctx.stroke();
+    } else if (lep.pers === "nervous"){
+      ctx.beginPath(); ctx.moveTo(mx - 2.8*u, my);
+      ctx.quadraticCurveTo(mx - 1*u, my + 1.4*u, mx, my);
+      ctx.quadraticCurveTo(mx + 1*u, my - 1.4*u, mx + 2.4*u, my); ctx.stroke();
+    } else if (lep.pers === "showboat" || (running && lep.pers === "cheerful")){
+      ctx.fillStyle = "#7A2020";
+      ctx.beginPath(); ctx.arc(mx, my - 0.4*u, 2.5*u, 0, Math.PI); ctx.fill(); ink(1.0);
+    } else if (lep.pers === "cool"){
+      ctx.beginPath(); ctx.moveTo(mx - 1.8*u, my + 0.4*u);
+      ctx.quadraticCurveTo(mx + 1*u, my + 1.3*u, mx + 2.8*u, my - 0.8*u); ctx.stroke();
+    } else {
+      ctx.beginPath(); ctx.arc(mx, my - 0.8*u, 2.4*u, 0.15, Math.PI - 0.15); ctx.stroke();
+    }
+  }
+  function hat(){
+    const hatY = headC - headR*0.6;
+    const bounce = winning ? Math.abs(Math.sin(time*8))*3*u : 0;
+    ctx.fillStyle = lep.hatColor;
+    if (lep.hat === "top"){
+      volFill(ctx, hx - headR*1.3, 0, hx + headR*1.3, 0, lep.hatColor, 30, -28);
+      roundRect(ctx, hx - headR*1.35, hatY - 2.2*u, headR*2.7, 4.4*u, 2*u); ctx.fill(); ink(1.5);   // brim
+      volFill(ctx, hx - headR*0.9, 0, hx + headR*0.9, 0, lep.hatColor, 34, -30);
+      ctx.beginPath();                                                     // tall tapered crown
+      ctx.moveTo(hx - headR*0.85, hatY - 2*u);
+      ctx.lineTo(hx - headR*0.98, hatY - 17*u - bounce);
+      ctx.quadraticCurveTo(hx, hatY - 19.5*u - bounce, hx + headR*0.98, hatY - 17*u - bounce);
+      ctx.lineTo(hx + headR*0.85, hatY - 2*u);
+      ctx.closePath(); ctx.fill(); ink(1.5);
+      ctx.fillStyle = lep.band;                                            // band + gold buckle
+      ctx.fillRect(hx - headR*0.9, hatY - 8*u, headR*1.8, 4*u);
+      ctx.fillStyle = "#F2B824";
+      roundRect(ctx, hx - 2.4*u, hatY - 8.6*u, 4.8*u, 5.2*u, 1.1*u); ctx.fill(); ink(1.1);
+      ctx.fillStyle = "rgba(255,255,255,.16)";                             // sheen
+      roundRect(ctx, hx - headR*0.7, hatY - 16*u - bounce, 2.6*u, 12*u, 1.3*u); ctx.fill();
+    } else if (lep.hat === "bowler"){
+      volFill(ctx, hx - headR*0.9, hatY - headR, hx + headR*0.9, hatY + headR*0.3, lep.hatColor, 32, -26);
+      ctx.beginPath(); ctx.arc(hx, hatY, headR*0.98, Math.PI, 0); ctx.fill(); ink(1.5);
+      roundRect(ctx, hx - headR*1.25, hatY - 1.8*u, headR*2.5, 3.6*u, 1.8*u); ctx.fill(); ink(1.4);
+      ctx.fillStyle = lep.band; ctx.fillRect(hx - headR*0.95, hatY - 4.6*u, headR*1.9, 3*u);
+    } else {
+      ctx.beginPath(); ctx.arc(hx, hatY + 1*u, headR*0.98, Math.PI, 0); ctx.fill(); ink(1.4);
+      roundRect(ctx, hx, hatY - 0.4*u, headR*1.4, 2.8*u, 1.4*u); ctx.fill(); ink(1.2);
+    }
+    if (lep.acc === "clover"){
+      drawClover(ctx, hx + headR*0.72, hatY - (lep.hat === "top" ? 11*u : 4*u), 3.4*u);
+    }
+  }
+  function frontAccessories(){
+    if (lep.acc === "shades"){
+      ctx.fillStyle = "#161616";
+      roundRect(ctx, hx + headR*0.08, headC - 5.2*u, 6.6*u, 4.4*u, 1.6*u); ctx.fill(); ink(1.0);
+      ctx.strokeStyle = "#161616"; ctx.lineWidth = 1.1*u;
+      ctx.beginPath(); ctx.moveTo(hx + headR*0.08, headC - 3.2*u); ctx.lineTo(hx - headR*0.8, headC - 2.6*u); ctx.stroke();
+    }
+    if (lep.acc === "pipe"){
+      ctx.strokeStyle = "#5C3A1E"; ctx.lineWidth = 1.8*u;
+      ctx.beginPath(); ctx.moveTo(hx + headR*0.9, headC + 6.6*u); ctx.lineTo(hx + headR*1.55, headC + 9.4*u); ctx.stroke();
+      ctx.fillStyle = "#5C3A1E";
+      roundRect(ctx, hx + headR*1.4, headC + 8*u, 3.8*u, 3.8*u, 1*u); ctx.fill(); ink(1.0);
+      ctx.fillStyle = "rgba(200,200,200,.5)";                              // drifting puff of smoke
+      ctx.beginPath(); ctx.arc(hx + headR*1.7, headC + 5*u - (time*6 % 4)*u, 1.5*u + (time*6 % 4)*0.3*u, 0, 7); ctx.fill();
+    }
+    if (lep.acc === "monocle"){
+      ctx.strokeStyle = "#F2B824"; ctx.lineWidth = 1.4*u;
+      ctx.beginPath(); ctx.arc(hx + headR*0.45, headC - 2.8*u, 3.4*u, 0, 7); ctx.stroke();
+      ctx.beginPath(); ctx.moveTo(hx + headR*0.45, headC + 0.6*u); ctx.lineTo(hx + headR*0.5, headC + 4*u); ctx.stroke();
+    }
+    if (lep.acc === "scarf"){
+      ctx.fillStyle = lep.band;
+      roundRect(ctx, hx - bodyW*0.4, shY - 3*u, bodyW*0.8, 4.5*u, 2*u); ctx.fill(); ink(1.1);
+      ctx.beginPath();
+      ctx.moveTo(hx - bodyW*0.32, shY);
+      ctx.quadraticCurveTo(hx - bodyW*0.75 - (running ? Math.sin(ph)*3*u : 0), shY + 9*u, hx - bodyW*0.5, shY + 13*u);
+      ctx.lineTo(hx - bodyW*0.3, shY + 5*u); ctx.closePath(); ctx.fill(); ink(1.0);
+    }
+    if (lep.acc === "coinbelt"){
+      ctx.fillStyle = "#F2B824";
+      for (let i=-2; i<=2; i++){
+        ctx.beginPath(); ctx.arc(i*4.2*u, hipY - 2*u, 1.7*u, 0, 7); ctx.fill(); ink(0.8);
+      }
+    }
+  }
+  function fallenPose(){
+    const sitY = -15*u;
+    // sprawled jointed legs: breeches, stockings, buckled shoes
+    seg(0, sitY, 9*u, sitY + 5*u, 6.4*u, lep.pants);
+    seg(9*u, sitY + 5*u, 17*u, -3*u, 4.6*u, lep.sock);
+    shoe(15*u, -1*u);
+    seg(0, sitY, 7*u, sitY + 2*u, 6.4*u, lep.pants);
+    seg(7*u, sitY + 2*u, 14*u, -8*u, 4.6*u, lep.sock);
+    shoe(12*u, -7*u);
+    // the skinned knee!
+    ctx.fillStyle = "#D9463B";
+    ctx.beginPath(); ctx.arc(9*u, sitY + 5*u, 2.6*u, 0, 7); ctx.fill(); ink(1.0);
+    // torso leaning back
+    ctx.fillStyle = lep.coat;
+    roundRect(ctx, -bodyW*0.62, sitY - 24*u, bodyW*1.05, 26*u, 6*u); ctx.fill(); ink(1.5);
+    ctx.fillStyle = lep.vest;
+    roundRect(ctx, -1*u, sitY - 20*u, bodyW*0.42, 18*u, 3*u); ctx.fill(); ink(1.1);
+    // propping arm behind
+    seg(-bodyW*0.25, sitY - 16*u, -bodyW*0.62, sitY - 6*u, 5*u, lep.coatDark);
+    seg(-bodyW*0.62, sitY - 6*u, -bodyW*0.78, -1*u, 4.4*u, lep.coatDark);
+    ctx.fillStyle = lep.skin; ctx.beginPath(); ctx.arc(-bodyW*0.78, -1*u, 2.9*u, 0, 7); ctx.fill(); ink(1.1);
+    // hand clutching the knee
+    seg(bodyW*0.2, sitY - 15*u, 6*u, sitY - 2*u, 5*u, lep.coat);
+    ctx.fillStyle = lep.skin; ctx.beginPath(); ctx.arc(7.5*u, sitY + 2*u, 2.9*u, 0, 7); ctx.fill(); ink(1.1);
+    // head with "OW" face
+    const hy = sitY - 24*u - headR + 2*u;
+    ctx.fillStyle = lep.beard;
+    ctx.beginPath(); ctx.arc(0, hy + 3*u, headR*1.15, -0.15*Math.PI, 1.15*Math.PI);
+    ctx.quadraticCurveTo(0, hy + headR*2.05, headR*0.95, hy + headR*0.6);
+    ctx.closePath(); ctx.fill(); ink(1.4);
+    ctx.fillStyle = lep.skin;
+    ctx.beginPath(); ctx.arc(1.5*u, hy, headR, 0, 7); ctx.fill(); ink(1.4);
+    ctx.fillStyle = "rgba(233,90,90,.5)";
+    ctx.beginPath(); ctx.arc(headR*0.45, hy + 3*u, 2.8*u, 0, 7); ctx.fill();
+    ctx.fillStyle = shade(lep.skin, -14);
+    ctx.beginPath(); ctx.arc(headR*0.95, hy + 2*u, 3.4*u, 0, 7); ctx.fill(); ink(1.1);
+    ctx.strokeStyle = "#1B140C"; ctx.lineWidth = 1.6*u;    // X eyes
+    ctx.beginPath();
+    ctx.moveTo(headR*0.15, hy - 3.6*u); ctx.lineTo(headR*0.7, hy - 1.6*u);
+    ctx.moveTo(headR*0.7, hy - 3.6*u);  ctx.lineTo(headR*0.15, hy - 1.6*u); ctx.stroke();
+    ctx.fillStyle = "#7A2020";
+    ctx.beginPath(); ctx.arc(headR*0.7, hy + 5.4*u, 2.3*u, 0, 7); ctx.fill(); ink(1.0);
+    // hat knocked askew
+    ctx.save(); ctx.translate(-2*u, hy - headR*0.6); ctx.rotate(-0.55);
+    ctx.fillStyle = lep.hatColor;
+    roundRect(ctx, -headR*1.15, -2*u, headR*2.3, 4*u, 1.6*u); ctx.fill(); ink(1.2);
+    roundRect(ctx, -headR*0.75, -14*u, headR*1.5, 12*u, 2*u); ctx.fill(); ink(1.2);
+    ctx.fillStyle = lep.band; ctx.fillRect(-headR*0.75, -6.5*u, headR*1.5, 3.2*u);
+    ctx.restore();
+    // dizzy stars
+    for (let i=0; i<3; i++){
+      const a = time*4.5 + i*2.09;
+      star(Math.cos(a)*headR*1.6, hy - headR - 4*u + Math.sin(a)*4*u, 3*u);
+    }
+    function star(sx2, sy2, r){
+      ctx.fillStyle = "#F2B824"; ctx.save(); ctx.translate(sx2, sy2); ctx.beginPath();
+      for (let k=0; k<5; k++){
+        ctx.lineTo(Math.cos(k*2.513 - 1.57)*r, Math.sin(k*2.513 - 1.57)*r);
+        ctx.lineTo(Math.cos(k*2.513 - 0.314)*r*0.45, Math.sin(k*2.513 - 0.314)*r*0.45);
+      }
+      ctx.closePath(); ctx.fill(); ctx.restore();
+    }
+  }
+}
+
+/*  drawLeprechaunPortrait — front-facing comedic head-and-shoulders
+    portrait for the roster cards: a human face with leprechaun magic
+    and a healthy dose of weirdness. Quirks are seeded from the racer's
+    traits, so every portrait is different but stable card-to-card:
+    pointed elf ears (one droops), a golden aura with orbiting shamrocks
+    and coins, jaunty hat tilt, one quizzical eyebrow, gap or gold teeth,
+    coin-shaped pupils on the greedy ones, crossed eyes, winks…          */
+function drawLeprechaunPortrait(ctx, px, py, R, lep, t){
+  const u = R/46;
+  const OUT = "#26331F";
+  const q = Math.floor(lep.blinkSeed*97.7);          // quirk dice (deterministic)
+  ctx.save(); ctx.translate(px, py);
+  ctx.lineJoin = "round"; ctx.lineCap = "round";
+
+  function ink(w){ ctx.strokeStyle = OUT; ctx.lineWidth = (w||1.5)*u; ctx.stroke(); }
+  function sparkle(x, y, r){
+    ctx.fillStyle = "#F2B824";
+    ctx.beginPath();
+    ctx.moveTo(x, y - r); ctx.quadraticCurveTo(x + r*0.22, y - r*0.22, x + r, y);
+    ctx.quadraticCurveTo(x + r*0.22, y + r*0.22, x, y + r);
+    ctx.quadraticCurveTo(x - r*0.22, y + r*0.22, x - r, y);
+    ctx.quadraticCurveTo(x - r*0.22, y - r*0.22, x, y - r);
+    ctx.fill();
+  }
+  function coin(x, y, r){
+    ctx.fillStyle = "#F2B824";
+    ctx.beginPath(); ctx.arc(x, y, r, 0, 7); ctx.fill();
+    ctx.strokeStyle = "#B8860B"; ctx.lineWidth = r*0.25;
+    ctx.beginPath(); ctx.arc(x, y, r*0.62, 0, 7); ctx.stroke();
+  }
+
+  // ---- magical golden aura + orbiting charms ----
+  const glow = ctx.createRadialGradient(0, 0, R*0.2, 0, 0, R*1.9);
+  glow.addColorStop(0, "rgba(242,184,36,.30)");
+  glow.addColorStop(1, "rgba(242,184,36,0)");
+  ctx.fillStyle = glow;
+  ctx.beginPath(); ctx.arc(0, 0, R*1.9, 0, 7); ctx.fill();
+  for (let i = 0; i < 3; i++){
+    const a = q*0.7 + i*2.1, rr = R*(1.5 + (i % 2)*0.22);
+    drawClover(ctx, Math.cos(a)*rr, Math.sin(a)*rr*0.8 - R*0.1, 5.5*u);
+  }
+  sparkle(-R*1.35, -R*0.9, 5*u); sparkle(R*1.4, -R*0.4, 4*u);
+  sparkle(R*1.15, R*0.95, 3.5*u); sparkle(-R*1.2, R*0.7, 3*u);
+  coin(R*1.45, R*0.45, 5*u);
+  if (q % 3 === 0) coin(-R*1.5, -R*0.15, 4.4*u);
+
+  // ---- shoulders / coat bust ----
+  ctx.fillStyle = lep.coat;
+  ctx.beginPath();
+  ctx.moveTo(-R*1.15, R*2.2);
+  ctx.quadraticCurveTo(-R*1.05, R*1.05, -R*0.55, R*0.95);
+  ctx.lineTo(R*0.55, R*0.95);
+  ctx.quadraticCurveTo(R*1.05, R*1.05, R*1.15, R*2.2);
+  ctx.closePath(); ctx.fill(); ink(1.8);
+  ctx.fillStyle = lep.coatDark;                       // lapels
+  ctx.beginPath(); ctx.moveTo(-R*0.5, R*0.98); ctx.lineTo(-R*0.1, R*1.35); ctx.lineTo(-R*0.62, R*1.52); ctx.closePath(); ctx.fill(); ink(1.1);
+  ctx.beginPath(); ctx.moveTo(R*0.5, R*0.98); ctx.lineTo(R*0.1, R*1.35); ctx.lineTo(R*0.62, R*1.52); ctx.closePath(); ctx.fill(); ink(1.1);
+  ctx.fillStyle = lep.vest;                           // vest strip + brass buttons
+  roundRect(ctx, -R*0.22, R*1.05, R*0.44, R*1.0, 4*u); ctx.fill(); ink(1.2);
+  ctx.fillStyle = "#F2B824";
+  ctx.beginPath(); ctx.arc(0, R*1.38, 2.6*u, 0, 7); ctx.arc(0, R*1.66, 2.6*u, 0, 7); ctx.fill();
+  ctx.fillStyle = lep.band;                           // bow tie
+  ctx.beginPath(); ctx.moveTo(0, R*1.02); ctx.lineTo(-R*0.3, R*0.9); ctx.lineTo(-R*0.3, R*1.18); ctx.closePath(); ctx.fill(); ink(1.0);
+  ctx.beginPath(); ctx.moveTo(0, R*1.02); ctx.lineTo(R*0.3, R*0.9); ctx.lineTo(R*0.3, R*1.18); ctx.closePath(); ctx.fill(); ink(1.0);
+  ctx.fillStyle = "#F2B824"; ctx.beginPath(); ctx.arc(0, R*1.03, 3*u, 0, 7); ctx.fill(); ink(0.9);
+
+  ctx.rotate(((q % 7) - 3) * 0.03);                   // whole head sits a little jaunty
+
+  // ---- pointed elf ears (one droops, for weirdness) ----
+  ear(-1, q % 2 === 0); ear(1, q % 2 !== 0);
+  // ---- wild hair tufts poking out ----
+  ctx.fillStyle = lep.beard;
+  tuft(-R*0.92, -R*0.3, -0.6); tuft(R*0.92, -R*0.3, 0.6);
+
+  // ---- the great beard ----
+  ctx.fillStyle = lep.beard;
+  ctx.beginPath();
+  ctx.arc(0, R*0.12, R*1.06, -0.15*Math.PI, 1.15*Math.PI);
+  ctx.quadraticCurveTo(-R*0.85, R*1.45, -R*0.42, R*1.32);
+  ctx.quadraticCurveTo(-R*0.2, R*1.62, 0, R*1.38);
+  ctx.quadraticCurveTo(R*0.2, R*1.62, R*0.42, R*1.32);
+  ctx.quadraticCurveTo(R*0.85, R*1.45, R*0.98, R*0.55);
+  ctx.closePath(); ctx.fill(); ink(1.7);
+  ctx.strokeStyle = shade(lep.beard, -28); ctx.lineWidth = 1.6*u;
+  ctx.beginPath();
+  ctx.moveTo(-R*0.5, R*0.6); ctx.quadraticCurveTo(-R*0.45, R*1.0, -R*0.25, R*1.3);
+  ctx.moveTo(R*0.5, R*0.6);  ctx.quadraticCurveTo(R*0.45, R*1.0, R*0.25, R*1.3);
+  ctx.moveTo(0, R*0.85);     ctx.quadraticCurveTo(R*0.02, R*1.1, 0, R*1.32);
+  ctx.stroke();
+
+  // ---- face ----
+  const portraitFaceG = ctx.createRadialGradient(-R*0.32, -R*0.4, R*0.1, 0, 0, R*1.1);
+  portraitFaceG.addColorStop(0, shade(lep.skin, 26));
+  portraitFaceG.addColorStop(0.6, lep.skin);
+  portraitFaceG.addColorStop(1, shade(lep.skin, -18));
+  ctx.fillStyle = portraitFaceG;
+  ctx.beginPath(); ctx.arc(0, 0, R, 0, 7); ctx.fill(); ink(1.8);
+  ctx.fillStyle = "rgba(255,255,255,.15)";            // forehead shine
+  ctx.beginPath(); ctx.ellipse(-R*0.3, -R*0.55, R*0.3, R*0.16, -0.4, 0, 7); ctx.fill();
+  ctx.fillStyle = "rgba(233,90,90,.42)";              // rosy cheeks
+  ctx.beginPath(); ctx.arc(-R*0.52, R*0.28, R*0.19, 0, 7); ctx.fill();
+  ctx.beginPath(); ctx.arc(R*0.52, R*0.28, R*0.19, 0, 7); ctx.fill();
+  if (lep.freckles){
+    ctx.fillStyle = "rgba(150,90,40,.55)";
+    [[-0.62,0.16],[-0.48,0.1],[-0.55,0.02],[0.62,0.16],[0.48,0.1],[0.55,0.02]].forEach(([fx,fy])=>{
+      ctx.beginPath(); ctx.arc(R*fx, R*fy, 1.7*u, 0, 7); ctx.fill();
+    });
+  }
+
+  // ---- eyes with seeded weirdness ----
+  const eq = q % 5;   // 0 normal · 1 one giant eye · 2 crossed · 3 coin pupils · 4 wink
+  eye(-1, eq); eye(1, eq);
+  brows();
+  if (lep.pers === "nervous"){                        // flying sweat drop
+    ctx.fillStyle = "#7FC8E8";
+    ctx.beginPath(); ctx.arc(R*0.82, -R*0.62, R*0.08, 0, 7); ctx.fill();
+    ctx.beginPath(); ctx.moveTo(R*0.82, -R*0.8); ctx.lineTo(R*0.75, -R*0.65); ctx.lineTo(R*0.89, -R*0.65); ctx.closePath(); ctx.fill();
+  }
+
+  // ---- comically big nose ----
+  ctx.fillStyle = shade(lep.skin, -14);
+  ctx.beginPath(); ctx.arc(0, R*0.18, R*0.24, 0, 7); ctx.fill(); ink(1.4);
+  ctx.fillStyle = "rgba(255,255,255,.5)";
+  ctx.beginPath(); ctx.arc(-R*0.08, R*0.1, R*0.07, 0, 7); ctx.fill();
+
+  // ---- mustache with curled tips ----
+  ctx.strokeStyle = lep.beard; ctx.lineWidth = R*0.11;
+  ctx.beginPath(); ctx.moveTo(-R*0.06, R*0.42);
+  ctx.quadraticCurveTo(-R*0.42, R*0.34, -R*0.6, R*0.5); ctx.stroke();
+  ctx.beginPath(); ctx.arc(-R*0.62, R*0.58, R*0.08, -2.6, 0.8); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(R*0.06, R*0.42);
+  ctx.quadraticCurveTo(R*0.42, R*0.34, R*0.6, R*0.5); ctx.stroke();
+  ctx.beginPath(); ctx.arc(R*0.62, R*0.58, R*0.08, 2.34, 5.8); ctx.stroke();
+
+  mouth();
+  hat();
+  frontAcc();
+  ctx.restore();
+
+  /* ---------- portrait helpers ---------- */
+  function ear(sd, droop){
+    ctx.fillStyle = lep.skin;
+    ctx.beginPath();
+    ctx.moveTo(sd*R*0.86, -R*0.1);
+    ctx.quadraticCurveTo(sd*R*1.52, -R*0.5 + (droop ? R*0.3 : 0), sd*R*1.28, R*0.12 + (droop ? R*0.1 : 0));
+    ctx.quadraticCurveTo(sd*R*1.05, R*0.32, sd*R*0.86, R*0.28);
+    ctx.closePath(); ctx.fill(); ink(1.4);
+    ctx.strokeStyle = shade(lep.skin, -30); ctx.lineWidth = 1.4*u;
+    ctx.beginPath();
+    ctx.moveTo(sd*R*1.12, R*0.02 + (droop ? R*0.08 : 0));
+    ctx.quadraticCurveTo(sd*R*1.02, R*0.14, sd*R*0.98, R*0.2);
+    ctx.stroke();
+  }
+  function tuft(x, y, rot){
+    ctx.save(); ctx.translate(x, y); ctx.rotate(rot);
+    ctx.beginPath();
+    ctx.arc(0, 0, R*0.14, 0, 7);
+    ctx.arc(R*0.12, R*0.1, R*0.11, 0, 7);
+    ctx.fill(); ctx.restore();
+  }
+  function eye(sd, eq2){
+    const ex = sd*R*0.4, ey = -R*0.22;
+    const wink = (lep.pers === "showboat" && sd > 0) || (eq2 === 4 && sd > 0);
+    if (wink){
+      ctx.strokeStyle = "#1B140C"; ctx.lineWidth = R*0.06;
+      ctx.beginPath(); ctx.arc(ex, ey + R*0.02, R*0.13, 0.3, Math.PI - 0.3); ctx.stroke();
+      return;
+    }
+    let rw = R*0.19, rh = R*0.22;
+    if (eq2 === 1 && sd > 0){ rw *= 1.45; rh *= 1.45; }          // one giant eye
+    if (lep.pers === "nervous"){ rw *= 1.25; rh *= 1.3; }
+    ctx.fillStyle = "#fff";
+    ctx.beginPath(); ctx.ellipse(ex, ey, rw, rh, 0, 0, 7); ctx.fill(); ink(1.2);
+    if (eq2 === 3){                                              // gold-coin pupils!
+      ctx.fillStyle = "#F2B824";
+      ctx.beginPath(); ctx.arc(ex, ey, rw*0.62, 0, 7); ctx.fill();
+      ctx.strokeStyle = "#B8860B"; ctx.lineWidth = 1.2*u;
+      ctx.beginPath(); ctx.arc(ex, ey, rw*0.62, 0, 7); ctx.stroke();
+      ctx.fillStyle = "#8A6508";
+      ctx.font = `900 ${rw*0.85}px Nunito, sans-serif`;
+      ctx.textAlign = "center"; ctx.textBaseline = "middle";
+      ctx.fillText("$", ex, ey + rw*0.06);
+    } else {
+      const cross = eq2 === 2 ? -sd*rw*0.42 : rw*0.15;
+      const pr = lep.pers === "nervous" ? rw*0.3 : rw*0.5;
+      ctx.fillStyle = "#3A2A16";
+      ctx.beginPath(); ctx.arc(ex + cross, ey + rh*0.15, pr, 0, 7); ctx.fill();
+      ctx.fillStyle = "#fff";
+      ctx.beginPath(); ctx.arc(ex + cross + pr*0.35, ey, pr*0.35, 0, 7); ctx.fill();
+    }
+    if (lep.pers === "cool"){                                    // heavy half-closed lid
+      ctx.fillStyle = lep.skin;
+      ctx.beginPath(); ctx.ellipse(ex, ey - rh*0.55, rw*1.08, rh*0.62, 0, 0, 7); ctx.fill();
+      ctx.strokeStyle = OUT; ctx.lineWidth = 1.2*u;
+      ctx.beginPath(); ctx.moveTo(ex - rw, ey - rh*0.2); ctx.lineTo(ex + rw, ey - rh*0.2); ctx.stroke();
+    }
+  }
+  function brows(){
+    ctx.strokeStyle = lep.beard; ctx.lineWidth = R*0.1; ctx.lineCap = "round";
+    const lift = (q % 2 === 0) ? -R*0.12 : 0;                    // one quizzical brow
+    const fierce = lep.pers === "fierce" ? R*0.08 : 0;
+    const nerv = lep.pers === "nervous" ? -R*0.06 : 0;
+    ctx.beginPath();
+    ctx.moveTo(-R*0.6, -R*0.46 + nerv);
+    ctx.quadraticCurveTo(-R*0.4, -R*0.56, -R*0.2, -R*0.44 + fierce);
+    ctx.stroke();
+    ctx.beginPath();
+    ctx.moveTo(R*0.2, -R*0.44 + fierce + lift);
+    ctx.quadraticCurveTo(R*0.4, -R*0.56 + lift, R*0.6, -R*0.46 + nerv + lift);
+    ctx.stroke();
+  }
+  function mouth(){
+    const my = R*0.62;
+    if (lep.pers === "fierce"){                                  // gritted teeth
+      ctx.fillStyle = "#fff";
+      roundRect(ctx, -R*0.3, my - R*0.06, R*0.6, R*0.17, R*0.05); ctx.fill(); ink(1.3);
+      ctx.strokeStyle = OUT; ctx.lineWidth = 1.1*u;
+      for (let i = -1; i <= 1; i++){
+        ctx.beginPath(); ctx.moveTo(i*R*0.15, my - R*0.06); ctx.lineTo(i*R*0.15, my + R*0.11); ctx.stroke();
+      }
+    } else if (lep.pers === "nervous"){                          // wobbly worry
+      ctx.strokeStyle = "#1B140C"; ctx.lineWidth = R*0.06;
+      ctx.beginPath(); ctx.moveTo(-R*0.28, my + R*0.02);
+      ctx.quadraticCurveTo(-R*0.14, my + R*0.12, 0, my + R*0.02);
+      ctx.quadraticCurveTo(R*0.14, my - R*0.08, R*0.28, my + R*0.02); ctx.stroke();
+    } else if (lep.pers === "cool"){                             // sly smirk
+      ctx.strokeStyle = "#1B140C"; ctx.lineWidth = R*0.06;
+      ctx.beginPath(); ctx.moveTo(-R*0.2, my + R*0.06);
+      ctx.quadraticCurveTo(R*0.05, my + R*0.14, R*0.3, my - R*0.04); ctx.stroke();
+    } else {                                                     // huge open grin
+      ctx.fillStyle = "#7A2020";
+      ctx.beginPath(); ctx.arc(0, my, R*0.3, 0, Math.PI); ctx.closePath(); ctx.fill(); ink(1.4);
+      ctx.fillStyle = "#fff";                                    // teeth
+      roundRect(ctx, -R*0.24, my, R*0.48, R*0.09, R*0.03); ctx.fill();
+      if (q % 3 === 0){ ctx.fillStyle = "#7A2020"; ctx.fillRect(-R*0.05, my, R*0.08, R*0.09); }   // gap tooth
+      else if (q % 3 === 1){ ctx.fillStyle = "#F2B824"; ctx.fillRect(R*0.08, my, R*0.08, R*0.09); } // gold tooth
+      if (lep.pers === "showboat"){                              // tongue out
+        ctx.fillStyle = "#E2606B";
+        ctx.beginPath(); ctx.arc(R*0.02, my + R*0.18, R*0.11, 0, 7); ctx.fill(); ink(1.0);
+      }
+    }
+  }
+  function hat(){
+    ctx.save(); ctx.rotate(((q % 5) - 2) * 0.05);                // extra jaunty tilt
+    const hy = -R*0.62;
+    ctx.fillStyle = lep.hatColor;
+    if (lep.hat === "top"){
+      roundRect(ctx, -R*1.18, hy - R*0.1, R*2.36, R*0.22, R*0.1); ctx.fill(); ink(1.6);
+      ctx.beginPath();
+      ctx.moveTo(-R*0.78, hy - R*0.06);
+      ctx.lineTo(-R*0.88, hy - R*1.0);
+      ctx.quadraticCurveTo(0, hy - R*1.16, R*0.88, hy - R*1.0);
+      ctx.lineTo(R*0.78, hy - R*0.06);
+      ctx.closePath(); ctx.fill(); ink(1.6);
+      ctx.fillStyle = lep.band;
+      ctx.fillRect(-R*0.84, hy - R*0.42, R*1.68, R*0.22);
+      ctx.fillStyle = "#F2B824";
+      roundRect(ctx, -R*0.14, hy - R*0.46, R*0.28, R*0.3, R*0.06); ctx.fill(); ink(1.1);
+      ctx.fillStyle = "rgba(255,255,255,.16)";
+      roundRect(ctx, -R*0.6, hy - R*0.92, R*0.16, R*0.62, R*0.08); ctx.fill();
+      drawClover(ctx, R*0.52, hy - R*0.32, R*0.13);              // lucky clover in the band
+    } else if (lep.hat === "bowler"){
+      ctx.beginPath(); ctx.arc(0, hy, R*0.85, Math.PI, 0); ctx.fill(); ink(1.6);
+      roundRect(ctx, -R*1.1, hy - R*0.09, R*2.2, R*0.2, R*0.1); ctx.fill(); ink(1.5);
+      ctx.fillStyle = lep.band; ctx.fillRect(-R*0.8, hy - R*0.3, R*1.6, R*0.2);
+      drawClover(ctx, R*0.45, hy - R*0.2, R*0.13);
+    } else {
+      ctx.beginPath(); ctx.arc(0, hy + R*0.06, R*0.85, Math.PI, 0); ctx.fill(); ink(1.5);
+      roundRect(ctx, -R*0.2, hy - R*0.04, R*1.0, R*0.16, R*0.08); ctx.fill(); ink(1.2);
+      drawClover(ctx, -R*0.4, hy - R*0.14, R*0.12);
+    }
+    ctx.restore();
+  }
+  function frontAcc(){
+    if (lep.acc === "shades"){
+      ctx.fillStyle = "#161616";
+      roundRect(ctx, -R*0.62, -R*0.4, R*0.5, R*0.34, R*0.08); ctx.fill(); ink(1.1);
+      roundRect(ctx, R*0.12, -R*0.4, R*0.5, R*0.34, R*0.08); ctx.fill(); ink(1.1);
+      ctx.strokeStyle = "#161616"; ctx.lineWidth = R*0.05;
+      ctx.beginPath(); ctx.moveTo(-R*0.12, -R*0.28); ctx.lineTo(R*0.12, -R*0.28); ctx.stroke();
+      ctx.fillStyle = "rgba(255,255,255,.25)";
+      ctx.beginPath(); ctx.arc(-R*0.45, -R*0.32, R*0.07, 0, 7); ctx.fill();
+    }
+    if (lep.acc === "monocle"){
+      ctx.strokeStyle = "#F2B824"; ctx.lineWidth = R*0.05;
+      ctx.beginPath(); ctx.arc(R*0.4, -R*0.22, R*0.31, 0, 7); ctx.stroke();
+      ctx.beginPath(); ctx.moveTo(R*0.62, -R*0.02); ctx.quadraticCurveTo(R*0.78, R*0.3, R*0.64, R*0.6); ctx.stroke();
+    }
+    if (lep.acc === "pipe"){
+      ctx.strokeStyle = "#5C3A1E"; ctx.lineWidth = R*0.07;
+      ctx.beginPath(); ctx.moveTo(-R*0.2, R*0.66); ctx.lineTo(-R*0.5, R*0.86); ctx.stroke();
+      ctx.fillStyle = "#5C3A1E";
+      roundRect(ctx, -R*0.64, R*0.76, R*0.2, R*0.2, R*0.05); ctx.fill(); ink(1.1);
+      ctx.strokeStyle = "rgba(30,158,74,.6)"; ctx.lineWidth = R*0.05;   // magical green smoke…
+      ctx.beginPath();
+      ctx.moveTo(-R*0.54, R*0.7);
+      ctx.quadraticCurveTo(-R*0.72, R*0.5, -R*0.56, R*0.34);
+      ctx.quadraticCurveTo(-R*0.44, R*0.2, -R*0.6, R*0.06);
+      ctx.stroke();
+      drawClover(ctx, -R*0.62, -R*0.06, R*0.09);                        // …that curls into a shamrock
+    }
+  }
+}
+
+function roundRect(ctx,x,y,w,h,r){
+  ctx.beginPath();
+  ctx.moveTo(x+r,y); ctx.arcTo(x+w,y,x+w,y+h,r); ctx.arcTo(x+w,y+h,x,y+h,r);
+  ctx.arcTo(x,y+h,x,y,r); ctx.arcTo(x,y,x+w,y,r); ctx.closePath();
+}
+function drawClover(ctx,x,y,r){
+  ctx.save(); ctx.translate(x,y); ctx.fillStyle = "#2FB56B";
+  for(let i=0;i<3;i++){
+    ctx.rotate(Math.PI*2/3);
+    ctx.beginPath(); ctx.arc(0,-r*0.8,r*0.62,0,7); ctx.fill();
+  }
+  ctx.strokeStyle="#157A3C"; ctx.lineWidth=r*0.28;
+  ctx.beginPath(); ctx.moveTo(0,0); ctx.lineTo(r*0.35,r*1.1); ctx.stroke();
+  ctx.restore();
+}
+
+/*  drawPirate — v2 detailed art. Side view, facing right; jointed limbs,
+    big cuffed sea boots, gold-trimmed red coat with buttons, cream sash,
+    cutlass on the hip, eyepatch, scar, hoop earring, gold-tooth grin,
+    gold-edged tricorn with skull. Can carry a flailing captive.          */
+function drawPirate(ctx, x, y, scale, phase, captive, time, facing){
+  const s = scale, u = s/40;
+  const OUT = "#1E150E";
+  ctx.save(); ctx.translate(x, y);
+  if (facing < 0) ctx.scale(-1, 1);
+  const bob = Math.abs(Math.sin(phase))*5*u;
+  ctx.translate(0, -bob);
+  ctx.rotate(0.09);
+  ctx.lineJoin = "round"; ctx.lineCap = "round";
+  const hipY = -40*u, shY = -66*u, headC = -80*u, headR = 10.5*u;
+  const bodyW = 26*u;
+
+  function seg(ax,ay,bx,by,w,c){
+    ctx.strokeStyle = OUT; ctx.lineWidth = w + 2.2*u;
+    ctx.beginPath(); ctx.moveTo(ax,ay); ctx.lineTo(bx,by); ctx.stroke();
+    ctx.strokeStyle = c; ctx.lineWidth = w;
+    ctx.beginPath(); ctx.moveTo(ax,ay); ctx.lineTo(bx,by); ctx.stroke();
+  }
+  function ink(w){ ctx.strokeStyle = OUT; ctx.lineWidth = (w||1.5)*u; ctx.stroke(); }
+  function legP(p){
+    const A = { x: Math.sin(p)*17*u, y: -Math.max(0, Math.cos(p))*10*u };
+    const K = { x: A.x/2 + 8*u, y: (hipY + A.y)/2 + 1*u };
+    seg(0, hipY, K.x, K.y, 7.2*u, "#2B2620");
+    seg(K.x, K.y, A.x, A.y - 5*u, 6*u, "#2B2620");
+    ctx.fillStyle = "#14110E";                                  // big sea boot
+    roundRect(ctx, A.x - 5*u, A.y - 6.5*u, 14*u, 6.5*u, 2.6*u); ctx.fill(); ink(1.3);
+    ctx.fillStyle = "#3d372d";                                  // folded cuff
+    roundRect(ctx, A.x - 4*u, A.y - 13*u, 8*u, 7.5*u, 1.8*u); ctx.fill(); ink(1.1);
+  }
+
+  legP(phase + Math.PI);
+  // ragged, weathered coat — dark and torn, not a gentleman's finery
+  volFill(ctx, -bodyW*0.6, shY - 6*u, bodyW*0.7, hipY + 14*u, "#2B2E24", 26, -30);
+  ctx.beginPath();
+  ctx.moveTo(-bodyW*0.5, shY + 1*u);
+  ctx.quadraticCurveTo(-bodyW*0.75, hipY - 8*u, -bodyW*0.6, hipY + 2*u);
+  ctx.quadraticCurveTo(-bodyW*0.92 - Math.sin(phase)*3*u, hipY + 12*u, -bodyW*0.34, hipY + 7*u);
+  ctx.lineTo(-bodyW*0.22, hipY + 4*u);                    // jagged torn notch in the hem
+  ctx.lineTo(-bodyW*0.14, hipY + 9*u);
+  ctx.lineTo(-bodyW*0.02, hipY + 4*u);
+  ctx.lineTo(bodyW*0.46, hipY + 5*u);
+  ctx.quadraticCurveTo(bodyW*0.78, hipY - 12*u, bodyW*0.5, shY + 3*u);
+  ctx.quadraticCurveTo(0, shY - 3*u, -bodyW*0.5, shY + 1*u);
+  ctx.closePath(); ctx.fill(); ink(1.7);
+  ctx.save(); ctx.globalAlpha = 0.3;
+  rimLight(ctx, -bodyW*0.4, shY + 3*u, bodyW*0.4, hipY - 8*u, 1.6*u);
+  ctx.restore();
+  // a few rough patches and scuffs — this coat has seen a lot of boarding actions
+  ctx.fillStyle = "rgba(60,55,40,.55)";
+  ctx.beginPath(); ctx.moveTo(bodyW*0.1, shY+14*u); ctx.lineTo(bodyW*0.28, shY+12*u);
+  ctx.lineTo(bodyW*0.26, shY+22*u); ctx.lineTo(bodyW*0.06, shY+21*u); ctx.closePath(); ctx.fill();
+  ctx.strokeStyle = "rgba(15,15,10,.6)"; ctx.lineWidth = 0.9*u; ctx.stroke();
+  // exposed, grimy shirt at the open collar
+  ctx.fillStyle = "#B9AF95";
+  ctx.beginPath();
+  ctx.moveTo(-bodyW*0.06, shY - 2*u); ctx.lineTo(bodyW*0.22, shY + 4*u);
+  ctx.lineTo(bodyW*0.1, shY + 16*u); ctx.lineTo(-bodyW*0.12, shY + 10*u);
+  ctx.closePath(); ctx.fill();
+  // grimy bandolier belt with a bone/crossbones charm — not a fancy sash
+  ctx.fillStyle = "#8B8270";
+  roundRect(ctx, -bodyW*0.55, hipY - 6*u, bodyW*1.05, 6*u, 2*u); ctx.fill(); ink(1.2);
+  ctx.strokeStyle = "#E8E2D0"; ctx.lineWidth = 1.6*u;
+  ctx.beginPath();
+  ctx.moveTo(-bodyW*0.46, hipY - 8*u); ctx.lineTo(-bodyW*0.34, hipY - 1*u);
+  ctx.moveTo(-bodyW*0.34, hipY - 8*u); ctx.lineTo(-bodyW*0.46, hipY - 1*u);
+  ctx.stroke();
+  // a second blade — a wicked little dagger tucked in the belt
+  ctx.strokeStyle = "#AEB4B8"; ctx.lineWidth = 2*u;
+  ctx.beginPath(); ctx.moveTo(bodyW*0.05, hipY - 3*u); ctx.lineTo(bodyW*0.15, hipY + 9*u); ctx.stroke();
+  ctx.fillStyle = "#4A2E17"; ctx.fillRect(bodyW*0.01, hipY - 6*u, 5*u, 4*u);
+  // the sheathed cutlass on the hip — a spare, since the good hand carries the other
+  ctx.strokeStyle = "#B9BFC6"; ctx.lineWidth = 2.6*u;
+  ctx.beginPath(); ctx.moveTo(-bodyW*0.42, hipY - 4*u);
+  ctx.quadraticCurveTo(-bodyW*0.75, hipY + 8*u, -bodyW*0.6, hipY + 16*u); ctx.stroke();
+  ctx.fillStyle = "#7A6432";
+  ctx.beginPath(); ctx.arc(-bodyW*0.42, hipY - 4*u, 2.6*u, 0, 7); ctx.fill(); ink(1.0);
+  legP(phase);
+
+  // the captive rides over the shoulder, flailing
+  if (captive){
+    ctx.save();
+    if (facing < 0) ctx.scale(-1, 1);              // un-mirror so the bib number reads correctly
+    drawLeprechaun(ctx, (facing < 0 ? 1 : -1)*bodyW*0.1, shY - 2*u,
+                   scale*0.85, captive.lep, time*16, "carried", captive.bib, time);
+    ctx.restore();
+  }
+  // front arm clamps the captive, or brandishes a raised, drawn cutlass
+  {
+    const S = { x: bodyW*0.2, y: shY + 6*u };
+    let Wr;
+    if (captive) Wr = { x: -2*u, y: shY - 8*u };
+    else { const sw = Math.sin(phase + Math.PI);
+           Wr = { x: sw*11*u + 9*u, y: shY - 4*u - Math.abs(sw)*7*u }; }   // raised high, brandishing
+    const E = { x: (S.x + Wr.x)/2 + (captive ? 5*u : -5*u), y: (S.y + Wr.y)/2 + 3*u };
+    seg(S.x, S.y, E.x, E.y, 6*u, "#2B2E24");
+    seg(E.x, E.y, Wr.x, Wr.y, 5.2*u, "#2B2E24");
+    ctx.fillStyle = "#D9A374";
+    ctx.beginPath(); ctx.arc(Wr.x, Wr.y, 3.4*u, 0, 7); ctx.fill(); ink(1.2);
+    if (!captive){
+      // a drawn cutlass, gripped and brandished — this pirate means business
+      const bladeAng = -1.15 + Math.sin(phase)*0.25;
+      const bx = Wr.x + Math.cos(bladeAng)*24*u, by = Wr.y + Math.sin(bladeAng)*24*u;
+      ctx.strokeStyle = "#7A6432"; ctx.lineWidth = 3.4*u; ctx.lineCap = "round";  // hilt/guard
+      ctx.beginPath(); ctx.moveTo(Wr.x - 3*u, Wr.y + 2*u); ctx.lineTo(Wr.x + 3*u, Wr.y - 2*u); ctx.stroke();
+      ctx.strokeStyle = "#C9CFD3"; ctx.lineWidth = 2.6*u;                        // the blade
+      ctx.beginPath(); ctx.moveTo(Wr.x, Wr.y); ctx.lineTo(bx, by); ctx.stroke();
+      ctx.strokeStyle = "#F2F5F6"; ctx.lineWidth = 0.9*u;                        // sharpened edge glint
+      ctx.beginPath(); ctx.moveTo(Wr.x, Wr.y); ctx.lineTo(bx, by); ctx.stroke();
+    }
+  }
+
+  // head
+  ctx.fillStyle = "#D9A374";
+  ctx.beginPath(); ctx.arc(1.5*u, headC, headR, 0, 7); ctx.fill(); ink(1.5);
+  // big black beard
+  ctx.fillStyle = "#241C14";
+  ctx.beginPath();
+  ctx.arc(2*u, headC + 5*u, headR*0.95, -0.1, Math.PI + 0.1);
+  ctx.quadraticCurveTo(2*u, headC + headR*2.1, headR*0.9 + 2*u, headC + headR*0.7);
+  ctx.closePath(); ctx.fill(); ink(1.3);
+  // a bold scar, dragging right across the eyepatch — this one's been in real fights
+  ctx.strokeStyle = "#8C5A42"; ctx.lineWidth = 1.6*u;
+  ctx.beginPath();
+  ctx.moveTo(-headR*0.55, headC - 8*u); ctx.lineTo(headR*0.75, headC + 3*u);
+  ctx.stroke();
+  ctx.strokeStyle = "#A9764C"; ctx.lineWidth = 0.7*u;
+  ctx.beginPath();
+  ctx.moveTo(-headR*0.4, headC - 6.5*u); ctx.lineTo(headR*0.55, headC + 1.8*u);
+  ctx.stroke();
+  // gold hoop earring
+  ctx.strokeStyle = "#F2B824"; ctx.lineWidth = 1.4*u;
+  ctx.beginPath(); ctx.arc(-headR*0.72, headC + 4.5*u, 2.2*u, 0, 7); ctx.stroke();
+  // eyepatch strap, patch, and one narrowed, angry eye
+  ctx.strokeStyle = "#111"; ctx.lineWidth = 1.7*u;
+  ctx.beginPath(); ctx.moveTo(-headR*0.95, headC - 5.5*u); ctx.lineTo(headR*1.0, headC - 7*u); ctx.stroke();
+  ctx.fillStyle = "#111";
+  ctx.beginPath(); ctx.arc(headR*0.5, headC - 3.6*u, 3.6*u, 0, 7); ctx.fill();
+  // harsh, downturned brow over the good eye
+  ctx.strokeStyle = "#1A1410"; ctx.lineWidth = 1.6*u;
+  ctx.beginPath(); ctx.moveTo(-headR*0.32, headC - 6.4*u); ctx.lineTo(headR*0.02, headC - 4.6*u); ctx.stroke();
+  ctx.fillStyle = "#fff";
+  ctx.beginPath(); ctx.ellipse(-headR*0.12, headC - 3*u, 2.2*u, 1.6*u, -0.15, 0, 7); ctx.fill(); ink(0.9);
+  ctx.fillStyle = "#241C14";
+  ctx.beginPath(); ctx.arc(-headR*0.05, headC - 2.7*u, 1.2*u, 0, 7); ctx.fill();
+  // a snarl, not a grin — jagged teeth bared, one gold
+  ctx.fillStyle = "#1B140C";
+  ctx.beginPath(); ctx.arc(headR*0.55, headC + 5.5*u, 4*u, 0.05, Math.PI*0.95); ctx.fill();
+  ctx.fillStyle = "#EDE6D6";
+  for (let i=0; i<4; i++){
+    const a = 0.15 + i*0.22;
+    ctx.beginPath();
+    ctx.moveTo(headR*0.55 + Math.cos(a)*3.9*u, headC + 5.5*u + Math.sin(a)*3.9*u);
+    ctx.lineTo(headR*0.55 + Math.cos(a+0.11)*3.9*u, headC + 5.5*u + Math.sin(a+0.11)*3.9*u);
+    ctx.lineTo(headR*0.55 + Math.cos(a+0.055)*2*u, headC + 5.5*u + Math.sin(a+0.055)*2*u);
+    ctx.closePath(); ctx.fill();
+  }
+  ctx.fillStyle = "#F2B824";
+  ctx.fillRect(headR*0.5, headC + 7.4*u, 1.8*u, 2*u);
+  // gold-edged tricorn with skull
+  ctx.fillStyle = "#1A1A1A";
+  ctx.beginPath();
+  ctx.moveTo(-headR*1.4, headC - headR*0.5);
+  ctx.quadraticCurveTo(1.5*u, headC - headR*2.05, headR*1.45, headC - headR*0.5);
+  ctx.quadraticCurveTo(1.5*u, headC - headR*0.8, -headR*1.4, headC - headR*0.5);
+  ctx.closePath(); ctx.fill(); ink(1.4);
+  ctx.strokeStyle = "#C89A3F"; ctx.lineWidth = 1.2*u;
+  ctx.beginPath();
+  ctx.moveTo(-headR*1.32, headC - headR*0.52);
+  ctx.quadraticCurveTo(1.5*u, headC - headR*1.95, headR*1.37, headC - headR*0.52);
+  ctx.stroke();
+  ctx.fillStyle = "#EDE8DA";
+  ctx.beginPath(); ctx.arc(1.5*u, headC - headR*1.12, 2.8*u, 0, 7); ctx.fill();
+  ctx.fillStyle = "#1A1A1A";
+  ctx.fillRect(-0.3*u, headC - headR*1.18, 1.1*u, 1.3*u);
+  ctx.fillRect(2*u, headC - headR*1.18, 1.1*u, 1.3*u);
+  ctx.restore();
+}
+
+/*  drawBraidedRope — a real twisted rope instead of a single flat line.
+    Three strands are traced along the same path, each offset perpendicular
+    to the rope by a sine wave and phase-shifted a third of a turn apart,
+    so the strands visibly interleave the way an actual laid rope does.
+    Two brown tones plus a lighter highlight strand sell the twist.       */
+function drawBraidedRope(ctx, x1, y1, x2, y2){
+  const dx = x2 - x1, dy = y2 - y1;
+  const len = Math.hypot(dx, dy) || 1;
+  const nx = -dy/len, ny = dx/len;           // unit normal to the rope's axis
+  const amp = 2.6, turns = len/22;
+  const steps = Math.max(10, Math.round(turns*7));
+  const strandColors = ["#6B4A26", "#4E3319", "#8A6234"];
+  strandColors.forEach((col, s) => {
+    const phase = (s/strandColors.length) * Math.PI*2;
+    ctx.strokeStyle = col; ctx.lineWidth = 2.1; ctx.lineCap = "round";
+    ctx.beginPath();
+    for (let i=0; i<=steps; i++){
+      const f = i/steps;
+      const off = Math.sin(f*turns*Math.PI*2 + phase) * amp;
+      const px = x1 + dx*f + nx*off, py = y1 + dy*f + ny*off;
+      if (i===0) ctx.moveTo(px, py); else ctx.lineTo(px, py);
+    }
+    ctx.stroke();
+  });
+}
+
+/*  drawPirateVault — the "climbing over the wall" animation, used both
+    when a pirate hauls a captive back over the balustrade and when the
+    tripper vaults in or out. k runs 0→1 across the vault: the whole
+    figure rolls through a partial tumble (rotating around its own
+    center) while the caller's x/y arcs it up over the rail and back
+    down the other side — that combination of body-roll plus a rising-
+    then-falling path is what reads as "vaulting" rather than "floating."
+    Gripping hands flash on the rail during the low part of the arc, and
+    a couple of motion-streak strokes trail the roll for extra force.    */
+function drawPirateVault(ctx, x, y, scale, k, dir, time, captive){
+  const roll = Math.sin(k*Math.PI) * dir * 0.85;
+  ctx.save();
+  ctx.translate(x, y);
+  ctx.rotate(roll);
+  drawPirate(ctx, 0, 0, scale, time*15, captive, time, dir);
+  ctx.restore();
+  // gripping hands flash on the rail while low in the arc (fades in, holds, fades out)
+  if (k > 0.06 && k < 0.55){
+    const fadeIn  = clamp((k-0.06)/0.14, 0, 1);
+    const fadeOut = clamp((0.55-k)/0.14, 0, 1);
+    ctx.save(); ctx.globalAlpha = Math.min(fadeIn, fadeOut);
+    ctx.fillStyle = "#3D372D";
+    ctx.beginPath(); ctx.arc(x - scale*0.34*dir, y - scale*0.5, scale*0.12, 0, 7); ctx.fill();
+    ctx.beginPath(); ctx.arc(x + scale*0.12*dir, y - scale*0.56, scale*0.12, 0, 7); ctx.fill();
+    ctx.restore();
+  }
+  // motion-streak strokes trailing the roll
+  ctx.save(); ctx.globalAlpha = 0.32*Math.sin(Math.min(1,Math.max(0,k))*Math.PI);
+  ctx.strokeStyle = "rgba(255,255,255,.7)"; ctx.lineWidth = 2.4;
+  for (let i=0; i<2; i++){
+    const a = roll - dir*(0.55 + i*0.35);
+    ctx.beginPath();
+    ctx.moveTo(x + Math.cos(a)*scale*0.6, y + Math.sin(a)*scale*0.6);
+    ctx.lineTo(x + Math.cos(a)*scale*1.05, y + Math.sin(a)*scale*1.05);
+    ctx.stroke();
+  }
+  ctx.restore();
+}
+
+/*  drawShipCrew — a small, simple pirate crewman for standing on deck:
+    tricorn hat, dark coat, and a pose-specific gesture. Deliberately
+    minimal since these render small against the ship itself.
+    pose: "helm" (gripping the wheel) | "haul" (hauling a line, arms
+    swing with t) | "lookout" (shielding eyes, scanning the horizon).   */
+function drawShipCrew(ctx, x, y, s, pose, t){
+  const u = s/20;
+  ctx.save(); ctx.translate(x,y);
+  ctx.strokeStyle = "#1C140C"; ctx.lineWidth = 2.2*u; ctx.lineCap = "round";
+  ctx.beginPath();
+  ctx.moveTo(-2*u,0); ctx.lineTo(-3*u,7*u);
+  ctx.moveTo(2*u,0);  ctx.lineTo(3*u,7*u);
+  ctx.stroke();
+  ctx.fillStyle = "#6B1E28";
+  roundRect(ctx, -4*u, -9*u, 8*u, 10*u, 2*u); ctx.fill();
+  ctx.strokeStyle = "rgba(20,10,5,.8)"; ctx.lineWidth = 1*u; ctx.stroke();
+  ctx.strokeStyle = "#D9A374"; ctx.lineWidth = 2*u;
+  if (pose === "helm"){
+    ctx.beginPath();
+    ctx.moveTo(-3*u,-6*u); ctx.lineTo(-6.5*u,-2*u);
+    ctx.moveTo(3*u,-6*u);  ctx.lineTo(6.5*u,-2*u);
+    ctx.stroke();
+  } else if (pose === "lookout"){
+    ctx.beginPath();
+    ctx.moveTo(2.5*u,-7*u); ctx.lineTo(7*u,-9.5*u);
+    ctx.moveTo(-2.5*u,-6*u); ctx.lineTo(-4*u,-1*u);
+    ctx.stroke();
+  } else {
+    const sw = Math.sin(t*3)*2.4*u;
+    ctx.beginPath();
+    ctx.moveTo(-3*u,-6*u); ctx.lineTo(-6*u, -1*u + sw);
+    ctx.moveTo(3*u,-6*u);  ctx.lineTo(6*u, -10*u - sw);
+    ctx.stroke();
+  }
+  ctx.fillStyle = "#D9A374";
+  ctx.beginPath(); ctx.arc(0,-11*u,3.2*u,0,7); ctx.fill();
+  ctx.fillStyle = "#161616";
+  ctx.beginPath();
+  ctx.moveTo(-4.6*u,-12.6*u);
+  ctx.quadraticCurveTo(0,-18*u, 4.6*u,-12.6*u);
+  ctx.quadraticCurveTo(0,-13.8*u, -4.6*u,-12.6*u);
+  ctx.closePath(); ctx.fill();
+  ctx.restore();
+}
+
+/*  The fleet on Tampa Bay: two pirate ships — one close in, one further
+    out — and a lone 1800s-style US Navy frigate (think USS Constitution:
+    black hull, the famous white gun stripe with black gunports, copper
+    waterline, three masts, spanker and twin jibs, a streaming
+    commissioning pennant, and the Stars & Stripes astern) keeping a
+    wary eye on them. All three now genuinely sail forward — continuous
+    directional drift with a seamless off-screen wraparound, bows
+    pointed the same way the runners are heading — rather than just
+    bobbing in place. */
+function shipDriftX(t, baseX, speed){
+  const span = W + 500;                        // generous margin so the wrap happens off-screen
+  return ((((baseX + t*speed) % span) + span) % span) - 250;
+}
+/* The main pirate ship — the one the kidnapping crew rides — so the
+   kidnap rope can anchor to wherever it actually is on screen right now. */
+function mainShipScreenX(t){ return shipDriftX(t, W*0.14, 13); }
+
+function drawFleet(t){
+  drawPirateShip(t,       shipDriftX(t, W*0.14, 13), WATER_Y + WATER_H*0.55, 1.75, -1);
+  drawPirateShip(t + 2.1, shipDriftX(t, W*0.55, 9),  WATER_Y + WATER_H*0.36, 1.05, -1);
+  drawNavyShip  (t + 3.7, shipDriftX(t, W*0.88, 11), WATER_Y + WATER_H*0.48, 1.05, -1);
+}
+
+/*  A pirate ship: planked hull with a raised stern castle, gold sheer
+    stripe, gunports, bowsprit with jib, two rigged masts with yards,
+    ratline shrouds, a crow's nest, patched billowing sails, stern
+    lantern, red pennant, a big waving Jolly Roger, and a small crew —
+    a helmsman at the wheel and hands working the deck.
+    dir = -1 sails right, bow-forward, matching the runners' direction.  */
+function drawPirateShip(t, baseX, baseY, sc, dir){
+  const sx = baseX;
+  const sy = baseY + Math.sin(t*1.05)*2.5;
+  ctx.save(); ctx.translate(sx, sy); ctx.rotate(Math.sin(t*0.8)*0.015);
+  ctx.scale(dir*sc, sc);
+  const OUT = "rgba(24,16,9,.9)";
+  // wake foam at the waterline
+  ctx.fillStyle = "rgba(255,255,255,.30)";
+  ctx.beginPath(); ctx.ellipse(0, 28, 122, 7, 0, 0, 7); ctx.fill();
+  ctx.fillStyle = "rgba(255,255,255,.5)";
+  for (let i=0; i<6; i++){
+    ctx.beginPath();
+    ctx.arc(-110 + i*44 + Math.sin(t*2 + i)*4, 26 + Math.sin(t*3 + i)*2, 3, 0, 7); ctx.fill();
+  }
+  // standing rigging (behind the sails)
+  ctx.strokeStyle = "rgba(34,24,14,.85)"; ctx.lineWidth = 1.3;
+  ctx.beginPath();
+  ctx.moveTo(-132,-28); ctx.lineTo(-38,-98);         // bow stay
+  ctx.moveTo(-38,-98);  ctx.lineTo(28,-118);         // between mastheads
+  ctx.moveTo(28,-118);  ctx.lineTo(100,-26);         // backstay
+  ctx.stroke();
+  // ratline shrouds with rungs
+  [{m:-38, top:-96},{m:28, top:-116}].forEach(r=>{
+    ctx.beginPath();
+    ctx.moveTo(r.m - 17, -8); ctx.lineTo(r.m, r.top + 16);
+    ctx.moveTo(r.m + 17, -8); ctx.lineTo(r.m, r.top + 16);
+    for (let k=1; k<=3; k++){
+      const f = k/4;
+      ctx.moveTo(r.m - 17*(1 - f), -8 + (r.top + 24)*f);
+      ctx.lineTo(r.m + 17*(1 - f), -8 + (r.top + 24)*f);
+    }
+    ctx.stroke();
+  });
+  // masts and yards
+  ctx.fillStyle = "#3A2513";
+  ctx.fillRect(-41,-100, 6, 96);
+  ctx.fillRect(-72,-90, 66, 4);
+  ctx.fillRect(-66,-56, 54, 4);
+  ctx.fillRect(25,-120, 6, 116);
+  ctx.fillRect(-8,-110, 70, 4);
+  ctx.fillRect(-14,-74, 82, 4);
+  // crow's nest
+  ctx.fillStyle = "#4A2E17";
+  roundRect(ctx, 17, -104, 22, 10, 3); ctx.fill();
+  ctx.strokeStyle = OUT; ctx.lineWidth = 1.2; ctx.stroke();
+  // billowing patched sails
+  sail(-39, -88, 56, 28);
+  sail(-39, -52, 66, 32);
+  sail(28, -108, 62, 30);
+  sail(28, -70, 76, 38);
+  // jib from the bowsprit
+  ctx.fillStyle = "#F0E8D4";
+  ctx.beginPath();
+  ctx.moveTo(-128,-26); ctx.lineTo(-60,-78); ctx.lineTo(-58,-16);
+  ctx.closePath(); ctx.fill();
+  ctx.strokeStyle = OUT; ctx.lineWidth = 1.4; ctx.stroke();
+  // flags: Jolly Roger high on the mainmast, red pennant on the fore
+  flagJR(31, -134);
+  ctx.fillStyle = "#B01E3C";
+  ctx.beginPath();
+  ctx.moveTo(-35,-112);
+  ctx.quadraticCurveTo(-18, -116 + Math.sin(t*3)*2, -6, -110);
+  ctx.lineTo(-35,-104); ctx.closePath(); ctx.fill();
+  // hull with raised stern castle
+  ctx.fillStyle = "#4A2E17";
+  ctx.beginPath();
+  ctx.moveTo(-122,-18);
+  ctx.quadraticCurveTo(-112, 14, -84, 24);
+  ctx.lineTo(66, 26);
+  ctx.quadraticCurveTo(104, 22, 112, -28);
+  ctx.lineTo(92, -24);
+  ctx.quadraticCurveTo(82, -6, 58, -6);
+  ctx.lineTo(-96, -6);
+  ctx.closePath(); ctx.fill();
+  ctx.strokeStyle = OUT; ctx.lineWidth = 2; ctx.stroke();
+  // plank seams along the hull
+  ctx.strokeStyle = "rgba(24,16,9,.4)"; ctx.lineWidth = 1.2;
+  for (let k=0; k<3; k++){
+    ctx.beginPath();
+    ctx.moveTo(-100, 2 + k*8);
+    ctx.quadraticCurveTo(0, 6 + k*8, 96, 0 + k*8);
+    ctx.stroke();
+  }
+  // battle scars and water stains — this hull has taken a beating
+  ctx.fillStyle = "rgba(15,10,6,.35)";
+  ctx.beginPath(); ctx.ellipse(-60, 10, 14, 6, 0.2, 0, 7); ctx.fill();
+  ctx.beginPath(); ctx.ellipse(30, 16, 18, 5, -0.15, 0, 7); ctx.fill();
+  ctx.fillStyle = "rgba(70,60,45,.25)";
+  ctx.fillRect(-20, -4, 3, 24); ctx.fillRect(70, -2, 2, 20);
+  // gold sheer stripe
+  ctx.fillStyle = "#C89A3F";
+  ctx.fillRect(-96, -9, 152, 3);
+  // gunports — a heavily-armed broadside, Gasparilla-grand
+  ctx.fillStyle = "#14100B";
+  for (let i=0; i<7; i++){ roundRect(ctx, -92 + i*24, 6, 9, 8, 2); ctx.fill(); }
+  // bowsprit spar
+  ctx.strokeStyle = "#3A2513"; ctx.lineWidth = 5;
+  ctx.beginPath(); ctx.moveTo(-100,-10); ctx.lineTo(-136,-30); ctx.stroke();
+  // glowing stern lantern
+  ctx.fillStyle = "#3A2513"; ctx.fillRect(108, -38, 3, 10);
+  ctx.fillStyle = "#FFD97A";
+  ctx.beginPath(); ctx.arc(109.5, -42, 4, 0, 7); ctx.fill();
+  ctx.strokeStyle = OUT; ctx.lineWidth = 1.2; ctx.stroke();
+  // a small crew, actually sailing the ship: a helmsman at the wheel on
+  // the raised stern castle, and two hands working the main deck
+  ctx.strokeStyle = "#2A1B0E"; ctx.lineWidth = 2.2;
+  ctx.beginPath(); ctx.arc(96,-21,9,0,7); ctx.stroke();
+  for (let k=0; k<6; k++){
+    const a = k*Math.PI/3;
+    ctx.beginPath();
+    ctx.moveTo(96+Math.cos(a)*3, -21+Math.sin(a)*3);
+    ctx.lineTo(96+Math.cos(a)*9, -21+Math.sin(a)*9);
+    ctx.stroke();
+  }
+  drawShipCrew(ctx, 96, -12, 15, "helm", t);
+  drawShipCrew(ctx, -55, -6, 14, "haul", t);
+  drawShipCrew(ctx, 8, -6, 14, "lookout", t + 1.4);
+  ctx.restore();
+
+  function sail(cx, top, w, h){
+    ctx.fillStyle = "#E6DCC0";
+    ctx.beginPath();
+    ctx.moveTo(cx - w/2, top);
+    ctx.lineTo(cx + w/2, top);
+    ctx.quadraticCurveTo(cx + w/2 + 8 + Math.sin(t*2)*1.5, top + h/2, cx + w/2, top + h - 3);
+    // a jagged, tattered hem — this canvas has seen a lot of weather
+    const bx = cx - w/2, bw = w;
+    ctx.lineTo(bx + bw*0.86, top + h - 1);
+    ctx.lineTo(bx + bw*0.74, top + h - 9);
+    ctx.lineTo(bx + bw*0.62, top + h);
+    ctx.lineTo(bx + bw*0.47, top + h - 12);
+    ctx.lineTo(bx + bw*0.33, top + h - 2);
+    ctx.lineTo(bx + bw*0.20, top + h - 8);
+    ctx.lineTo(bx, top + h - 2);
+    ctx.quadraticCurveTo(cx - w/2 + 6, top + h/2, cx - w/2, top);
+    ctx.closePath(); ctx.fill();
+    ctx.strokeStyle = OUT; ctx.lineWidth = 1.4; ctx.stroke();
+    // wind shading on the luff side
+    ctx.fillStyle = "rgba(90,70,40,.14)";
+    ctx.beginPath();
+    ctx.moveTo(cx - w/2, top);
+    ctx.quadraticCurveTo(cx - w/2 + 6, top + h/2, cx - w/2, top + h - 2);
+    ctx.lineTo(cx - w/2 + 9, top + h - 2);
+    ctx.quadraticCurveTo(cx - w/2 + 13, top + h/2, cx - w/2 + 9, top);
+    ctx.closePath(); ctx.fill();
+    // a torn hole punched clean through the sail — reveals the sky/rigging behind
+    ctx.save(); ctx.globalCompositeOperation = "destination-out";
+    ctx.beginPath();
+    ctx.moveTo(cx - w*0.08, top + h*0.3); ctx.lineTo(cx + w*0.04, top + h*0.26);
+    ctx.lineTo(cx + w*0.08, top + h*0.4); ctx.lineTo(cx - w*0.04, top + h*0.45);
+    ctx.closePath(); ctx.fill();
+    ctx.restore();
+    ctx.strokeStyle = "rgba(60,45,25,.6)"; ctx.lineWidth = 1;
+    ctx.beginPath();
+    ctx.moveTo(cx - w*0.08, top + h*0.3); ctx.lineTo(cx + w*0.04, top + h*0.26);
+    ctx.lineTo(cx + w*0.08, top + h*0.4); ctx.lineTo(cx - w*0.04, top + h*0.45);
+    ctx.closePath(); ctx.stroke();
+    // two mismatched, crooked patches — repeatedly mended, never matching
+    ctx.fillStyle = "#D8CBB0";
+    ctx.fillRect(cx + w*0.12, top + h*0.55, 8, 7);
+    ctx.strokeStyle = "rgba(90,70,40,.5)"; ctx.lineWidth = 0.8;
+    ctx.strokeRect(cx + w*0.12, top + h*0.55, 8, 7);
+    ctx.save(); ctx.translate(cx - w*0.26, top + h*0.68); ctx.rotate(-0.22);
+    ctx.fillStyle = "#C9BA9C"; ctx.fillRect(-4, -3, 9, 8);
+    ctx.strokeStyle = "rgba(90,70,40,.5)"; ctx.lineWidth = 0.8; ctx.strokeRect(-4, -3, 9, 8);
+    ctx.restore();
+  }
+  function flagJR(fx, fy){
+    ctx.fillStyle = "#141414";
+    ctx.beginPath();
+    ctx.moveTo(fx, fy);
+    ctx.quadraticCurveTo(fx + 26, fy - 6 + Math.sin(t*3)*2.5, fx + 52, fy - 3);
+    ctx.lineTo(fx + 44, fy + 4);                        // tattered notch
+    ctx.lineTo(fx + 50, fy + 9);
+    ctx.lineTo(fx + 40, fy + 11);                        // second tattered notch
+    ctx.lineTo(fx + 46, fy + 16);
+    ctx.quadraticCurveTo(fx + 26, fy + 15 + Math.sin(t*3 + 1)*2.5, fx, fy + 19);
+    ctx.closePath(); ctx.fill();
+    ctx.fillStyle = "#EDE8DA";
+    ctx.beginPath(); ctx.arc(fx + 24, fy + 8, 5.4, 0, 7); ctx.fill();
+    ctx.fillStyle = "#141414";
+    ctx.fillRect(fx + 22, fy + 6, 1.5, 2);
+    ctx.fillRect(fx + 25.6, fy + 6, 1.5, 2);
+    ctx.strokeStyle = "#EDE8DA"; ctx.lineWidth = 2;
+    ctx.beginPath();
+    ctx.moveTo(fx + 16.5, fy + 14.5); ctx.lineTo(fx + 32, fy + 17);
+    ctx.moveTo(fx + 32, fy + 14.5); ctx.lineTo(fx + 16.5, fy + 17);
+    ctx.stroke();
+  }
+}
+
+/*  The US Navy frigate, 1800s style. */
+function drawNavyShip(t, baseX, baseY, sc, dir){
+  const sx = baseX;
+  const sy = baseY + Math.sin(t*1.1)*2.5;
+  ctx.save(); ctx.translate(sx, sy); ctx.rotate(Math.sin(t*0.75)*0.014); ctx.scale(dir*sc, sc);
+  const OUT = "rgba(14,12,10,.9)";
+  // wake
+  ctx.fillStyle = "rgba(255,255,255,.30)";
+  ctx.beginPath(); ctx.ellipse(0, 26, 130, 7, 0, 0, 7); ctx.fill();
+  // standing rigging
+  ctx.strokeStyle = "rgba(30,26,20,.85)"; ctx.lineWidth = 1.2;
+  ctx.beginPath();
+  ctx.moveTo(-150,-40); ctx.lineTo(-58,-112);
+  ctx.moveTo(-58,-112); ctx.lineTo(6,-140);
+  ctx.moveTo(6,-140);   ctx.lineTo(64,-104);
+  ctx.moveTo(64,-104);  ctx.lineTo(112,-24);
+  ctx.stroke();
+  // ratlines on all three masts
+  [{m:-58, top:-108},{m:6, top:-136},{m:64, top:-100}].forEach(r=>{
+    ctx.beginPath();
+    ctx.moveTo(r.m - 15, -6); ctx.lineTo(r.m, r.top + 16);
+    ctx.moveTo(r.m + 15, -6); ctx.lineTo(r.m, r.top + 16);
+    for (let k=1; k<=3; k++){
+      const f = k/4;
+      ctx.moveTo(r.m - 15*(1 - f), -6 + (r.top + 22)*f);
+      ctx.lineTo(r.m + 15*(1 - f), -6 + (r.top + 22)*f);
+    }
+    ctx.stroke();
+  });
+  // three masts with yards
+  ctx.fillStyle = "#4A3620";
+  ctx.fillRect(-61,-112, 6, 108);
+  ctx.fillRect(-92,-100, 68, 4); ctx.fillRect(-88,-64, 60, 4);
+  ctx.fillRect(3,-140, 6, 136);
+  ctx.fillRect(-32,-128, 76, 4); ctx.fillRect(-38,-88, 88, 4);
+  ctx.fillRect(61,-104, 6, 100);
+  ctx.fillRect(34,-94, 62, 4);
+  // crisp navy canvas (no patches on a Navy ship)
+  nsail(-58, -98, 58, 28); nsail(-58, -60, 68, 32);
+  nsail(6, -126, 66, 30);  nsail(6, -84, 80, 38);
+  nsail(64, -92, 54, 26);
+  // spanker: the fore-and-aft sail on the mizzen
+  ctx.fillStyle = "#F5F0E2";
+  ctx.beginPath();
+  ctx.moveTo(67,-88); ctx.lineTo(112,-72); ctx.lineTo(106,-30); ctx.lineTo(67,-24);
+  ctx.closePath(); ctx.fill();
+  ctx.strokeStyle = OUT; ctx.lineWidth = 1.3; ctx.stroke();
+  // twin jibs off the long bowsprit
+  ctx.fillStyle = "#F5F0E2";
+  ctx.beginPath(); ctx.moveTo(-146,-38); ctx.lineTo(-64,-96); ctx.lineTo(-62,-30); ctx.closePath(); ctx.fill();
+  ctx.strokeStyle = OUT; ctx.lineWidth = 1.3; ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(-120,-30); ctx.lineTo(-62,-74); ctx.lineTo(-60,-22); ctx.closePath(); ctx.fill(); ctx.stroke();
+  // commissioning pennant streaming from the maintop
+  ctx.strokeStyle = "#B01E3C"; ctx.lineWidth = 3;
+  ctx.beginPath(); ctx.moveTo(6,-140);
+  ctx.quadraticCurveTo(40, -144 + Math.sin(t*2.6)*3, 78, -136 + Math.sin(t*2.6 + 1)*4); ctx.stroke();
+  ctx.strokeStyle = "#F5F0E2"; ctx.lineWidth = 1.4;
+  ctx.beginPath(); ctx.moveTo(6,-140);
+  ctx.quadraticCurveTo(40, -143 + Math.sin(t*2.6)*3, 74, -136 + Math.sin(t*2.6 + 1)*4); ctx.stroke();
+  // the Stars & Stripes astern
+  flagUS(108, -70);
+  // black hull
+  ctx.fillStyle = "#1C1A18";
+  ctx.beginPath();
+  ctx.moveTo(-140,-26);
+  ctx.quadraticCurveTo(-126, 12, -92, 22);
+  ctx.lineTo(72, 24);
+  ctx.quadraticCurveTo(104, 20, 112, -26);
+  ctx.lineTo(94, -22);
+  ctx.quadraticCurveTo(84, -6, 60, -6);
+  ctx.lineTo(-108, -6);
+  ctx.closePath(); ctx.fill();
+  ctx.strokeStyle = OUT; ctx.lineWidth = 2; ctx.stroke();
+  // copper waterline
+  ctx.strokeStyle = "rgba(184,115,51,.8)"; ctx.lineWidth = 3;
+  ctx.beginPath(); ctx.moveTo(-96, 20); ctx.quadraticCurveTo(0, 25, 96, 18); ctx.stroke();
+  // the famous white gun stripe with black gunports
+  ctx.fillStyle = "#EFE9DA";
+  ctx.beginPath();
+  ctx.moveTo(-112, -4); ctx.lineTo(88, -4); ctx.lineTo(90, 8); ctx.lineTo(-106, 8);
+  ctx.closePath(); ctx.fill();
+  ctx.fillStyle = "#14100B";
+  for (let i=0; i<7; i++){ ctx.fillRect(-96 + i*26, -1, 8, 7); }
+  // gold bow scroll and stern gallery windows
+  ctx.strokeStyle = "#C89A3F"; ctx.lineWidth = 2.4;
+  ctx.beginPath(); ctx.arc(-124, -20, 7, -1.2, 2.4); ctx.stroke();
+  ctx.fillStyle = "#C89A3F";
+  for (let i=0; i<3; i++){ ctx.fillRect(96 + i*5.5, -20, 3.6, 5); }
+  // long bowsprit
+  ctx.strokeStyle = "#4A3620"; ctx.lineWidth = 5;
+  ctx.beginPath(); ctx.moveTo(-108,-12); ctx.lineTo(-152,-40); ctx.stroke();
+  // a Navy lookout keeping watch on deck
+  drawShipCrew(ctx, -20, -6, 15, "lookout", t);
+  ctx.restore();
+
+  function nsail(cx2, top, w, h){
+    ctx.fillStyle = "#F5F0E2";
+    ctx.beginPath();
+    ctx.moveTo(cx2 - w/2, top);
+    ctx.lineTo(cx2 + w/2, top);
+    ctx.quadraticCurveTo(cx2 + w/2 + 7 + Math.sin(t*2.2)*1.5, top + h/2, cx2 + w/2, top + h);
+    ctx.lineTo(cx2 - w/2, top + h);
+    ctx.quadraticCurveTo(cx2 - w/2 + 5, top + h/2, cx2 - w/2, top);
+    ctx.closePath(); ctx.fill();
+    ctx.strokeStyle = OUT; ctx.lineWidth = 1.3; ctx.stroke();
+    ctx.fillStyle = "rgba(90,80,50,.10)";
+    ctx.fillRect(cx2 - w/2 + 2, top + 2, 6, h - 4);
+  }
+  function flagUS(fx, fy){
+    const wv = Math.sin(t*3)*1.5;
+    ctx.strokeStyle = "#4A3620"; ctx.lineWidth = 2.5;   // stern flagpole
+    ctx.beginPath(); ctx.moveTo(fx, fy + 46); ctx.lineTo(fx, fy); ctx.stroke();
+    for (let i=0; i<6; i++){                             // waving stripes
+      ctx.fillStyle = i % 2 ? "#F5F0E2" : "#B01E3C";
+      ctx.beginPath();
+      ctx.moveTo(fx, fy + i*3);
+      ctx.quadraticCurveTo(fx + 15, fy + i*3 - 2 + wv, fx + 30, fy + i*3 + wv);
+      ctx.lineTo(fx + 30, fy + i*3 + 3 + wv);
+      ctx.quadraticCurveTo(fx + 15, fy + i*3 + 1 + wv, fx, fy + i*3 + 3);
+      ctx.closePath(); ctx.fill();
+    }
+    ctx.fillStyle = "#20315C";                           // canton with stars
+    ctx.fillRect(fx, fy, 13, 9);
+    ctx.fillStyle = "#fff";
+    [[3,2.5],[7,2.5],[11,2.5],[5,5],[9,5],[3,7],[7,7],[11,7]].forEach(([dx,dy])=>{
+      ctx.fillRect(fx + dx - 0.7, fy + dy - 0.7, 1.4, 1.4);
+    });
+  }
+}
+/* A green Irish whiskey bottle lying on its side, barrel-rolling down
+   the boulevard — tall body, sloped shoulders, cream oval label. */
+function drawBottle(ctx, x, y, rot){
+  ctx.fillStyle = "rgba(0,0,0,.22)";
+  ctx.beginPath(); ctx.ellipse(x, y + 2, 24, 5, 0, 0, 7); ctx.fill();
+  ctx.save(); ctx.translate(x, y - 10); ctx.rotate(rot);
+  const G = "#1E6B3C", GD = "#14512C";
+  // body with the classic sloped shoulder into a straight neck
+  ctx.fillStyle = G;
+  ctx.beginPath();
+  ctx.moveTo(-22, -9);
+  ctx.lineTo(6, -9);
+  ctx.quadraticCurveTo(13, -8, 15, -3.5);
+  ctx.lineTo(24, -3.5);
+  ctx.lineTo(24, 3.5);
+  ctx.lineTo(15, 3.5);
+  ctx.quadraticCurveTo(13, 8, 6, 9);
+  ctx.lineTo(-22, 9);
+  ctx.quadraticCurveTo(-26, 0, -22, -9);
+  ctx.closePath(); ctx.fill();
+  ctx.strokeStyle = GD; ctx.lineWidth = 1.6; ctx.stroke();
+  // glass shine along the barrel
+  ctx.fillStyle = "rgba(255,255,255,.28)";
+  roundRect(ctx, -19, -6.5, 22, 3, 1.5); ctx.fill();
+  // cork cap
+  ctx.fillStyle = "#C9A15A"; ctx.fillRect(24, -4.5, 5, 9);
+  ctx.strokeStyle = "#8A6A34"; ctx.lineWidth = 1; ctx.strokeRect(24, -4.5, 5, 9);
+  // cream label with a green oval crest
+  ctx.fillStyle = "#F4EDD8";
+  roundRect(ctx, -17, -7, 18, 14, 2); ctx.fill();
+  ctx.strokeStyle = GD; ctx.lineWidth = 1.2;
+  ctx.beginPath(); ctx.ellipse(-8, 0, 7, 5.4, 0, 0, 7); ctx.stroke();
+  ctx.fillStyle = GD; ctx.font = "900 4.5px Nunito, sans-serif";
+  ctx.textAlign = "center"; ctx.textBaseline = "middle";
+  ctx.fillText("IRISH", -8, -1);
+  ctx.fillText("WHISKEY", -8, 3.5);
+  ctx.restore();
+}
+
+/* The pot of gold at the end of the rainbow. */
+function drawPot(ctx, x, y, s, t){
+  const u = s/100;
+  ctx.save(); ctx.translate(x, y);
+  ctx.fillStyle = "rgba(0,0,0,.22)";
+  ctx.beginPath(); ctx.ellipse(0, 3*u, 30*u, 6*u, 0, 0, 7); ctx.fill();
+  // squat black kettle
+  ctx.fillStyle = "#1D1A17";
+  ctx.beginPath(); ctx.ellipse(0, -18*u, 27*u, 20*u, 0, 0, 7); ctx.fill();
+  ctx.fillStyle = "#2E2A26";
+  roundRect(ctx, -29*u, -40*u, 58*u, 11*u, 5*u); ctx.fill();   // rim
+  ctx.fillStyle = "#1D1A17";
+  ctx.fillRect(-19*u, 0, 8*u, 5*u); ctx.fillRect(11*u, 0, 8*u, 5*u);   // feet
+  // heaped gold
+  ctx.fillStyle = "#F2B824";
+  ctx.beginPath(); ctx.ellipse(0, -40*u, 25*u, 10*u, 0, Math.PI, 0); ctx.fill();
+  for (let i=0; i<7; i++){
+    ctx.beginPath(); ctx.arc((-18 + i*6)*u, (-42 - (i%3)*4)*u, 4.2*u, 0, 7); ctx.fill();
+  }
+  ctx.fillStyle = "#D99A0B";
+  for (let i=0; i<4; i++){
+    ctx.beginPath(); ctx.arc((-12 + i*8)*u, (-42 - (i%2)*5)*u, 1.7*u, 0, 7); ctx.fill();
+  }
+  // twinkle
+  const sp = (Math.sin(t*3.2) + 1)/2;
+  ctx.strokeStyle = `rgba(255,255,255,${0.35 + sp*0.6})`; ctx.lineWidth = 1.8*u;
+  ctx.beginPath();
+  ctx.moveTo(15*u, -56*u); ctx.lineTo(15*u, -44*u);
+  ctx.moveTo(9*u, -50*u);  ctx.lineTo(21*u, -50*u); ctx.stroke();
+  ctx.restore();
+}
+
+/* The derby unicorn: waits past the line, raises a hoof to present the pot. */
+function drawUnicorn(ctx, x, y, s, t, presenting){
+  const u = s/100;
+  const RB = ["#E53935","#F57C00","#FDD835","#43A047","#1E88E5","#8E24AA"];
+  ctx.save(); ctx.translate(x, y);
+  const bob = presenting ? Math.abs(Math.sin(t*6))*6*u : Math.sin(t*1.5)*2*u;
+  ctx.translate(0, -bob);
+  ctx.lineCap = "round"; ctx.lineJoin = "round";
+  softBlurShadow(ctx, 4*u, bob + 2*u, 44*u, 8*u, 0.2);
+  // rainbow tail
+  RB.forEach((c,i)=>{
+    ctx.strokeStyle = c; ctx.lineWidth = 4*u;
+    ctx.beginPath(); ctx.moveTo(42*u, -50*u);
+    ctx.quadraticCurveTo(64*u + Math.sin(t*2 + i)*3*u, -34*u + i*4*u, 56*u, -4*u + i*3*u);
+    ctx.stroke();
+  });
+  // legs
+  ctx.strokeStyle = "#F7F4FA"; ctx.lineWidth = 10*u;
+  ctx.beginPath(); ctx.moveTo(34*u, -42*u); ctx.lineTo(37*u, 0); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(20*u, -42*u); ctx.lineTo(24*u, 0); ctx.stroke();
+  if (presenting){                                    // raised presenting foreleg
+    ctx.beginPath(); ctx.moveTo(-22*u, -46*u); ctx.quadraticCurveTo(-40*u, -38*u, -47*u, -24*u); ctx.stroke();
+  } else {
+    ctx.beginPath(); ctx.moveTo(-22*u, -42*u); ctx.lineTo(-24*u, 0); ctx.stroke();
+  }
+  ctx.beginPath(); ctx.moveTo(-11*u, -42*u); ctx.lineTo(-11*u, 0); ctx.stroke();
+  // hooves
+  ctx.fillStyle = "#C9B7E8";
+  ctx.fillRect(32*u, -5*u, 10*u, 6*u);
+  ctx.fillRect(19*u, -5*u, 10*u, 6*u);
+  ctx.fillRect(-16*u, -5*u, 10*u, 6*u);
+  if (presenting) ctx.fillRect(-52*u, -27*u, 10*u, 6*u);
+  // body
+  ctx.fillStyle = "#FDFCFF";
+  roundRect(ctx, -34*u, -66*u, 78*u, 34*u, 16*u); ctx.fill();
+  // neck
+  ctx.beginPath();
+  ctx.moveTo(-20*u, -58*u);
+  ctx.quadraticCurveTo(-34*u, -86*u, -44*u, -94*u);
+  ctx.lineTo(-30*u, -100*u);
+  ctx.quadraticCurveTo(-16*u, -80*u, -6*u, -62*u);
+  ctx.closePath(); ctx.fill();
+  // head facing the incoming racers
+  roundRect(ctx, -66*u, -106*u, 36*u, 18*u, 9*u); ctx.fill();
+  // ear
+  ctx.beginPath(); ctx.moveTo(-34*u, -104*u); ctx.lineTo(-28*u, -118*u); ctx.lineTo(-23*u, -103*u);
+  ctx.closePath(); ctx.fill();
+  // golden striped horn
+  ctx.fillStyle = "#F2B824";
+  ctx.beginPath(); ctx.moveTo(-48*u, -106*u); ctx.lineTo(-40*u, -104*u); ctx.lineTo(-58*u, -134*u);
+  ctx.closePath(); ctx.fill();
+  ctx.strokeStyle = "#D99A0B"; ctx.lineWidth = 1.6*u;
+  ctx.beginPath();
+  ctx.moveTo(-48*u, -113*u); ctx.lineTo(-43*u, -111*u);
+  ctx.moveTo(-51*u, -120*u); ctx.lineTo(-46*u, -118*u); ctx.stroke();
+  // rainbow mane down the neck
+  RB.forEach((c,i)=>{
+    ctx.strokeStyle = c; ctx.lineWidth = 3.6*u;
+    ctx.beginPath(); ctx.moveTo((-30 + i*2)*u, (-100 + i*2)*u);
+    ctx.quadraticCurveTo((-12 + i*2)*u, (-84 + i*3)*u, (-4 + i*2)*u, (-60 + i*2)*u);
+    ctx.stroke();
+  });
+  // face: lashed eye, smile, rosy cheek
+  ctx.fillStyle = "#2B2340";
+  ctx.beginPath(); ctx.arc(-49*u, -99*u, 2.6*u, 0, 7); ctx.fill();
+  ctx.strokeStyle = "#2B2340"; ctx.lineWidth = 1.4*u;
+  ctx.beginPath(); ctx.moveTo(-52*u, -103*u); ctx.lineTo(-56*u, -105*u); ctx.stroke();
+  ctx.beginPath(); ctx.arc(-59*u, -93*u, 3*u, 0.25, Math.PI*0.75); ctx.stroke();
+  ctx.fillStyle = "rgba(233,120,150,.5)";
+  ctx.beginPath(); ctx.arc(-44*u, -93*u, 3*u, 0, 7); ctx.fill();
+  ctx.restore();
+}
+
+/* ---------------- 3) Setup / roster ---------------- */
+const state = {
+  contestants: [],       // {name, lep, bib}
+  fee: 10,
+  seed: Math.floor(Math.random()*1e9),
+  finished: [],
+  raceOn: false
+};
+const DEMO = ["Ava","Marcus","Priya","Diego","Sarah B.","Tommy","Lena","Coach Ray","Nina","Jamal",
+              "Kelsey","Big Mike","Rosa","Dr. Patel","Sam","Erin","Walt","June","Otis","Zoe"];
+
+function refreshSetup(){
+  const n = state.contestants.length;
+  state.fee = Math.max(1, parseInt($("feeInput").value||"10",10));
+  const pot = n * state.fee, win = pot/2;
+  const cause = $("causeInput").value.trim() || "the fundraiser";
+  $("potHeader").textContent = money(pot);
+  $("pmCount").textContent = n;
+  $("pmPot").textContent = money(pot);
+  $("pmWin").textContent = money(win);
+  $("pmCause").textContent = money(pot - win);
+  $("pmCauseLabel").textContent = `To ${cause} (50%)`;
+  $("rosterCount").textContent = n;
+  $("startBtn").disabled = n < 2;
+  $("emptyRoster").style.display = n ? "none" : "block";
+  renderRoster();
+}
+function renderRoster(){
+  const host = $("roster"); host.innerHTML = "";
+  state.contestants.forEach((c,i)=>{
+    const card = document.createElement("div"); card.className = "card-lep";
+    const cv = document.createElement("canvas"); cv.width=192; cv.height=220;
+    card.innerHTML = `<div class="bib">#${c.bib}</div><button class="rm" title="Remove">×</button>`;
+    card.insertBefore(cv, card.querySelector(".rm").nextSibling);
+    const nm = document.createElement("div"); nm.className="nm"; nm.textContent = c.name;
+    const lp = document.createElement("div"); lp.className="lp"; lp.textContent = c.lep.lepName;
+    const tg = document.createElement("div"); tg.className="tag"; tg.textContent = "“" + c.lep.tagline + "”";
+    card.appendChild(nm); card.appendChild(lp); card.appendChild(tg);
+    card.querySelector(".rm").onclick = ()=>{ state.contestants.splice(i,1); reBib(); refreshSetup(); };
+    host.appendChild(card);
+    const cx = cv.getContext("2d");
+    cx.clearRect(0,0,192,220);
+    drawLeprechaunPortrait(cx, 96, 92, 46, c.lep, i*1.3);
+  });
+}
+function reBib(){ state.contestants.forEach((c,i)=>{ c.bib = i+1; c.lep = makeLeprechaun(i, state.seed); }); }
+function addContestant(name){
+  if (!name || state.contestants.length >= 20) return;
+  const i = state.contestants.length;
+  state.contestants.push({ name, bib:i+1, lep: makeLeprechaun(i, state.seed) });
+  refreshSetup();
+}
+$("addBtn").onclick = ()=>{ addContestant($("nameInput").value.trim()); $("nameInput").value=""; $("nameInput").focus(); };
+$("nameInput").addEventListener("keydown", e=>{ if(e.key==="Enter") $("addBtn").click(); });
+$("feeInput").addEventListener("input", refreshSetup);
+$("causeInput").addEventListener("input", refreshSetup);
+$("demoBtn").onclick = ()=>{
+  state.contestants = []; state.seed = Math.floor(Math.random()*1e9);
+  DEMO.slice(0, 20).forEach(n=>{
+    state.contestants.push({name:n, bib:state.contestants.length+1, lep:makeLeprechaun(state.contestants.length, state.seed)});
+  });
+  refreshSetup();
+};
+$("clearBtn").onclick = ()=>{ state.contestants=[]; refreshSetup(); };
+
+/* ---------------- 4) Bayshore scenery painters ---------------- */
+const stage = $("stage"), ctx = stage.getContext("2d");
+const W = stage.width, H = stage.height;
+
+/* Layout bands (world is drawn in canvas pixels; layers scroll by camera * factor) */
+const SKY_H   = H*0.34;
+const WATER_Y = H*0.34, WATER_H = H*0.20;
+const RAIL_Y  = H*0.505;          // balustrade base band
+const WALK_Y  = H*0.565;          // famous Bayshore sidewalk
+const ROAD_Y  = H*0.615, ROAD_H = H*0.385;
+
+let skyline = [];                  // Tampa's real silhouette, tiled every 2400px
+function buildSkyline(seedFn){
+  /* Curated to match the downtown-from-Bayshore view:
+     the round limestone cylinder of Rivergate Tower ("the beer can"),
+     100 North Tampa's tall shaft with its white lattice crown, the
+     SunTrust/Truist stepped-pyramid top, flat modernist slabs with
+     rooftop mechanical boxes, older corniced mid-rises, and the lower
+     condo blocks that flank the cluster. Shapes are fixed; only the
+     haze tone varies race to race. */
+  const specs = [
+    [  40,  90,  90, "block"], [ 150, 70, 120, "old"],
+    [ 240,  84, 180, "cyl"],                     // Rivergate Tower
+    [ 350, 120, 265, "crown"],                   // 100 North Tampa
+    [ 495, 110, 190, "slab"],
+    [ 630, 100, 225, "steppyr"],                 // SunTrust Financial Centre
+    [ 755, 115, 170, "slab"],
+    [ 895,  80, 130, "old"], [1000, 95, 105, "block"], [1140, 85, 85, "block"],
+    // quieter residential stretch before the cluster repeats
+    [1330, 100,  70, "block"], [1480, 75,  95, "old"], [1620, 110, 80, "block"],
+    [1790,  90, 115, "slab"],  [1950, 100, 75, "block"], [2120, 80, 100, "old"],
+    [2290,  95,  68, "block"]
+  ];
+  skyline = specs.map(([x, w, h, kind]) => ({ x, w, h, kind, tone: 0.55 + seedFn()*0.22 }));
+}
+function drawSky(t){
+  const g = ctx.createLinearGradient(0,0,0,SKY_H+WATER_H);
+  g.addColorStop(0,"#8FD3EA"); g.addColorStop(0.6,"#C8ECF6"); g.addColorStop(1,"#F2FAEA");
+  ctx.fillStyle = g; ctx.fillRect(0,0,W,WATER_Y+2);
+  // sun
+  ctx.fillStyle = "rgba(255,238,170,.9)";
+  ctx.beginPath(); ctx.arc(W*0.82, H*0.09, 42, 0, 7); ctx.fill();
+  ctx.fillStyle = "rgba(255,238,170,.35)";
+  ctx.beginPath(); ctx.arc(W*0.82, H*0.09, 66, 0, 7); ctx.fill();
+  // drifting clouds
+  ctx.fillStyle = "rgba(255,255,255,.85)";
+  for(let i=0;i<4;i++){
+    const cx = ((t*12 + i*430) % (W+320)) - 160;
+    const cy = 34 + i*36;
+    cloud(cx, cy, 1 - i*0.12);
+  }
+  function cloud(x,y,s){
+    ctx.beginPath();
+    ctx.arc(x,y,20*s,0,7); ctx.arc(x+24*s,y-8*s,16*s,0,7);
+    ctx.arc(x+46*s,y,18*s,0,7); ctx.arc(x+22*s,y+8*s,17*s,0,7); ctx.fill();
+  }
+  // gulls
+  ctx.strokeStyle = "rgba(70,90,100,.75)"; ctx.lineWidth = 2.4;
+  for(let i=0;i<3;i++){
+    const gx = ((t*38 + i*520)% (W+200)) - 100;
+    const gy = 66 + Math.sin(t*2+i)*10 + i*40;
+    const f = Math.sin(t*7+i)*4;
+    ctx.beginPath(); ctx.moveTo(gx-9, gy+f); ctx.quadraticCurveTo(gx-3,gy-5,gx,gy);
+    ctx.quadraticCurveTo(gx+3,gy-5,gx+9,gy+f); ctx.stroke();
+  }
+  // a patrol of pelicans glides in low to check out the race
+  const pc = (t % 26);
+  if (pc < 15){
+    const lead = W + 140 - pc * ((W + 380) / 15);
+    for (let i = 0; i < 3; i++){
+      const px2 = lead + i*58, py2 = 96 + i*12 + Math.sin(t*1.5 + i)*7;
+      pelican(px2, py2, 1 - i*0.1, t*2.2 + i);
+    }
+  }
+  function pelican(x, y, s, f){
+    const flap = Math.sin(f)*8*s;
+    ctx.save(); ctx.translate(x, y); ctx.scale(s, s);
+    ctx.strokeStyle = "#6E6152"; ctx.lineWidth = 5; ctx.lineCap = "round";  // heavy slow wings
+    ctx.beginPath(); ctx.moveTo(2,-2); ctx.quadraticCurveTo(14, -10 - flap, 30, -6 - flap); ctx.stroke();
+    ctx.beginPath(); ctx.moveTo(2,-2); ctx.quadraticCurveTo(-10, -10 + flap*0.6, -24, -5 + flap*0.6); ctx.stroke();
+    ctx.fillStyle = "#8A7A66";                                              // body
+    ctx.beginPath(); ctx.ellipse(0, 0, 13, 6, 0, 0, 7); ctx.fill();
+    ctx.beginPath(); ctx.arc(-14, -4, 4.5, 0, 7); ctx.fill();               // tucked head
+    ctx.fillStyle = "#E9A13B";                                              // the unmistakable bill + pouch
+    ctx.beginPath();
+    ctx.moveTo(-17, -4); ctx.lineTo(-34, 0); ctx.quadraticCurveTo(-24, 4, -15, 0);
+    ctx.closePath(); ctx.fill();
+    ctx.fillStyle = "#2A2018";
+    ctx.beginPath(); ctx.arc(-15, -5.5, 1.1, 0, 7); ctx.fill();             // eye
+    ctx.restore();
+  }
+}
+/* The city holds for the first 15 seconds of the race, then falls away
+   over four seconds as the course opens onto the wide bay. */
+function skylineAlpha(){
+  const t = race.runT || 0;
+  return t < 15 ? 1 : Math.max(0, 1 - (t - 15)/4);
+}
+function drawSkyline(cam){
+  const _a = skylineAlpha();
+  if (_a <= 0) return;
+  const off = (cam*0.12) % 2400;
+  ctx.save(); ctx.globalAlpha = _a; ctx.translate(-off, 0);
+  for (let rep = 0; rep < 2; rep++){
+    skyline.forEach(b=>{
+      const bx = b.x + rep*2400;
+      const top = WATER_Y - b.h;
+      ctx.fillStyle = `rgba(88,120,150,${b.tone})`;
+      let winTop = top + 14;
+
+      if (b.kind === "cyl"){
+        // Rivergate: round limestone cylinder with its famous ring bands
+        ctx.fillStyle = `rgba(152,150,138,${b.tone})`;
+        ctx.beginPath();
+        ctx.ellipse(bx + b.w/2, top + 7, b.w/2, 8, 0, Math.PI, 0);
+        ctx.rect(bx, top + 7, b.w, b.h - 7); ctx.fill();
+        ctx.strokeStyle = "rgba(255,255,255,.3)"; ctx.lineWidth = 2;
+        for (let ry = top + 18; ry < WATER_Y - 8; ry += 14){
+          ctx.beginPath(); ctx.moveTo(bx + 2, ry); ctx.lineTo(bx + b.w - 2, ry); ctx.stroke();
+        }
+        return;                                    // ring bands instead of a window grid
+      }
+      if (b.kind === "crown"){
+        // 100 North Tampa: tall shaft, setback tier, white lattice crown
+        ctx.fillRect(bx, top + 22, b.w, b.h - 22);
+        ctx.fillRect(bx + b.w*0.08, top + 10, b.w*0.84, 14);
+        ctx.fillStyle = `rgba(235,240,244,${Math.min(1, b.tone + 0.3)})`;
+        ctx.fillRect(bx + b.w*0.14, top, b.w*0.72, 12);
+        ctx.fillRect(bx + b.w*0.14, top - 8, 4, 10);
+        ctx.fillRect(bx + b.w*0.86 - 4, top - 8, 4, 10);
+        ctx.fillRect(bx + b.w*0.5 - 2, top - 12, 4, 14);
+        winTop = top + 30;
+      } else if (b.kind === "steppyr"){
+        // SunTrust: stepped-pyramid crown with a small spire
+        ctx.fillRect(bx, top + 36, b.w, b.h - 36);
+        ctx.fillRect(bx + b.w*0.10, top + 24, b.w*0.80, 14);
+        ctx.fillRect(bx + b.w*0.22, top + 12, b.w*0.56, 14);
+        ctx.fillRect(bx + b.w*0.36, top + 2,  b.w*0.28, 12);
+        ctx.fillRect(bx + b.w*0.5 - 2, top - 10, 4, 12);
+        winTop = top + 40;
+      } else if (b.kind === "slab"){
+        ctx.fillRect(bx, top, b.w, b.h);
+        ctx.fillRect(bx + b.w*0.6, top - 12, b.w*0.26, 12);       // rooftop mechanical box
+      } else if (b.kind === "old"){
+        ctx.fillRect(bx, top, b.w, b.h);
+        ctx.fillRect(bx - 4, top - 6, b.w + 8, 7);                // cornice lip
+      } else {
+        ctx.fillRect(bx, top, b.w, b.h);
+      }
+      // window grid
+      ctx.fillStyle = "rgba(255,255,255,.35)";
+      for (let wy = winTop; wy < WATER_Y - 10; wy += 16)
+        for (let wx = bx + 8; wx < bx + b.w - 8; wx += 14)
+          if (((wx*7 + wy*13) % 5) < 2) ctx.fillRect(wx, wy, 5, 7);
+    });
+  }
+  ctx.restore();
+}
+/* --- Shark fins cruise in once the city gives way to open water --- */
+function updateSharks(dt){
+  if (!race.sharks) return;
+  if ((race.runT||0) > 16 && race.sharks.length < 2 && Math.random() < dt*0.25){
+    const dir = Math.random() < 0.5 ? 1 : -1;
+    race.sharks.push({ x: dir > 0 ? -60 : W + 60, dir,
+                       y: WATER_Y + rand(WATER_H*0.35, WATER_H*0.85),
+                       v: rand(34,58), ph: rand(0,6) });
+  }
+  race.sharks.forEach(s=>{ s.x += s.dir*s.v*dt; });
+  race.sharks = race.sharks.filter(s=> s.x > -90 && s.x < W + 90);
+}
+function drawSharks(t){
+  (race.sharks||[]).forEach(s=>{
+    const dip = Math.max(0, Math.sin(t*0.9 + s.ph));       // slips under now and then
+    const y = s.y + (1 - dip)*10;
+    ctx.save(); ctx.translate(s.x, y); ctx.scale(s.dir, 1);
+    ctx.globalAlpha = 0.35 + dip*0.65;
+    ctx.strokeStyle = "rgba(255,255,255,.5)"; ctx.lineWidth = 2;   // wake — trails from the back of the fin
+    ctx.beginPath();
+    ctx.moveTo(-9, 2); ctx.lineTo(-31, -2);
+    ctx.moveTo(-9, 2); ctx.lineTo(-29, 7); ctx.stroke();
+    ctx.fillStyle = "#4E6470";                                     // the fin
+    ctx.beginPath();
+    ctx.moveTo(9, 3);
+    ctx.quadraticCurveTo(9, -10, 3, -17);
+    ctx.quadraticCurveTo(-2, -8, -10, 3);
+    ctx.closePath(); ctx.fill();
+    ctx.strokeStyle = "rgba(20,30,36,.8)"; ctx.lineWidth = 1.4; ctx.stroke();
+    ctx.restore();
+  });
+}
+/* --- Tampa Bay water + jumping dolphins --- */
+let dolphins = [];
+function maybeSpawnDolphin(t){
+  if (dolphins.length < 2 && Math.random() < 0.008){
+    dolphins.push({ x: rand(W*0.1, W*0.85), start:t, dur: rand(1.6,2.2), dir: Math.random()<0.5?1:-1, size: rand(0.8,1.15) });
+  }
+}
+function drawWater(cam, t){
+  const g = ctx.createLinearGradient(0,WATER_Y,0,WATER_Y+WATER_H);
+  g.addColorStop(0,"#57B7C6"); g.addColorStop(1,"#177483");
+  ctx.fillStyle = g; ctx.fillRect(0,WATER_Y,W,WATER_H+8);
+  // the skyline reflects darkly in the bay (same parallax as the skyline)
+  const roff = (cam*0.12) % 2400;
+  ctx.save(); ctx.globalAlpha = 0.16 * skylineAlpha(); ctx.translate(-roff, 0);
+  for (let rep = 0; rep < 2; rep++){
+    ctx.fillStyle = "#0E3D47";
+    skyline.forEach(b => {
+      ctx.fillRect(b.x + rep*2400, WATER_Y, b.w, Math.min(WATER_H*0.8, b.h*0.45));
+    });
+  }
+  ctx.restore();
+  // once the city falls away: whitecaps and distant sails on open water
+  const sea = 1 - skylineAlpha();
+  if (sea > 0){
+    ctx.fillStyle = `rgba(255,255,255,${0.35*sea})`;
+    for (let i = 0; i < 8; i++){
+      const wx = ((t*26 + i*173) % (W + 80)) - 40;
+      const wy = WATER_Y + 14 + ((i*97) % Math.max(1, (WATER_H - 24)|0));
+      ctx.fillRect(wx, wy, 16 + (i % 3)*8, 2.4);
+    }
+    ctx.fillStyle = `rgba(255,255,255,${0.75*sea})`;
+    [[0.30, 0],[0.68, 1]].forEach(([fx, k])=>{
+      const hx = W*fx + Math.sin(t*0.2 + k*3)*30;
+      ctx.beginPath();
+      ctx.moveTo(hx, WATER_Y + 4); ctx.lineTo(hx, WATER_Y - 10 - k*3);
+      ctx.lineTo(hx + 8 + k*3, WATER_Y + 4); ctx.closePath(); ctx.fill();
+    });
+  }
+  // sun-glitter path shimmering on the water
+  ctx.fillStyle = "rgba(255,244,200,.32)";
+  for (let i = 0; i < 10; i++){
+    const gy = WATER_Y + 6 + i*(WATER_H/10);
+    const gw = 26 - i*1.6 + Math.sin(t*3 + i)*6;
+    ctx.fillRect(W*0.82 - gw/2 + Math.sin(t*2 + i*2)*4, gy, gw, 2.2);
+  }
+  // shimmering ripples scroll gently
+  ctx.strokeStyle = "rgba(255,255,255,.35)"; ctx.lineWidth = 2;
+  for(let i=0;i<26;i++){
+    const rx = ((i*97 - cam*0.35) % (W+80) + (W+80)) % (W+80) - 40;
+    const ry = WATER_Y + 14 + ((i*53)% (WATER_H-24)) + Math.sin(t*2+i)*2;
+    ctx.beginPath(); ctx.moveTo(rx, ry); ctx.quadraticCurveTo(rx+14, ry-3, rx+28, ry); ctx.stroke();
+  }
+  // the pirate ship lurks offshore…
+  drawFleet(t);
+  drawSharks(t);
+  // dolphins
+  maybeSpawnDolphin(t);
+  dolphins = dolphins.filter(d=>{
+    const k = (t - d.start)/d.dur;
+    if (k>1) return false;
+    const arcH = 58*d.size;
+    const dx = d.x + d.dir*k*130*d.size;
+    const dy = WATER_Y + WATER_H*0.55 - Math.sin(k*Math.PI)*arcH;
+    const ang = Math.cos(k*Math.PI) * -0.9;        // tilt is intrinsic to arc phase, NOT travel direction —
+                                                     // the mirror compensation inside drawDolphin handles direction
+    const tailPhase = t*9 + d.start*4;             // continuous dorsoventral tail beat
+    drawDolphin(dx, dy, 1.1*d.size*(d.dir), ang, tailPhase);
+    // splash at entry/exit
+    if (k<0.12 || k>0.88){
+      ctx.fillStyle="rgba(255,255,255,.75)";
+      for(let s=0;s<5;s++){ ctx.beginPath();
+        ctx.arc(d.x + d.dir*(k>0.5? k*130*d.size:0) + rand(-14,14), WATER_Y+WATER_H*0.55 + rand(-4,4), rand(1.5,3.5),0,7); ctx.fill(); }
+    }
+    return true;
+  });
+}
+/*  drawDolphin — three fixes on top of the anatomical proportion pass:
+    1) the dorsal fin's tip was landing on the NOSE side of its own base
+       (verified numerically) — it now sweeps unambiguously tail-ward,
+       the way a real falcate dorsal fin rakes backward;
+    2) the tail flukes are now a bold, deep-notched crescent so the two
+       lobes read clearly as two fins even at small on-screen size,
+       instead of a subtle notch that collapsed into one triangle;
+    3) overall body length is ~25% shorter (43 units vs 57) so the
+       silhouette reads as a compact leaping dolphin, not stretched.
+    Proportions from the previous pass are preserved: melon bump + abrupt
+    crease into a short rostrum, a peduncle with real thickness, and the
+    flipper anchored right behind the head.                              */
+function drawDolphin(x, y, flip, ang, tailPhase){
+  ctx.save();
+  ctx.translate(x, y);
+  ctx.rotate(ang*(flip<0?-1:1));
+  ctx.scale(flip, 1);
+
+  // countershading: dark blue-grey cape fading to a pale belly
+  const bodyGrad = ctx.createLinearGradient(0, -8.5, 0, 3.5);
+  bodyGrad.addColorStop(0,   "#4E8494");
+  bodyGrad.addColorStop(0.5, "#3E6E7E");
+  bodyGrad.addColorStop(0.8, "#9FC7CE");
+  bodyGrad.addColorStop(1,   "#EAF6F4");
+
+  // ---- compact torpedo body: melon bump, abrupt crease into a longer
+  // bottlenose-length rostrum, peduncle with real thickness ----
+  ctx.fillStyle = bodyGrad;
+  ctx.beginPath();
+  ctx.moveTo(-24, -3);                                  // peduncle TOP edge
+  ctx.quadraticCurveTo(-19, -6, -10, -6.5);              // rises out of the peduncle into the back
+  ctx.quadraticCurveTo(-2, -6.8, 6, -6.5);               // fairly flat torpedo back
+  ctx.quadraticCurveTo(9, -6.8, 12, -8.5);               // the melon: a real bump above the trunk line
+  ctx.quadraticCurveTo(14, -7.3, 15, -5);                // the crease: an ABRUPT step down off the melon
+  ctx.quadraticCurveTo(17, -4.2, 22, -2.3);              // a longer, bottlenose-length rostrum
+  ctx.quadraticCurveTo(21, -0.5, 18, 1.2);               // blunt, rounded snout tip
+  ctx.quadraticCurveTo(14, 2, 9, 2.3);                   // lower jaw back toward the chest
+  ctx.quadraticCurveTo(2, 3.2, -7, 3);                   // shallow belly
+  ctx.quadraticCurveTo(-15, 2.8, -20, 2.2);              // belly tapering toward the peduncle
+  ctx.quadraticCurveTo(-23, 2.2, -24, 2);                // peduncle BOTTOM edge — a different point than the start
+  ctx.closePath(); ctx.fill();                           // closePath draws the peduncle's rear face with real thickness
+  ctx.strokeStyle = "rgba(18,40,48,.4)"; ctx.lineWidth = 0.9; ctx.stroke();
+
+  // ---- dorsal fin: the tip is now tail-ward of the ENTIRE base (verified
+  // numerically), so it unambiguously sweeps backward like a real falcate fin ----
+  ctx.fillStyle = "#345B68";
+  ctx.beginPath();
+  ctx.moveTo(6,-6.5);
+  ctx.quadraticCurveTo(-2,-16, -9,-15);
+  ctx.quadraticCurveTo(-3,-9, -6,-6.8);
+  ctx.closePath(); ctx.fill();
+
+  // ---- pectoral flipper: anchored right behind the head ----
+  ctx.save();
+  ctx.translate(13, 2.3);
+  ctx.rotate(0.7 + Math.sin(tailPhase*0.6)*0.08);
+  ctx.fillStyle = "#345B68";
+  ctx.beginPath();
+  ctx.moveTo(0,0);
+  ctx.quadraticCurveTo(-1.5,4.5, -5.5,7.5);
+  ctx.quadraticCurveTo(-1,5.6, 2.3,1.9);
+  ctx.closePath(); ctx.fill();
+  ctx.restore();
+
+  // ---- blowhole (top of the melon) + eye (at the jaw hinge) ----
+  ctx.fillStyle = "#1E3E48";
+  ctx.beginPath(); ctx.ellipse(8,-7.8,1.2,0.55,0.14,0,7); ctx.fill();
+  ctx.beginPath(); ctx.arc(14,-2.6,1,0,7); ctx.fill();
+  ctx.fillStyle = "rgba(255,255,255,.65)";
+  ctx.beginPath(); ctx.arc(14.4,-3,0.35,0,7); ctx.fill();
+
+  // ---- tail flukes: a bold, deep-notched crescent — the two lobes stay
+  // clearly two fins at small size, not a single triangle. Still horizontal,
+  // still flexing up-down (dorsoventral) on their own tailPhase cycle ----
+  ctx.save();
+  ctx.translate(-24, -0.5);
+  ctx.rotate(Math.sin(tailPhase)*0.55);
+  ctx.fillStyle = "#345B68";
+  ctx.beginPath();
+  ctx.moveTo(0,0);
+  ctx.quadraticCurveTo(-6,-7, -11,-4);        // upper lobe — clear separate point
+  ctx.quadraticCurveTo(-5,-1, -1.5,0);        // deep center notch, pulled almost back to the base
+  ctx.quadraticCurveTo(-5,1, -11,6);          // lower lobe — clear separate point
+  ctx.quadraticCurveTo(-6,8, 0,0);
+  ctx.closePath(); ctx.fill();
+  ctx.restore();
+
+  ctx.restore();
+}
+/* --- The Bayshore balustrade: white "Greek" concrete rail --- */
+function drawBalustrade(cam){
+  const base = RAIL_Y, railH = 46, spacing = 26, pierEvery = 9;
+  ctx.fillStyle = "rgba(20,60,70,.18)";                  // soft shadow line on water
+  ctx.fillRect(0, base - railH - 4, W, 3);
+  const off = ((cam*0.55) % (spacing*pierEvery) + spacing*pierEvery) % (spacing*pierEvery);
+  // bottom curb
+  ctx.fillStyle = "#E7E1D2";
+  ctx.fillRect(0, base - 8, W, 10);
+  // balusters
+  for (let x = -off - spacing; x < W + spacing*pierEvery; x += spacing){
+    const idx = Math.round((x + off)/spacing);
+    if (((idx % pierEvery)+pierEvery)%pierEvery === 0){
+      // square pier with cap
+      ctx.fillStyle = "#F6F2E9";
+      ctx.fillRect(x-11, base - railH - 6, 22, railH + 6);
+      ctx.fillStyle = "#FFFDF6";
+      ctx.fillRect(x-14, base - railH - 12, 28, 8);
+      ctx.fillStyle = "#D9D2BF";
+      ctx.fillRect(x-11, base - 10, 22, 4);
+    } else {
+      baluster(x, base, railH);
+    }
+  }
+  // continuous top rail
+  ctx.fillStyle = "#FFFDF6"; ctx.fillRect(0, base - railH - 6, W, 8);
+  ctx.fillStyle = "#E3DCC9"; ctx.fillRect(0, base - railH + 2, W, 3);
+
+  function baluster(x, b, h){
+    ctx.fillStyle = "#F6F2E9";
+    ctx.beginPath();
+    ctx.moveTo(x-7, b-6);                        // foot
+    ctx.lineTo(x+7, b-6);
+    ctx.lineTo(x+5, b-h*0.32);
+    ctx.quadraticCurveTo(x+9, b-h*0.55, x+3.5, b-h*0.72);   // vase bulge
+    ctx.lineTo(x+3.5, b-h+2);
+    ctx.lineTo(x-3.5, b-h+2);
+    ctx.lineTo(x-3.5, b-h*0.72);
+    ctx.quadraticCurveTo(x-9, b-h*0.55, x-5, b-h*0.32);
+    ctx.closePath(); ctx.fill();
+    ctx.fillStyle = "rgba(120,110,86,.25)";
+    ctx.fillRect(x+2.2, b-h*0.7, 2, h*0.42);      // shading
+  }
+}
+/* --- Sidewalk + Bayshore Boulevard road --- */
+function drawRoad(cam, t){
+  // sidewalk (the famous continuous sidewalk)
+  ctx.fillStyle = "#E5DAC4"; ctx.fillRect(0, RAIL_Y, W, ROAD_Y - RAIL_Y);
+  ctx.strokeStyle = "rgba(150,135,105,.5)"; ctx.lineWidth = 2;
+  const soff = (cam*0.72) % 90;
+  for (let x=-soff; x<W; x+=90){ ctx.beginPath(); ctx.moveTo(x, RAIL_Y); ctx.lineTo(x-16, ROAD_Y); ctx.stroke(); }
+  // grass strip
+  ctx.fillStyle = "#4FA05B"; ctx.fillRect(0, ROAD_Y-8, W, 10);
+  // asphalt
+  const g = ctx.createLinearGradient(0,ROAD_Y,0,H);
+  g.addColorStop(0,"#6A7078"); g.addColorStop(1,"#494E55");
+  ctx.fillStyle = g; ctx.fillRect(0, ROAD_Y, W, ROAD_H);
+  // lane dashes scrolling with camera
+  ctx.fillStyle = "#F5E9B8";
+  const dashOff = (cam % 140);
+  for (let row=1; row<=3; row++){
+    const y = ROAD_Y + ROAD_H*row/4;
+    for (let x=-dashOff; x<W; x+=140) ctx.fillRect(x, y-3, 62, 6);
+  }
+  // start banner shadow shamrocks drifting on asphalt for festivity
+  for (let i=0;i<5;i++){
+    const sx = ((i*307 - cam) % (W+80) + (W+80)) % (W+80) - 40;
+    ctx.save(); ctx.globalAlpha = 0.10;
+    drawClover(ctx, sx, ROAD_Y + 30 + (i*97)%Math.max(40,(ROAD_H-60)), 12);
+    ctx.restore();
+  }
+}
+/*  A cheering crowd lines the balustrade — deterministic per world slot
+    (crowdHash), so the same spectators stand in the same spots every lap.
+    They bounce, wave, and shake little green pennants as racers pass.   */
+function crowdHash(n){
+  n = (n * 2654435761) % 4294967296;
+  n = ((n ^ (n >>> 13)) * 1274126177) % 4294967296;
+  return Math.abs((n ^ (n >>> 16)) | 0);
+}
+function drawCrowd(cam, t){
+  const sp = 54, par = 0.85;
+  const off = ((cam*par) % sp + sp) % sp;
+  const baseY = ROAD_Y - 4;
+  const SHIRTS = ["#1E9E4A","#F2B824","#F5F2E8","#B01E3C","#2456B0","#0A6E63","#E9820E","#7A3FA0"];
+  for (let x = -off - sp; x < W + sp; x += sp){
+    const slot = Math.round((x + cam*par)/sp);
+    const h = crowdHash(slot);
+    if (h % 5 === 0) continue;                          // gaps in the crowd
+    const px = x + (h % 15) - 7;
+    const size = 34 + (h % 10);
+    const jig = Math.abs(Math.sin(t*(3 + h % 3) + slot)) * (2 + h % 4);
+    spectator(px, baseY - jig, size, SHIRTS[h % SHIRTS.length],
+              SKINS[(h >>> 3) % SKINS.length], (h % 3) !== 0, (h % 4) === 0, t + slot);
+  }
+  function spectator(x, y, s, shirt, skin, wave, cap, tt){
+    const u = s/40;
+    ctx.save(); ctx.translate(x, y);
+    ctx.lineCap = "round";
+    ctx.fillStyle = shirt;                              // body
+    roundRect(ctx, -7*u, -26*u, 14*u, 20*u, 5*u); ctx.fill();
+    ctx.fillStyle = skin;                               // head
+    ctx.beginPath(); ctx.arc(0, -32*u, 6*u, 0, 7); ctx.fill();
+    if (cap){ ctx.fillStyle = "#157A3C";                // green cap for some
+      ctx.beginPath(); ctx.arc(0, -33*u, 6*u, Math.PI, 0); ctx.fill(); }
+    ctx.strokeStyle = shirt; ctx.lineWidth = 4*u;
+    if (wave){                                          // waving arm with pennant
+      const a = Math.sin(tt*6)*0.5 - 1.9;
+      const ax = 4*u + Math.cos(a)*14*u, ay = -22*u + Math.sin(a)*14*u;
+      ctx.beginPath(); ctx.moveTo(4*u, -22*u); ctx.lineTo(ax, ay); ctx.stroke();
+      ctx.fillStyle = "#1E9E4A";
+      ctx.beginPath();
+      ctx.moveTo(ax, ay - 2*u); ctx.lineTo(ax + 9*u, ay + 1*u); ctx.lineTo(ax, ay + 4*u);
+      ctx.closePath(); ctx.fill();
+    } else {
+      ctx.beginPath(); ctx.moveTo(4*u, -22*u); ctx.lineTo(8*u, -12*u); ctx.stroke();
+    }
+    ctx.restore();
+  }
+}
+
+function drawFinish(cam, t){
+  const fx = race.length - cam;
+  if (fx < -900 || fx > W + 900) return;           // the rainbow is wide; cull generously
+  // a rainbow sweeps out of the sky and lands at the winners' line
+  const RB = ["#E53935","#F57C00","#FDD835","#43A047","#1E88E5","#8E24AA"];
+  const rcx = fx - 620, rcy = ROAD_Y + 140;
+  ctx.save(); ctx.globalAlpha = 0.78; ctx.lineCap = "butt";
+  RB.forEach((c,i)=>{
+    ctx.strokeStyle = c; ctx.lineWidth = 13;
+    ctx.beginPath(); ctx.arc(rcx, rcy, 655 + i*13, -1.42, -0.085); ctx.stroke();
+  });
+  ctx.restore();
+  // twinkles drifting along the arc
+  ctx.fillStyle = `rgba(255,255,255,${0.55 + Math.sin(t*4)*0.3})`;
+  for (let i=0; i<5; i++){
+    const a = -1.3 + i*0.28, R = 690 + (i%3)*14;
+    ctx.beginPath(); ctx.arc(rcx + Math.cos(a)*R, rcy + Math.sin(a)*R, 3, 0, 7); ctx.fill();
+  }
+  // checkered winners' line on the road
+  const cell = 14;
+  for (let ry=0; ry<ROAD_H; ry+=cell){
+    for (let cxx=0; cxx<2; cxx++){
+      ctx.fillStyle = ((ry/cell + cxx) % 2 < 1) ? "#fff" : "#20160A";
+      ctx.fillRect(fx - cell + cxx*cell, ROAD_Y + ry, cell, Math.min(cell, ROAD_H-ry));
+    }
+  }
+  // the pot of gold and the derby unicorn wait just past the line;
+  // when the champion crosses, the unicorn raises a hoof and presents the pot
+  const podY = ROAD_Y + ROAD_H*0.62;
+  drawPot(ctx, fx + 70, podY, 120, t);
+  drawUnicorn(ctx, fx + 158, podY, 125, t, race.over);
+}
+
+/* ---------------- 5) Race engine ---------------- */
+const race = {
+  racers: [], length: 5200, cam: 0, t: 0, runT: 0, running: false, over: false,
+  lastCommentT: 0, raf: null, prev: 0,
+  particles: [], pirateEvent: null, kidnapCount: 0
+};
+const LINES_EVENT = [
+  n=>`${n} finds a burst of pure Irish luck! 🍀`,
+  n=>`${n} is absolutely FLYING down Bayshore!`,
+  n=>`A gust off Tampa Bay pushes ${n} forward!`,
+  n=>`${n} spotted a pot of gold and floored it!`,
+  n=>`${n} just high-fived a dolphin — turbo mode!`
+];
+const LINES_STUMBLE = [
+  n=>`${n} tripped over their own buckled shoes!`,
+  n=>`${n} stopped to fix their hat — costly!`,
+  n=>`${n} got distracted by the skyline view!`,
+  n=>`Oh no — ${n} stepped in a puddle of shamrock shake!`
+];
+const LINES_FALL = [
+  n=>`${n} went down HARD and skinned a knee! Walk it off, champ!`,
+  n=>`${n} face-planted on the famous sidewalk! The crowd gasps!`,
+  n=>`${n} tumbled head over buckled heels — stars everywhere!`,
+  n=>`Down goes ${n}! Somebody grab a shamrock-print bandage!`
+];
+const LINES_HELP = [
+  n=>`🩹 A parade guard rushes over to help ${n} back up!`,
+  n=>`🩹 Good sports, these guards — one's already lifting ${n} to their feet!`,
+  n=>`🩹 There's kindness at the Shamrock Derby too — ${n} gets a hand up!`,
+  n=>`🩹 A guard in an orange vest scoops ${n} right back onto their feet!`
+];
+const LINES_GUARD = [
+  ()=>`🩹 Parade security gives chase! ...aaaand he's gone. Nice hustle though.`,
+  ()=>`🩹 The orange vests are SPRINTING, folks — the pirate is not concerned.`,
+  ()=>`🩹 Security almost had him! (They did not almost have him.)`,
+  ()=>`🩹 A valiant effort from the parade guards. The pirate waves goodbye.`
+];
+const LINES_PIRATE = [
+  n=>`☠️ PIRATES! ${n} has been snatched clean off Bayshore!`,
+  n=>`☠️ Gasparilla came early — ${n} is headed for the ship!`,
+  n=>`☠️ ${n} just got shanghaied! That's a DNF, folks!`
+];
+const LINES_JUMP = [
+  n=>`${n} hurdles the whiskey bottle — textbook form!`,
+  n=>`Big air from ${n}! That bottle never had a chance!`,
+  n=>`${n} leaps the rolling bottle like a steeplechase champion!`
+];
+const LINES_BOTTLE_TRIP = [
+  n=>`${n} caught a boot on a rolling whiskey bottle — DOWN!`,
+  n=>`The bottle wins that round — ${n} hits the pavement!`,
+  n=>`${n} mistimed the jump! Oh, the humanity!`
+];
+const LINES_TRIP = [
+  n=>`☠️ The pirate sticks out a boot — ${n} goes DOWN!`,
+  n=>`☠️ Dirty tricks! ${n} just got tripped by that pirate!`,
+  n=>`☠️ ${n} is down — that pirate is a MENACE!`
+];
+const LINES_SPOTLIGHT = [
+  n=>`Keep an eye on ${n} — running a sneaky-smart race out there!`,
+  n=>`${n} is in the hunt and the fans know it! Listen to that cheer!`,
+  n=>`Great form from ${n} — those little legs are churning!`,
+  n=>`Don't count out ${n}! Derbies are won in the final stretch!`,
+  n=>`${n} blows a kiss to the dolphins. Total showboat. Crowd loves it.`,
+  n=>`${n}'s hat hasn't budged an inch. That's veteran composure, folks.`,
+  n=>`${n} is pacing off the leaders — a classic Bayshore strategy!`,
+  n=>`The betting section for ${n} just got VERY loud!`
+];
+const LINES_LEAD = [
+  (a,b)=>`${a} SNATCHES the lead from ${b}!`,
+  (a,b)=>`New leader! ${a} storms past ${b}!`,
+  (a,b)=>`${a} takes the front — ${b} can't believe it!`,
+  (a,b)=>`Lead change! ${a} tips the hat to ${b} on the way by!`
+];
+const LINES_FLAVOR = [
+  ()=>`The crowd along the balustrade is roaring!`,
+  ()=>`Dolphins are jumping in the bay — even they want a look!`,
+  ()=>`Twenty tiny legs, one pot of gold. What a day on Bayshore!`,
+  ()=>`It's anyone's race — hold on to your hats!`,
+  ()=>`The famous Bayshore sidewalk has never seen speed like this!`,
+  ()=>`That pirate ship is circling awfully close, folks…`,
+  ()=>`Beautiful afternoon over Tampa Bay — and total chaos on the boulevard!`,
+  ()=>`We're deep into this derby now. Who's got the legs for the finish?`,
+  ()=>`The pace is relentless — buckled shoes were NOT made for this!`,
+  ()=>`Halfway home means nothing in the Shamrock Derby, folks!`,
+  ()=>`Keep an eye on that railing — you never know who's lurking behind it!`,
+  ()=>`Someone check the leaders for four-leaf clovers, this can't be legal!`
+];
+
+function startRace(){
+  $("setupView").style.display = "none";
+  $("raceView").style.display = "block";
+  $("rematchBtn").style.display = "none";
+  const pot = state.contestants.length * state.fee;
+  $("potRace").textContent = money(pot);
+  $("winRace").textContent = money(pot/2);
+  window.scrollTo({top:0, behavior:"smooth"});
+
+  const seedFn = mulberry32(Math.floor(Math.random()*1e9));
+  buildSkyline(seedFn);
+  dolphins = [];
+
+  const n = state.contestants.length;
+  race.racers = state.contestants.map((c,i)=>{
+    const laneRow = i % 4;                       // 4 visual rows on the road
+    const laneCol = Math.floor(i/4);
+    return {
+      c, x: -laneCol*34 - rand(0,18), // staggered start behind the line
+      row: laneRow,
+      y: ROAD_Y + ROAD_H*(0.30 + laneRow*0.185),
+      scale: 38 + laneRow*4,          // v2 figures are taller; nearer rows bigger (depth)
+      base: rand(128,150),
+      wob: rand(0.8,1.6), wobP: rand(0,6.28),
+      boost: 0, boostT: 0,
+      fallT: 0, captured: false, frozen: false,
+      falls: 0, boosts: 0, leadT: 0, mentions: 0,
+      jumping: 0, hurdles: 0,
+      phase: rand(0,6.28), done: false, finishT: 0
+    };
+  });
+  race.bottles = []; race.tripper = null; race.tripperCount = 0;
+  race.sharks = []; race.guards = []; race.guardComm = false;
+  race.fallHelpers = []; race.lastHelpSpawn = -99;
+  const RACE_SECONDS = parseInt($("durInput").value, 10) || 150;   // selectable duration
+  race.length = Math.round(RACE_SECONDS * (159 - 30/n));           // calibrated to front-of-pack pace per field size
+  race.kidnapMax = RACE_SECONDS >= 120 ? 3 : RACE_SECONDS >= 60 ? 2 : 1;
+  race.leaderRef = null; race.lastLeadComm = 0;
+  race.cam = 0; race.t = 0; race.runT = 0; race.over = false; race.running = false;
+  race.particles = []; race.pirateEvent = null; race.kidnapCount = 0;
+  state.finished = [];
+  setComment("Runners to the line… the bay is calm, the crowd is not!");
+  // countdown
+  const cd = $("countdown"), num = $("countNum");
+  cd.style.display = "flex";
+  let k = 3;
+  num.textContent = k; beep(440,.12);
+  const iv = setInterval(()=>{
+    k--;
+    if (k > 0){ num.textContent = k; beep(440,.12); }
+    else {
+      num.textContent = "GO!"; beep(720,.25);
+      setTimeout(()=>{ cd.style.display="none"; }, 550);
+      clearInterval(iv);
+      race.running = true;
+      setComment("AND THEY'RE OFF down Bayshore Boulevard!");
+    }
+  }, 950);
+  cancelAnimationFrame(race.raf);
+  race.prev = performance.now();
+  race.raf = requestAnimationFrame(loop);
+}
+
+function loop(now){
+  const dt = Math.min(0.05, (now - race.prev)/1000);
+  race.prev = now; race.t += dt;
+  update(dt);
+  render();
+  if (!race.over || race.t < race.overT + 2.6) race.raf = requestAnimationFrame(loop);
+}
+function update(dt){
+  if (race.running){
+    if (!race.over) race.runT += dt;               // official race clock
+    const active = race.racers.filter(r=>!r.captured);
+    const leaderX = Math.max(...active.map(r=>r.x));
+    race.racers.forEach(r=>{
+      if (r.captured) return;                      // gone to the ship
+      if (r.done) { r.phase += dt*6; return; }
+      if (r.frozen) return;                        // pirate incoming — too scared to move!
+      if (r.fallT > 0){                            // down with a skinned knee
+        r.fallT -= dt;
+        if (r.fallT <= 0 && canComment())
+          setComment(`${r.c.name} is back up and limping into a full sprint!`);
+        return;
+      }
+      // random drama events: turbo bursts, full wipeouts, minor stumbles
+      if (r.boostT <= 0 && Math.random() < dt*0.11){
+        const roll = Math.random();
+        if (roll < 0.55){
+          r.boost = rand(70,120); r.boostT = rand(1.1,2.1); r.boosts++;
+          if (canComment(r)){ setComment(pick(LINES_EVENT)(r.c.name)); r.mentions++; }
+        } else if (roll < 0.80){
+          r.fallT = rand(1.5,2.4); r.boost = 0; r.boostT = 0; r.falls++;
+          if (canComment(r)){ setComment(pick(LINES_FALL)(r.c.name)); r.mentions++; }
+          return;
+        } else {
+          r.boost = -rand(45,75); r.boostT = rand(0.8,1.5);
+          if (canComment(r)){ setComment(pick(LINES_STUMBLE)(r.c.name)); r.mentions++; }
+        }
+      }
+      if (r.boostT > 0){ r.boostT -= dt; if (r.boostT<=0) r.boost = 0; }
+      // airborne over a bottle
+      if (r.jumping > 0){
+        const was = r.jumping; r.jumping -= dt;
+        if (was > 0 && r.jumping <= 0){         // landing dust
+          for (let d=0; d<3; d++)
+            race.particles.push({ wx:r.x + rand(-8,8), y:r.y - 2, vx:rand(-50,50), vy:-rand(5,20),
+                                  r:rand(3,6), life:rand(.3,.5), max:.5, kind:"dust" });
+        }
+      }
+      // gentle rubber band keeps the pack watchable without picking a winner
+      const gap = leaderX - r.x;
+      const band = clamp(gap*0.045, 0, 34);
+      const v = r.base + r.boost + band + Math.sin(race.t*r.wob + r.wobP)*16;
+      r.x += Math.max(30, v) * dt;
+      r.phase += dt * (8 + Math.max(30,v)/18);     // faster, cartoonier leg turnover
+      // whiskey bottle ahead in this row? jump it (same 85/15 odds for everyone — fairness)
+      if (r.jumping <= 0){
+        const b = race.bottles.find(b=>b.row === r.row && b.x - r.x > 10 && b.x - r.x < 66);
+        if (b){
+          if (Math.random() < 0.85){
+            r.jumping = 0.55; r.hurdles++;
+            if (Math.random() < 0.25 && canComment(r)){ setComment(pick(LINES_JUMP)(r.c.name)); r.mentions++; }
+          } else {
+            r.fallT = rand(1.6,2.4); r.falls++;
+            if (canComment(r)){ setComment(pick(LINES_BOTTLE_TRIP)(r.c.name)); r.mentions++; }
+            return;
+          }
+        }
+      }
+      // Mario-style dust puffs kicked up off the heels
+      if (v > 150 && Math.random() < dt*11){
+        race.particles.push({ wx:r.x-12, y:r.y-2, vx:-rand(30,90), vy:-rand(8,30),
+                              r:rand(3,6), life:rand(.3,.55), max:.55, kind:"dust" });
+      }
+      if (r.x >= race.length){
+        r.done = true; r.finishT = race.t;
+        state.finished.push(r);
+        if (state.finished.length === 1){
+          crownWinner(r);
+        }
+      }
+    });
+    // track the leader: time in front counts toward the Heartbreaker Award,
+    // and lead changes get called live (with a cooldown so flip-flops don't spam)
+    let lead = null;
+    for (const r of active) if (!r.done && (!lead || r.x > lead.x)) lead = r;
+    if (lead){
+      lead.leadT += dt;
+      if (race.leaderRef !== lead){
+        const old = race.leaderRef;
+        race.leaderRef = lead;
+        if (old && !old.captured && !race.over && race.runT > 4 && race.t - race.lastLeadComm > 6){
+          setComment(pick(LINES_LEAD)(lead.c.name, old.c.name));
+          lead.mentions++; race.lastLeadComm = race.t;
+        }
+      }
+    }
+    // rolling whiskey bottles come tumbling down the boulevard
+    if (race.bottles.length < 2 && leaderX/race.length < 0.86 && Math.random() < dt*0.14){
+      const row = randi(0, Math.min(3, race.racers.length - 1));
+      race.bottles.push({ x: race.cam + W + 80, row,
+        y: ROAD_Y + ROAD_H*(0.30 + row*0.185), vx: -rand(90,140), rot: 0 });
+      if (canComment()) setComment("🥃 Heads up! A whiskey bottle is rolling down the boulevard!");
+    }
+    race.bottles.forEach(b=>{ b.x += b.vx*dt; b.rot -= dt*(Math.abs(b.vx)/26); });
+    race.bottles = race.bottles.filter(b=> b.x > race.cam - 300 && b.x < race.length + 400);
+    updatePirates(dt, leaderX, active);
+    updateGuards(dt);
+    updateFallHelpers(dt);
+    updateSharks(dt);
+    updateTripper(dt, active);
+    // spotlight time: never-named racers get first claim on the mic,
+    // so every contestant's leprechaun is guaranteed a call during the broadcast
+    if (race.t - race.lastCommentT > 3.5 && Math.random() < dt*0.9){
+      const pool = active.filter(r=>!r.done);
+      const zeroes = pool.filter(r=>r.mentions === 0);
+      if (zeroes.length){
+        const chosen = pick(zeroes);
+        setComment(pick(LINES_SPOTLIGHT)(chosen.c.name));
+        chosen.mentions++;
+      } else if (pool.length && Math.random() < 0.5){
+        const least = pool.reduce((a,b)=>a.mentions<=b.mentions?a:b);
+        setComment(pick(LINES_SPOTLIGHT)(least.c.name));
+        least.mentions++;
+      } else {
+        setComment(pick(LINES_FLAVOR)());
+      }
+    }
+  }
+  // age & move particles
+  race.particles = race.particles.filter(p=>{
+    p.life -= dt; p.wx += (p.vx||0)*dt; p.y += (p.vy||0)*dt;
+    if (p.kind === "splash") p.vy += 420*dt;
+    return p.life > 0;
+  });
+  // camera follows the front of the pack, keeps finish in frame at the end
+  const camRacers = race.racers.filter(r=>!r.captured);
+  const target = Math.max(0, Math.max(...camRacers.map(r=>r.x)) - W*0.62);
+  race.cam += (Math.min(target, race.length - W*0.85) - race.cam) * Math.min(1, dt*3.2);
+  updateLeaderboard();
+}
+
+/* ---- The pirate kidnapping state machine ----
+   approach: pirate vaults the balustrade and charges down to the victim
+   grab:     scoops them up (victim leaves the standings)
+   retreat:  hauls them back up the road, flailing, over the rail
+   splash:   both vanish into Tampa Bay with a splash                     */
+function updatePirates(dt, leaderX, active){
+  if (!race.pirateEvent && race.kidnapCount < (race.kidnapMax||3) && !race.over && Math.random() < dt*0.035){
+    const progress = leaderX / race.length;
+    const eligible = active.filter(r=>!r.done && r.fallT<=0 && !r.frozen &&
+      (r.x - race.cam) > W*0.18 && (r.x - race.cam) < W*0.78);
+    if (progress > 0.12 && progress < 0.85 && active.length > 4 && eligible.length){
+      const target = pick(eligible);
+      target.frozen = true;
+      race.kidnapCount++;
+      // the rope genuinely anchors to wherever the pirate ship actually is right now
+      const anchorX = race.cam + mainShipScreenX(race.t);
+      const anchorY = WATER_Y + WATER_H*0.55 - 150;      // roughly the ship's rigging/yard height
+      const ropeLen = Math.hypot(target.x - anchorX, target.y - anchorY);
+      race.pirateEvent = { target, phase:"swing", t:0, anchorX, anchorY, ropeLen,
+                           px: anchorX, py: anchorY };
+      setComment(`☠️ A pirate swings in on a rope from the ship — ${target.c.name}, RUN!!`);
+      beep(196,.3);
+    }
+  }
+  const ev = race.pirateEvent;
+  if (!ev) return;
+  ev.t += dt;
+  const tgt = ev.target, groundY = tgt.y, railY = RAIL_Y + 4;
+  if (ev.phase === "swing"){
+    // a real pendulum from the ship's rigging, swinging out to exactly where the victim stands
+    const k = Math.min(1, ev.t/0.95);
+    const e = (1 - Math.cos(k*Math.PI))/2;
+    const finalAngle = Math.atan2(groundY - ev.anchorY, tgt.x - ev.anchorX);
+    const startAngle = finalAngle - 1.6;
+    const th = startAngle + (finalAngle - startAngle)*e;
+    ev.px = ev.anchorX + ev.ropeLen*Math.cos(th) - 26;   // -26 cancels the renderer's hand offset
+    ev.py = ev.anchorY + ev.ropeLen*Math.sin(th);
+    if (k >= 1){ ev.phase = "grab"; ev.t = 0; ev.px = tgt.x; ev.py = groundY; }
+  } else if (ev.phase === "grab"){
+    if (ev.t > 0.35){
+      tgt.captured = true; tgt.frozen = false;
+      ev.phase = "retreat"; ev.t = 0;
+      setComment(pick(LINES_PIRATE)(tgt.c.name));
+      beep(147,.35);
+      // parade security scrambles — bless their hearts
+      race.guardComm = false;
+      for (let gi=0; gi<2; gi++){
+        race.guards.push({ x: tgt.x - 260 - gi*70, y: tgt.y + (gi ? 6 : -4), v: rand(150,175),
+                           stopX: tgt.x - 40 - gi*46, phase:"chase", t:0, ph: rand(0,6) });
+      }
+    }
+  } else if (ev.phase === "retreat"){
+    const k = Math.min(1, ev.t/1.05);
+    ev.px = tgt.x; ev.py = groundY + (railY - groundY)*k;
+    if (k >= 1){
+      ev.phase = "climb"; ev.t = 0; ev.climbStartX = tgt.x;   // now actually vault the wall
+    }
+  } else if (ev.phase === "climb"){
+    const k = Math.min(1, ev.t/0.55);
+    ev.px = ev.climbStartX - 40*k;
+    ev.py = railY - 70*Math.sin(k*Math.PI);
+    if (k >= 1){
+      ev.phase = "splash"; ev.t = 0;
+      for (let i=0; i<14; i++){
+        race.particles.push({ wx: ev.px + rand(-18,18), y: RAIL_Y - 40,
+          vx: rand(-40,40), vy: -rand(60,180), r: rand(2,5),
+          life: rand(.4,.8), max:.8, kind:"splash" });
+      }
+    }
+  } else if (ev.phase === "splash"){
+    if (ev.t > 0.7) race.pirateEvent = null;
+  }
+}
+
+/* ---- Parade guards helping fallen racers back up ----
+   chase:  runs up from BEHIND the pack (always trailing, never ahead)
+           to catch up with whoever fell
+   assist: crouches down next to them for a moment, reaching out a hand
+   leave:  drops back behind the pack again once the racer's back up
+   Every single fall gets a helper — no cap, no chance roll. Purely
+   cosmetic: this never touches r.fallT or race timing, so it can't
+   affect who wins — every racer's fall duration is exactly as fair as
+   it was before a guard shows up.                                     */
+function updateFallHelpers(dt){
+  if (!race.fallHelpers) return;
+  // every racer currently down and not yet claimed by a helper gets one
+  race.racers.forEach(candidate=>{
+    if (candidate.fallT > 0 && !candidate.captured && !candidate.done &&
+        !candidate.frozen && !candidate.beingHelped){
+      candidate.beingHelped = true;
+      race.fallHelpers.push({
+        target: candidate, x: candidate.x - rand(160,220),   // always starts BEHIND
+        y: candidate.y, v: rand(195,225), state: "chase", t: 0, ph: rand(0,6)
+      });
+    }
+  });
+  race.fallHelpers.forEach(h=>{
+    h.ph += dt*13;
+    const tgt = h.target;
+    if (h.state === "chase"){
+      const goalX = tgt.x - 14;                    // pulls up just behind the racer
+      h.x = Math.min(h.x + h.v*dt, goalX);
+      h.y = tgt.y;
+      if (h.x >= goalX){
+        h.state = "assist"; h.t = 0;
+        if (canComment()){ setComment(pick(LINES_HELP)(tgt.c.name)); }
+        beep(392,.15);
+      }
+    } else if (h.state === "assist"){
+      h.t += dt; h.x = tgt.x - 14; h.y = tgt.y;
+      // leaves once the racer's own recovery timer runs out, or after a
+      // reasonable wait if they somehow got swept up by something else
+      if (tgt.fallT <= 0 || tgt.captured || tgt.done || h.t > 2.2){
+        h.state = "leave"; h.t = 0;
+        tgt.beingHelped = false;
+      }
+    } else {                                       // leave: drop back behind the pack again
+      h.x -= 170*dt;
+    }
+  });
+  race.fallHelpers = race.fallHelpers.filter(h=>{
+    if (h.state !== "leave") return true;
+    const sx = h.x - race.cam;
+    return sx > -100 && sx < W + 100;
+  });
+}
+
+/* ---- Parade security: bright orange vests, zero success rate ----
+   chase: sprints after the pirate, arms flailing, whistle blowing
+   fume:  arrives just too late; hops and shakes fists at the bay
+   leave: jogs off scene, dignity lightly bruised                    */
+function updateGuards(dt){
+  if (!race.guards) return;
+  race.guards.forEach(g=>{
+    g.t += dt; g.ph += dt*13;
+    if (g.phase === "chase"){
+      g.x += g.v*dt;
+      const pirateGone = !race.pirateEvent || race.pirateEvent.phase === "splash";
+      if (g.x >= g.stopX || (pirateGone && g.x >= g.stopX - 60)){
+        g.phase = "fume"; g.t = 0;
+        if (!race.guardComm){ race.guardComm = true; setComment(pick(LINES_GUARD)()); }
+      }
+    } else if (g.phase === "fume"){
+      if (g.t > 1.7){ g.phase = "leave"; g.t = 0; }
+    } else if (g.phase === "leave"){
+      g.x += 150*dt;
+    }
+  });
+  race.guards = race.guards.filter(g=> !(g.phase === "leave" && g.x - race.cam > W + 140));
+}
+function drawGuard(ctx, x, y, s, phase, ph, t, facing){
+  facing = facing || 1;
+  const u = s/40;
+  const OUT = "#1E2430";
+  ctx.save(); ctx.translate(x, y);
+  ctx.lineJoin = "round"; ctx.lineCap = "round";
+  const chase = phase === "chase", fume = phase === "fume", assist = phase === "assist";
+  const moving = chase || phase === "leave";
+  const bob = moving ? Math.abs(Math.sin(ph))*5*u : fume ? Math.abs(Math.sin(t*10))*7*u
+            : assist ? Math.sin(t*4)*1.2*u : 0;
+  ctx.translate(0, -bob);
+  if (moving) ctx.rotate(0.12 * (facing<0?-1:1));                          // lean compensated for mirroring
+  if (assist) { ctx.translate(1.5*u, 6*u); ctx.rotate(0.22 * (facing<0?-1:1)); }   // crouch down and lean in to help
+  ctx.scale(facing, 1);                                                     // mirror the WHOLE body to actually face this way
+  const hipY = -34*u, shY = -56*u, headC = -68*u, headR = 8.5*u;
+  function seg(ax,ay,bx,by,w,c){
+    ctx.strokeStyle = OUT; ctx.lineWidth = w + 2*u;
+    ctx.beginPath(); ctx.moveTo(ax,ay); ctx.lineTo(bx,by); ctx.stroke();
+    ctx.strokeStyle = c; ctx.lineWidth = w;
+    ctx.beginPath(); ctx.moveTo(ax,ay); ctx.lineTo(bx,by); ctx.stroke();
+  }
+  function ink(w){ ctx.strokeStyle = OUT; ctx.lineWidth = (w||1.4)*u; ctx.stroke(); }
+  function leg(p){
+    const A = assist ? { x: (Math.cos(p) > 0 ? 8 : -8)*u, y: -2*u }
+            : moving ? { x: Math.sin(p)*14*u, y: -Math.max(0, Math.cos(p))*9*u }
+                     : { x: (Math.cos(p) > 0 ? 5 : -5)*u, y: 0 };
+    const K = { x: A.x/2 + 6*u, y: (hipY + A.y)/2 + 1*u };
+    seg(0, hipY, K.x, K.y, 6*u, "#2E3A52");
+    seg(K.x, K.y, A.x, A.y - 3*u, 5*u, "#2E3A52");
+    ctx.fillStyle = "#14110E";
+    roundRect(ctx, A.x - 4*u, A.y - 4.5*u, 10*u, 4.5*u, 2*u); ctx.fill(); ink(1.1);
+  }
+  function arm(back){
+    const S = { x: back ? -4*u : 4*u, y: shY + 4*u };
+    let Wr, elbowOut = false;
+    if (fume){                                        // fists up, shaking
+      Wr = { x: S.x + (back ? -5 : 6)*u, y: shY - 16*u - Math.abs(Math.sin(t*10))*4*u };
+      elbowOut = true;
+    } else if (chase){                                // arms flailing overhead
+      const f = Math.sin(ph*2 + (back ? 1.6 : 0));
+      Wr = { x: (back ? -9 : 9)*u + f*5*u, y: shY - 15*u - Math.abs(f)*4*u };
+      elbowOut = true;
+    } else if (phase === "leave"){                    // normal defeated jog
+      const sw = Math.sin(ph + Math.PI) * (back ? -1 : 1);
+      Wr = { x: sw*9*u + 2*u, y: shY + 13*u };
+    } else if (assist){                                // reaching down to help someone up
+      Wr = back ? { x: S.x - 3*u, y: hipY - 4*u }              // bracing hand on own knee
+                : { x: S.x + 11*u, y: hipY + 8*u };             // extended hand, reaching down and out
+    } else {
+      Wr = { x: S.x + 2*u, y: hipY - 2*u };
+    }
+    const E = { x: (S.x + Wr.x)/2 + (elbowOut ? 5*u : -3*u), y: (S.y + Wr.y)/2 + 2*u };
+    seg(S.x, S.y, E.x, E.y, 4.6*u, "#F5F2E8");
+    seg(E.x, E.y, Wr.x, Wr.y, 4*u, "#F5F2E8");
+    ctx.fillStyle = "#E8B48C";
+    ctx.beginPath(); ctx.arc(Wr.x, Wr.y, 2.6*u, 0, 7); ctx.fill(); ink(1.1);
+  }
+  arm(true); leg(ph + Math.PI); leg(ph);
+  // white shirt torso
+  ctx.fillStyle = "#F5F2E8";
+  roundRect(ctx, -8*u, shY, 16*u, (hipY - shY) + 4*u, 4*u); ctx.fill(); ink(1.4);
+  // BRIGHT ORANGE safety vest with hi-vis stripes — gradient keeps it from reading as a flat swatch
+  volFill(ctx, -8.5*u, shY + 2*u, 8.5*u, hipY, "#FF7A00", 30, -22);
+  roundRect(ctx, -8.5*u, shY + 2*u, 17*u, (hipY - shY) - 1*u, 3*u); ctx.fill(); ink(1.3);
+  ctx.fillStyle = "#EFFF3C";
+  ctx.fillRect(-8.5*u, shY + 9*u, 17*u, 3*u);
+  ctx.fillRect(-2*u, shY + 2*u, 4*u, (hipY - shY) - 1*u);
+  // head with shouting mouth
+  ctx.fillStyle = "#E8B48C";
+  ctx.beginPath(); ctx.arc(1*u, headC, headR, 0, 7); ctx.fill(); ink(1.3);
+  ctx.fillStyle = "#7A2020";
+  ctx.beginPath(); ctx.arc(1*u + headR*0.55, headC + 3.5*u, 2.2*u, 0, 7); ctx.fill(); ink(0.9);
+  ctx.fillStyle = "#1B140C";
+  ctx.beginPath(); ctx.arc(1*u + headR*0.4, headC - 2*u, 1.2*u, 0, 7); ctx.fill();
+  // dark ball cap with brim
+  ctx.fillStyle = "#20304A";
+  ctx.beginPath(); ctx.arc(1*u, headC - headR*0.35, headR*0.95, Math.PI, 0); ctx.fill(); ink(1.2);
+  roundRect(ctx, 1*u, headC - headR*0.5, headR*1.4, 2.6*u, 1.3*u); ctx.fill(); ink(1.1);
+  // flying sweat while chasing
+  if (chase){
+    ctx.fillStyle = "#7FC8E8";
+    ctx.beginPath(); ctx.arc(1*u - headR*1.3, headC - 6*u - Math.sin(t*9)*2*u, 1.5*u, 0, 7); ctx.fill();
+  }
+  arm(false);
+  ctx.restore();
+}
+
+/* ---- The tripper pirate: joins the race just to cause trouble ----
+   climbin:  vaults the balustrade to drop onto the road
+   chase:    sprints through the pack, booting runners as he passes
+   climbout: vaults back over the balustrade to his ship               */
+function updateTripper(dt, active){
+  if (!race.tripper && race.tripperCount < 2 && !race.over && Math.random() < dt*0.03){
+    const progress = Math.max(...active.map(r=>r.x)) / race.length;
+    if (progress > 0.1 && progress < 0.8 && active.length > 3){
+      const row = randi(0, Math.min(3, race.racers.length - 1));
+      race.tripper = { x: race.cam - 40, row,
+        y: RAIL_Y + 4, targetY: ROAD_Y + ROAD_H*(0.30 + row*0.185),
+        trips: randi(2,3), state: "climbin", t: 0, cd: 0.6 };
+      race.tripperCount++;
+      setComment("☠️ A pirate vaults the balustrade — he's JOINED THE RACE!");
+      beep(196,.3);
+    }
+  }
+  const tp = race.tripper;
+  if (!tp) return;
+  if (tp.state === "climbin"){
+    tp.t += dt;
+    const k = Math.min(1, tp.t/0.5);
+    tp.x = (race.cam - 40) + 20*k;
+    tp.y = (RAIL_Y+4) + (tp.targetY - (RAIL_Y+4))*k - 15*Math.sin(k*Math.PI);
+    if (k >= 1){ tp.state = "chase"; tp.y = tp.targetY; }
+    return;
+  }
+  if (tp.state === "climbout"){
+    tp.t += dt;
+    const k = Math.min(1, tp.t/0.55);
+    tp.x = tp.climbStartX - 40*k;
+    tp.y = (RAIL_Y+4) - 70*Math.sin(k*Math.PI);
+    if (k >= 1){
+      for (let i=0; i<12; i++)
+        race.particles.push({ wx: tp.x + rand(-16,16), y: RAIL_Y - 40, vx: rand(-40,40),
+          vy: -rand(60,170), r: rand(2,5), life: rand(.4,.8), max:.8, kind:"splash" });
+      race.tripper = null;
+      setComment("☠️ And the pirate vaults back over the wall to his ship!");
+    }
+    return;
+  }
+  tp.cd -= dt;
+  if (tp.state === "chase"){
+    const leaderX = Math.max(...active.map(r=>r.x));
+    tp.x = Math.min(tp.x + 235*dt, leaderX - 20);     // never runs ahead of the front of the race
+    if (tp.cd <= 0){
+      const victim = race.racers.find(r=>r.row === tp.row && !r.done && !r.captured &&
+        !r.frozen && r.fallT <= 0 && Math.abs(tp.x - r.x) < 18);
+      if (victim){
+        victim.fallT = rand(1.7,2.6); victim.falls++; victim.mentions++;
+        tp.trips--; tp.cd = 0.8;
+        setComment(pick(LINES_TRIP)(victim.c.name));
+        beep(220,.2);
+      }
+    }
+    if (tp.trips <= 0 || tp.x > race.cam + W + 120 || tp.x > race.length - 420){
+      tp.state = "climbout"; tp.t = 0; tp.climbStartX = tp.x;
+    }
+  }
+}
+function canComment(r){
+  if (race.t - race.lastCommentT <= 2.4) return false;
+  if (!r) return true;
+  // racers who've already had airtime yield the mic more often
+  return r.mentions === 0 || Math.random() < 1/(1 + r.mentions);
+}
+function setComment(txt){ $("commentText").textContent = txt; race.lastCommentT = race.t; tellAnnouncer(txt); }
+
+/* ============ Live AI Announcer (ElevenLabs Conversational AI) ============
+   Wires BOTH the live race commentary feed and the awards-ceremony
+   narration to a real ElevenLabs agent, so the same voice/persona calls
+   the whole broadcast start to finish instead of switching to the plain
+   browser voice for awards. The ElevenLabs agent is PRIVATE, so this game
+   (a static file with no server of its own) calls a small deployed
+   backend — shamrock-derby-announcer-api on Vercel — which holds the
+   ElevenLabs API key and hands back a short-lived signed connection URL.
+   The key itself never touches the browser.
+   - tellAnnouncer(): hooked into setComment(), throttled so fast-fire race
+     events don't pile up on top of each other.
+   - tellAnnouncerDirect(): hooked into the ceremony's speakLine(), NOT
+     throttled, since the ceremony's own scene timers already space lines
+     out by several seconds apiece.
+   When the announcer is OFF (or fails to connect), speakLine() falls back
+   to the browser's built-in voice exactly as before — nothing about the
+   existing ceremony is removed, just extended.                          */
+const announcer = {
+  agentId: "agent_5201kz40jbs5epa8jkpcxyh391d2",
+  // Backend that mints the signed URL. Served same-origin from this project's
+  // /api folder (Vercel serverless function). Change only if you move the backend.
+  signedUrlEndpoint: "/api/get-signed-url",
+  conversation: null, active: false, connecting: false, lastSend: -99
+};
+async function toggleAnnouncer(){
+  if (announcer.active || announcer.connecting){
+    announcer.active = false; announcer.connecting = false;
+    $("announcerBtn").textContent = "🎙️ Live AI Announcer: OFF";
+    if (announcer.conversation){ try{ await announcer.conversation.endSession(); }catch(e){} announcer.conversation = null; }
+    return;
+  }
+  announcer.connecting = true;
+  $("announcerBtn").textContent = "🎙️ Announcer: connecting…";
+  try{
+    const resp = await fetch(`${announcer.signedUrlEndpoint}?agent_id=${encodeURIComponent(announcer.agentId)}`);
+    const body = await resp.json();
+    if (!resp.ok || !body.signedUrl){
+      throw new Error(body.error || `Backend returned ${resp.status}`);
+    }
+    const { Conversation } = await import("https://cdn.jsdelivr.net/npm/@elevenlabs/client/+esm");
+    announcer.conversation = await Conversation.startSession({
+      signedUrl: body.signedUrl,
+      onDisconnect: () => {
+        announcer.active = false; announcer.connecting = false; announcer.conversation = null;
+        $("announcerBtn").textContent = "🎙️ Live AI Announcer: OFF";
+      },
+      onError: () => {
+        announcer.active = false; announcer.connecting = false; announcer.conversation = null;
+        $("announcerBtn").textContent = "🎙️ Announcer unavailable — retry?";
+      }
+    });
+    announcer.active = true; announcer.connecting = false;
+    $("announcerBtn").textContent = "🎙️ Live AI Announcer: ON";
+  }catch(e){
+    announcer.active = false; announcer.connecting = false; announcer.conversation = null;
+    $("announcerBtn").textContent = "🎙️ Announcer unavailable — retry?";
+    console.warn("ElevenLabs announcer failed to start:", e);
+  }
+}
+function tellAnnouncer(txt){                        // live race commentary — throttled
+  if (!announcer.active || !announcer.conversation) return;
+  if (race.t - announcer.lastSend < 4.2) return;     // give each line room to be spoken before the next
+  announcer.lastSend = race.t;
+  try{ announcer.conversation.sendUserMessage(txt); }catch(e){}
+}
+function tellAnnouncerDirect(txt){                   // ceremony narration — not throttled, already paced by scene timers
+  if (!announcer.active || !announcer.conversation) return false;
+  try{ announcer.conversation.sendUserMessage(txt); return true; }catch(e){ return false; }
+}
+$("announcerBtn").onclick = toggleAnnouncer;
+
+function render(){
+  ctx.clearRect(0,0,W,H);
+  drawSky(race.t);
+  drawSkyline(race.cam);
+  drawWater(race.cam, race.t);
+  drawBalustrade(race.cam);
+  drawRoad(race.cam, race.t);
+  drawCrowd(race.cam, race.t);
+  drawFinish(race.cam, race.t);
+  // start line
+  const sx = 0 - race.cam;
+  if (sx > -60 && sx < W){
+    ctx.fillStyle = "rgba(255,255,255,.9)"; ctx.fillRect(sx-2, ROAD_Y, 5, ROAD_H);
+  }
+  // ground particles (dust) render under the runners
+  race.particles.forEach(p=>{
+    if (p.kind !== "dust") return;
+    const px = p.wx - race.cam;
+    ctx.fillStyle = `rgba(214,205,185,${(p.life/p.max)*0.7})`;
+    ctx.beginPath(); ctx.arc(px, p.y, p.r*(2 - p.life/p.max), 0, 7); ctx.fill();
+  });
+  // rolling whiskey bottles render on the road, under the runners
+  race.bottles.forEach(b=>{
+    const bx = b.x - race.cam;
+    if (bx < -60 || bx > W+60) return;
+    drawBottle(ctx, bx, b.y, b.rot);
+  });
+  // draw far rows first for depth
+  const order = [...race.racers].sort((a,b)=>a.row-b.row);
+  order.forEach(r=>{
+    if (r.captured) return;                       // carried off by the pirate
+    let px = r.x - race.cam;
+    if (px < -80 || px > W+80) return;
+    // frozen victims tremble in place
+    if (r.frozen) px += Math.sin(race.t*42)*1.6;
+    // airborne arc while hurdling a bottle
+    const air = r.jumping > 0 ? Math.sin(Math.PI * (1 - r.jumping/0.55)) : 0;
+    const dy = air * 52;
+    // shadow shrinks while airborne, now with a genuinely soft blurred edge
+    softBlurShadow(ctx, px, r.y+3, r.scale*0.52*(1 - air*0.3), r.scale*0.14, 0.22 - air*0.08);
+    // Mario-style speed lines while boosted
+    if (r.boost > 60 && !r.done && r.fallT <= 0 && !r.frozen && race.running){
+      ctx.strokeStyle = "rgba(255,255,255,.55)"; ctx.lineWidth = 3;
+      for (let l=0; l<3; l++){
+        const ly = r.y - dy - r.scale*(0.6 + l*0.45);
+        ctx.beginPath(); ctx.moveTo(px - r.scale*0.9, ly); ctx.lineTo(px - r.scale*(1.5 + l*0.2), ly); ctx.stroke();
+      }
+    }
+    const st = r.done ? "win"
+             : r.fallT > 0 ? "fall"
+             : r.frozen ? "idle"
+             : (race.running ? "run" : "idle");
+    drawLeprechaun(ctx, px, r.y - dy, r.scale, r.c.lep, r.phase, st, r.c.bib, race.t);
+    // red alarm mark over a pirate's chosen victim
+    if (r.frozen){
+      ctx.fillStyle = "#D9463B";
+      ctx.font = "900 30px 'Lilita One', cursive"; ctx.textAlign = "center"; ctx.textBaseline="middle";
+      ctx.fillText("!", px + r.scale*0.6, r.y - r.scale*2.7 + Math.sin(race.t*10)*3);
+    }
+    // name tag rides with the jump
+    ctx.font = "800 12px Nunito, sans-serif"; ctx.textAlign = "center"; ctx.textBaseline="middle";
+    const tw = ctx.measureText(r.c.name).width + 14;
+    const ty = r.y - dy - r.scale*2.85;
+    ctx.fillStyle = "rgba(12,52,30,.78)";
+    roundRect(ctx, px - tw/2, ty-10, tw, 20, 9); ctx.fill();
+    ctx.fillStyle = "#fff"; ctx.fillText(r.c.name, px, ty+0.5);
+  });
+  // the tripper pirate: vaults in over the wall, sprints the field, vaults back out
+  if (race.tripper){
+    const tp = race.tripper;
+    const tpx = tp.x - race.cam;
+    if (tpx > -80 && tpx < W+80){
+      if (tp.state === "climbin"){
+        drawPirateVault(ctx, tpx, tp.y, 48, Math.min(1, tp.t/0.5), 1, race.t, null);
+      } else if (tp.state === "climbout"){
+        drawPirateVault(ctx, tpx, tp.y, 48, Math.min(1, tp.t/0.55), -1, race.t, null);
+      } else {
+        drawPirate(ctx, tpx, tp.y, 48, race.t*13, null, race.t, 1);
+      }
+    }
+  }
+  // parade security in hot (hopeless) pursuit
+  (race.guards||[]).forEach(g=>{
+    const gx = g.x - race.cam;
+    if (gx < -80 || gx > W+80) return;
+    softBlurShadow(ctx, gx, g.y+3, 20, 5, 0.2);
+    drawGuard(ctx, gx, g.y, 42, g.phase, g.ph, race.t);
+  });
+  // parade guards running out to help fallen racers back to their feet
+  (race.fallHelpers||[]).forEach(h=>{
+    const hx = h.x - race.cam;
+    if (hx < -80 || hx > W+80) return;
+    softBlurShadow(ctx, hx, h.y+3, 20, 5, 0.2);
+    drawGuard(ctx, hx, h.y, 42, h.state, h.ph, race.t, h.state === "leave" ? -1 : 1);
+  });
+  // the braided rope back to the ship, drawn behind the swinging pirate
+  if (race.pirateEvent && race.pirateEvent.phase === "swing"){
+    const ev = race.pirateEvent;
+    drawBraidedRope(ctx, ev.anchorX - race.cam, ev.anchorY, ev.px + 26 - race.cam, ev.py - 58);
+  }
+  // the pirate (and his squirming cargo) render on top of everything —
+  // sized up during the swing so he reads clearly against the open bay
+  if (race.pirateEvent && race.pirateEvent.phase !== "splash"){
+    const ev = race.pirateEvent;
+    const px = ev.px - race.cam;
+    const carrying = (ev.phase === "grab" || ev.phase === "retreat" || ev.phase === "climb") ? ev.target.c : null;
+    const swingScale = ev.phase === "swing" ? 56 : 46;
+    if (ev.phase === "climb"){
+      drawPirateVault(ctx, px + 26, ev.py, 46, Math.min(1, ev.t/0.55), -1, race.t, carrying);
+    } else {
+      const facing = ev.phase === "retreat" ? -1 : 1;   // faces the bay on the way out
+      drawPirate(ctx, px + 26, ev.py, swingScale, race.t*13, carrying, race.t, facing);
+    }
+  }
+  // splash particles render over the balustrade
+  race.particles.forEach(p=>{
+    if (p.kind !== "splash") return;
+    const px = p.wx - race.cam;
+    ctx.fillStyle = `rgba(240,250,255,${(p.life/p.max)*0.9})`;
+    ctx.beginPath(); ctx.arc(px, p.y, p.r, 0, 7); ctx.fill();
+  });
+}
+function updateLeaderboard(){
+  // race clock + course progress
+  const mins = Math.floor(race.runT/60), secs = Math.floor(race.runT%60);
+  $("raceClock").textContent = `${mins}:${String(secs).padStart(2,"0")}`;
+  const front = Math.max(...race.racers.filter(r=>!r.captured).map(r=>r.x), 0);
+  $("racePct").textContent = Math.round(clamp(front/race.length, 0, 1)*100) + "%";
+  const rows = race.racers.filter(r=>!r.captured).sort((a,b)=>b.x-a.x).slice(0,5);
+  const cap  = race.racers.filter(r=>r.captured);
+  $("lbRows").innerHTML =
+    rows.map((r,i)=>
+      `<div class="lb-row"><span class="pos">${i+1}</span>
+        <span class="dot" style="background:${r.c.lep.coat}"></span>
+        <span class="lb-name">#${r.c.bib} ${escapeHtml(r.c.name)}</span></div>`).join("")
+    + cap.map(r=>
+      `<div class="lb-row" style="opacity:.65"><span class="pos">☠️</span>
+        <span class="dot" style="background:${r.c.lep.coat}"></span>
+        <span class="lb-name" style="text-decoration:line-through">#${r.c.bib} ${escapeHtml(r.c.name)}</span></div>`).join("");
+}
+function escapeHtml(s){ return s.replace(/[&<>"']/g, m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m])); }
+
+/* ---------------- 6) Winner + confetti ---------------- */
+function crownWinner(r){
+  race.over = true; race.overT = race.t;
+  race.running = true; // let the rest jog in while we celebrate
+  setComment(`🏆 ${r.c.name} takes the SHAMROCK DERBY!`);
+  fanfare();
+  const pot = state.contestants.length * state.fee;
+  const cause = $("causeInput").value.trim() || "the fundraiser";
+
+  // ----- build the awards slate (with racer refs so the ceremony can draw them) -----
+  const awards = [];
+  const faller = [...race.racers].filter(x=>x.falls>0).sort((a,b)=>b.falls-a.falls)[0];
+  if (faller) awards.push({icon:"🫧", name:"Bubble Wrap Award", who:faller.c.name, racer:faller,
+    why:`hit the pavement ${faller.falls} time${faller.falls>1?"s":""}, skinned a knee, and bounced right back`});
+  const shanghaied = race.racers.filter(x=>x.captured);
+  if (shanghaied.length) awards.push({icon:"☠️", name:"Shanghaied Award",
+    who:shanghaied.map(x=>x.c.name).join(" & "), racer:shanghaied[0],
+    why:"kidnapped by pirates mid-race — send a rescue party"});
+  const heart = race.racers.filter(x=>x!==r && !x.captured).sort((a,b)=>b.leadT-a.leadT)[0];
+  if (heart && heart.leadT > 4) awards.push({icon:"💔", name:"Heartbreaker Award", who:heart.c.name, racer:heart,
+    why:`led the derby for ${Math.round(heart.leadT)} seconds but couldn't hold on`});
+  const lucky = [...race.racers].filter(x=>x!==faller).sort((a,b)=>b.boosts-a.boosts)[0];
+  if (lucky && lucky.boosts > 0) awards.push({icon:"⚡", name:"Lucky Streak Award", who:lucky.c.name, racer:lucky,
+    why:`caught ${lucky.boosts} burst${lucky.boosts>1?"s":""} of pure Irish luck`});
+  const hurdler = [...race.racers].sort((a,b)=>b.hurdles-a.hurdles)[0];
+  if (hurdler && hurdler.hurdles > 1) awards.push({icon:"🥃", name:"Bottle Hurdler Award", who:hurdler.c.name, racer:hurdler,
+    why:`cleared ${hurdler.hurdles} rolling whiskey bottles without spilling a drop`});
+  const rear = race.racers.filter(x=>!x.captured && x!==r).sort((a,b)=>a.x-b.x)[0];
+  if (rear) awards.push({icon:"🐢", name:"Scenic Route Award", who:rear.c.name, racer:rear,
+    why:"took time to enjoy the bay view — someone had to"});
+  race.winnerRef = r; race.awardsData = awards;
+
+  // ----- populate the results card (shown after the ceremony) -----
+  $("winnerName").textContent = r.c.name;
+  $("winnerPrize").textContent = money(pot/2);
+  $("causePrize").textContent = money(pot/2);
+  $("causeCellLabel").textContent = `To ${cause}`;
+  const captured = shanghaied.map(x=>x.c.name);
+  $("totalLine").textContent =
+    `Total pot: ${money(pot)} from ${state.contestants.length} contestants at ${money(state.fee)} each · ` +
+    `Ridden home by ${r.c.lep.lepName}, bib #${r.c.bib}` +
+    (captured.length ? ` · Lost to pirates: ${captured.join(", ")} ☠️` : "");
+  $("awardsList").innerHTML = awards.map(a=>
+    `<div class="aw"><span class="aw-ic">${a.icon}</span><div><b>${a.name}</b> — ${escapeHtml(a.who)}` +
+    `<span class="aw-why">${a.why}</span></div></div>`).join("");
+
+  // curtain up on the broadcast after the winner crosses
+  setTimeout(()=>startCeremony(r, awards, pot, cause), 1700);
+}
+function showWinnerCard(){
+  const r = race.winnerRef;
+  if (!r) return;
+  const wc = $("winnerCanvas"), wctx = wc.getContext("2d");
+  wctx.clearRect(0,0,wc.width,wc.height);
+  let wt = 0;
+  (function winnerAnim(){
+    wctx.clearRect(0,0,wc.width,wc.height);
+    drawLeprechaun(wctx, 150, 312, 92, r.c.lep, wt*6, "win", r.c.bib, wt);
+    wt += 1/60;
+    if ($("winnerOverlay").style.display === "flex") requestAnimationFrame(winnerAnim);
+  })();
+  $("winnerOverlay").style.display = "flex";
+  burstConfetti();
+  $("rematchBtn").style.display = "inline-block";
+}
+
+/* ============ The awards ceremony broadcast ============
+   A timed, narrated sequence of full-screen award scenes,
+   built for a big projector screen and a seated crowd.     */
+const cer = { scenes:[], idx:0, tos:[], raf:null, racer:null, voiceOn:true, active:false };
+function startCeremony(winner, awards, pot, cause){
+  try{ speechSynthesis.cancel(); }catch(e){}
+  cer.scenes = [{
+    eyebrow:"THE RACE IS OVER", award:"🎺 AWARDS CEREMONY", name:"",
+    praise:"Ladies and gentlemen — your Shamrock Derby honors!",
+    racer:null, prize:"", dur:5,
+    speak:"Ladies and gentlemen! The race is over! Please welcome... your Shamrock Derby awards ceremony!"
+  }];
+  awards.forEach(a=>{
+    cer.scenes.push({
+      eyebrow:"AWARD", award:`${a.icon} ${a.name}`, name:a.who,
+      praise:cap(a.why)+"!", racer:a.racer||null, prize:"", dur:8,
+      speak:`The ${a.name} goes to... ${a.who}! ${a.why}!`
+    });
+  });
+  cer.scenes.push({
+    eyebrow:"AND YOUR SHAMROCK DERBY CHAMPION IS…", award:"🏆", name:winner.c.name,
+    praise:`The derby unicorn presents the pot of gold! Ridden home by ${winner.c.lep.lepName}, bib number ${winner.c.bib}!`,
+    racer:winner, champ:true, dur:12,
+    prize:`Takes home ${money(pot/2)} — ${money(pot/2)} to ${cause}!`,
+    speak:`And your Shamrock Derby champion is... ${winner.c.name}!! ` +
+          `The derby unicorn hands over the pot of gold: ${Math.round(pot/2)} dollars! ` +
+          `With ${Math.round(pot/2)} dollars raised for ${cause}! What a race, folks!`
+  });
+  cer.idx = 0; cer.active = true;
+  $("ceremony").style.display = "block";
+  animateCerCanvas();
+  playScene(0);
+}
+function cap(s){ return s.charAt(0).toUpperCase() + s.slice(1); }
+function playScene(i){
+  clearCerTimers();
+  if (i >= cer.scenes.length){ endCeremony(); return; }
+  cer.idx = i;
+  const sc = cer.scenes[i];
+  cer.champScene = !!sc.champ;
+  ["cerEyebrow","cerAward","cerGoes","cerName","cerPraise","cerPrize","cerCanvas"]
+    .forEach(id=>$(id).classList.remove("on"));
+  cer.racer = null;
+  $("cerEyebrow").textContent = sc.eyebrow;
+  $("cerAward").textContent  = sc.award;
+  $("cerGoes").textContent   = sc.name ? "goes to…" : "";
+  $("cerName").textContent   = sc.name;
+  $("cerPraise").textContent = sc.praise;
+  $("cerPrize").textContent  = sc.prize || "";
+  speakLine(sc.speak);
+  cerT(250, ()=>{ $("cerEyebrow").classList.add("on"); $("cerAward").classList.add("on"); });
+  if (sc.name){
+    cerT(1400, ()=>$("cerGoes").classList.add("on"));
+    cerT(sc.champ ? 2800 : 2200, ()=>{
+      $("cerName").classList.add("on");
+      if (sc.racer){ cer.racer = sc.racer; $("cerCanvas").classList.add("on"); }
+      burstConfetti(sc.champ ? 220 : 55);
+      beep(sc.champ ? 784 : 659, .25);
+    });
+    cerT(sc.champ ? 3700 : 3000, ()=>$("cerPraise").classList.add("on"));
+    if (sc.prize) cerT(4600, ()=>$("cerPrize").classList.add("on"));
+  } else {
+    cerT(1100, ()=>$("cerPraise").classList.add("on"));
+  }
+  cerT(sc.dur*1000, ()=>playScene(i+1));
+}
+function cerT(ms, fn){ cer.tos.push(setTimeout(fn, ms)); }
+function clearCerTimers(){ cer.tos.forEach(clearTimeout); cer.tos = []; }
+function animateCerCanvas(){
+  const cv = $("cerCanvas"), c2 = cv.getContext("2d");
+  let tt = 0;
+  cancelAnimationFrame(cer.raf);
+  (function anim(){
+    if (!cer.active) return;
+    c2.clearRect(0,0,cv.width,cv.height);
+    if (cer.racer){
+      // little podium under the honoree
+      c2.fillStyle = "#0A2E19";
+      c2.fillRect(90, 372, 180, 30);
+      c2.fillStyle = "#F2B824";
+      c2.fillRect(90, 368, 180, 6);
+      if (cer.champScene) drawPot(c2, 88, 402, 92, tt);
+      drawLeprechaun(c2, 190, 366, 96, cer.racer.c.lep, tt*7, "win", cer.racer.c.bib, tt);
+    }
+    tt += 1/60;
+    cer.raf = requestAnimationFrame(anim);
+  })();
+}
+function endCeremony(){
+  cer.active = false;
+  clearCerTimers();
+  try{ speechSynthesis.cancel(); }catch(e){}
+  cancelAnimationFrame(cer.raf);
+  $("ceremony").style.display = "none";
+  showWinnerCard();
+}
+function speakLine(txt){
+  if (!cer.voiceOn) return;
+  if (announcer.active && tellAnnouncerDirect(txt)) return;   // same voice/persona as the live commentary
+  if (!window.speechSynthesis) return;
+  try{
+    speechSynthesis.cancel();
+    const u = new SpeechSynthesisUtterance(txt);
+    u.rate = 1.02; u.pitch = 1.12; u.volume = 1;
+    speechSynthesis.speak(u);
+  }catch(e){}
+}
+/* shamrock + gold confetti on a temporary full-screen canvas */
+function burstConfetti(count = 130){
+  if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+  const cv = document.createElement("canvas");
+  cv.style.cssText = "position:fixed;inset:0;pointer-events:none;z-index:80";
+  cv.width = innerWidth; cv.height = innerHeight;
+  document.body.appendChild(cv);
+  const c2 = cv.getContext("2d");
+  const bits = Array.from({length:count},()=>({
+    x: rand(0,cv.width), y: rand(-cv.height*0.5,0),
+    vy: rand(120,300), vx: rand(-50,50), rot: rand(0,6.28), vr: rand(-3,3),
+    kind: Math.random()<0.55 ? "clover":"coin", s: rand(7,14)
+  }));
+  let t0 = performance.now();
+  (function fall(now){
+    const dt = Math.min(.05,(now-t0)/1000); t0 = now;
+    c2.clearRect(0,0,cv.width,cv.height);
+    let alive = false;
+    bits.forEach(b=>{
+      b.y += b.vy*dt; b.x += b.vx*dt + Math.sin(b.y*0.02)*0.8; b.rot += b.vr*dt;
+      if (b.y < cv.height + 30) alive = true;
+      c2.save(); c2.translate(b.x,b.y); c2.rotate(b.rot);
+      if (b.kind==="clover") drawClover(c2,0,0,b.s);
+      else { c2.fillStyle="#F2B824"; c2.beginPath(); c2.arc(0,0,b.s*0.6,0,7); c2.fill();
+             c2.fillStyle="#D99A0B"; c2.beginPath(); c2.arc(0,0,b.s*0.34,0,7); c2.fill(); }
+      c2.restore();
+    });
+    if (alive) requestAnimationFrame(fall); else cv.remove();
+  })(performance.now());
+}
+
+/* ---------------- tiny sounds (no files needed) ---------------- */
+let audioCtx = null;
+function beep(freq, dur){
+  try{
+    audioCtx = audioCtx || new (window.AudioContext||window.webkitAudioContext)();
+    const o = audioCtx.createOscillator(), g = audioCtx.createGain();
+    o.frequency.value = freq; o.type = "triangle";
+    g.gain.setValueAtTime(.18, audioCtx.currentTime);
+    g.gain.exponentialRampToValueAtTime(.001, audioCtx.currentTime + dur);
+    o.connect(g).connect(audioCtx.destination);
+    o.start(); o.stop(audioCtx.currentTime + dur);
+  }catch(e){}
+}
+function fanfare(){ [523,659,784,1047].forEach((f,i)=>setTimeout(()=>beep(f,.22), i*140)); }
+
+/* ---------------- wiring ---------------- */
+$("startBtn").onclick = startRace;
+$("skipBtn").onclick = endCeremony;
+$("voiceBtn").onclick = ()=>{
+  cer.voiceOn = !cer.voiceOn;
+  $("voiceBtn").textContent = cer.voiceOn ? "🔊 Announcer voice: ON" : "🔇 Announcer voice: OFF";
+  if (!cer.voiceOn){ try{ speechSynthesis.cancel(); }catch(e){} }
+};
+$("replayCerBtn").onclick = ()=>{
+  $("winnerOverlay").style.display = "none";
+  const pot = state.contestants.length * state.fee;
+  const cause = $("causeInput").value.trim() || "the fundraiser";
+  if (race.winnerRef) startCeremony(race.winnerRef, race.awardsData || [], pot, cause);
+};
+$("backBtn").onclick = ()=>{
+  cancelAnimationFrame(race.raf);
+  cer.active = false; clearCerTimers();
+  try{ speechSynthesis.cancel(); }catch(e){}
+  if (announcer.conversation){ try{ announcer.conversation.endSession(); }catch(e){} }
+  announcer.conversation = null; announcer.active = false; announcer.connecting = false;
+  $("announcerBtn").textContent = "🎙️ Live AI Announcer: OFF";
+  $("ceremony").style.display = "none";
+  $("raceView").style.display = "none";
+  $("setupView").style.display = "grid";
+  $("winnerOverlay").style.display = "none";
+};
+$("rematchBtn").onclick = ()=>{ $("winnerOverlay").style.display="none"; startRace(); };
+$("againBtn").onclick = ()=>{ $("winnerOverlay").style.display="none"; startRace(); };
+$("newRaceBtn").onclick = ()=>{
+  cancelAnimationFrame(race.raf);
+  try{ speechSynthesis.cancel(); }catch(e){}
+  if (announcer.conversation){ try{ announcer.conversation.endSession(); }catch(e){} }
+  announcer.conversation = null; announcer.active = false; announcer.connecting = false;
+  $("announcerBtn").textContent = "🎙️ Live AI Announcer: OFF";
+  $("winnerOverlay").style.display = "none";
+  $("raceView").style.display = "none";
+  $("setupView").style.display = "grid";
+};
+
+refreshSetup();
+</script>
+</body>
+</html>
