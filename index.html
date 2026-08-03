@@ -3160,11 +3160,16 @@ function setComment(txt){ $("commentText").textContent = txt; race.lastCommentT 
    backend — shamrock-derby-announcer-api on Vercel — which holds the
    ElevenLabs API key and hands back a short-lived signed connection URL.
    The key itself never touches the browser.
-   - tellAnnouncer(): hooked into setComment(), throttled so fast-fire race
-     events don't pile up on top of each other.
-   - tellAnnouncerDirect(): hooked into the ceremony's speakLine(), NOT
-     throttled, since the ceremony's own scene timers already space lines
-     out by several seconds apiece.
+   - tellAnnouncer(): hooked into setComment(). Race events fire fast, so we
+     keep only the freshest un-spoken line — a backlog would play long after
+     the moment it described has passed.
+   - tellAnnouncerDirect(): hooked into the ceremony's speakLine(). Ceremony
+     lines are queued in order so every award announcement is spoken in full.
+   Both feed a single queue that is paced by the agent's ACTUAL speaking
+   state (reported via onModeChange), NOT a fixed timer. The next line is only
+   sent once the agent has finished the current one, so it is never cut off
+   mid-sentence. A fixed throttle can't know how long a given line takes to
+   speak, which is exactly why lines were interrupting each other before.
    When the announcer is OFF (or fails to connect), speakLine() falls back
    to the browser's built-in voice exactly as before — nothing about the
    existing ceremony is removed, just extended.                          */
@@ -3173,11 +3178,40 @@ const announcer = {
   // Backend that mints the signed URL. Served same-origin from this project's
   // /api folder (Vercel serverless function). Change only if you move the backend.
   signedUrlEndpoint: "/api/get-signed-url",
-  conversation: null, active: false, connecting: false, lastSend: -99
+  conversation: null, active: false, connecting: false,
+  busy: false,        // true from the moment a line is sent until the agent finishes speaking it
+  queue: [],          // pending lines waiting for the mic to clear; each { txt, race }
+  watchdog: null      // safety timer so a dropped/never-spoken line can't stall the queue forever
 };
+function resetAnnouncerState(){
+  announcer.busy = false;
+  announcer.queue.length = 0;
+  if (announcer.watchdog){ clearTimeout(announcer.watchdog); announcer.watchdog = null; }
+}
+// Send the next queued line, but only when the agent isn't mid-line. Setting
+// busy=true right away closes the window where a burst of events could all
+// fire sendUserMessage() before the agent has started speaking the first.
+function pumpAnnouncerQueue(){
+  if (!announcer.active || !announcer.conversation || announcer.busy) return;
+  const item = announcer.queue.shift();
+  if (!item) return;
+  announcer.busy = true;
+  try{
+    announcer.conversation.sendUserMessage(item.txt);
+    if (announcer.watchdog) clearTimeout(announcer.watchdog);
+    // If the agent never starts speaking (dropped message, hiccup), don't wedge
+    // the queue — release busy after a generous pause and try the next line.
+    announcer.watchdog = setTimeout(() => {
+      announcer.watchdog = null; announcer.busy = false; pumpAnnouncerQueue();
+    }, 9000);
+  }catch(e){
+    announcer.busy = false;
+  }
+}
 async function toggleAnnouncer(){
   if (announcer.active || announcer.connecting){
     announcer.active = false; announcer.connecting = false;
+    resetAnnouncerState();
     $("announcerBtn").textContent = "🎙️ Live AI Announcer: OFF";
     if (announcer.conversation){ try{ await announcer.conversation.endSession(); }catch(e){} announcer.conversation = null; }
     return;
@@ -3193,32 +3227,51 @@ async function toggleAnnouncer(){
     const { Conversation } = await import("https://cdn.jsdelivr.net/npm/@elevenlabs/client/+esm");
     announcer.conversation = await Conversation.startSession({
       signedUrl: body.signedUrl,
+      onModeChange: (m) => {
+        // The agent flips to "speaking" when audio starts and back to
+        // "listening" when it finishes. We treat the end of a spoken turn as
+        // the cue to release the mic and send whatever is next in the queue.
+        if (m && m.mode === "speaking"){
+          if (announcer.watchdog){ clearTimeout(announcer.watchdog); announcer.watchdog = null; }
+        } else {
+          announcer.busy = false;
+          pumpAnnouncerQueue();
+        }
+      },
       onDisconnect: () => {
         announcer.active = false; announcer.connecting = false; announcer.conversation = null;
+        resetAnnouncerState();
         $("announcerBtn").textContent = "🎙️ Live AI Announcer: OFF";
       },
       onError: () => {
         announcer.active = false; announcer.connecting = false; announcer.conversation = null;
+        resetAnnouncerState();
         $("announcerBtn").textContent = "🎙️ Announcer unavailable — retry?";
       }
     });
     announcer.active = true; announcer.connecting = false;
+    resetAnnouncerState();
     $("announcerBtn").textContent = "🎙️ Live AI Announcer: ON";
   }catch(e){
     announcer.active = false; announcer.connecting = false; announcer.conversation = null;
+    resetAnnouncerState();
     $("announcerBtn").textContent = "🎙️ Announcer unavailable — retry?";
     console.warn("ElevenLabs announcer failed to start:", e);
   }
 }
-function tellAnnouncer(txt){                        // live race commentary — throttled
+function tellAnnouncer(txt){                        // live race commentary
   if (!announcer.active || !announcer.conversation) return;
-  if (race.t - announcer.lastSend < 4.2) return;     // give each line room to be spoken before the next
-  announcer.lastSend = race.t;
-  try{ announcer.conversation.sendUserMessage(txt); }catch(e){}
+  // Bursty by nature — drop any race line still waiting so we always speak the
+  // most current call rather than a stale backlog. Ceremony lines are kept.
+  announcer.queue = announcer.queue.filter(item => !item.race);
+  announcer.queue.push({ txt, race: true });
+  pumpAnnouncerQueue();
 }
-function tellAnnouncerDirect(txt){                   // ceremony narration — not throttled, already paced by scene timers
+function tellAnnouncerDirect(txt){                   // ceremony narration — queued in order, never dropped
   if (!announcer.active || !announcer.conversation) return false;
-  try{ announcer.conversation.sendUserMessage(txt); return true; }catch(e){ return false; }
+  announcer.queue.push({ txt, race: false });
+  pumpAnnouncerQueue();
+  return true;
 }
 $("announcerBtn").onclick = toggleAnnouncer;
 
@@ -3603,6 +3656,7 @@ $("backBtn").onclick = ()=>{
   try{ speechSynthesis.cancel(); }catch(e){}
   if (announcer.conversation){ try{ announcer.conversation.endSession(); }catch(e){} }
   announcer.conversation = null; announcer.active = false; announcer.connecting = false;
+  resetAnnouncerState();
   $("announcerBtn").textContent = "🎙️ Live AI Announcer: OFF";
   $("ceremony").style.display = "none";
   $("raceView").style.display = "none";
@@ -3616,6 +3670,7 @@ $("newRaceBtn").onclick = ()=>{
   try{ speechSynthesis.cancel(); }catch(e){}
   if (announcer.conversation){ try{ announcer.conversation.endSession(); }catch(e){} }
   announcer.conversation = null; announcer.active = false; announcer.connecting = false;
+  resetAnnouncerState();
   $("announcerBtn").textContent = "🎙️ Live AI Announcer: OFF";
   $("winnerOverlay").style.display = "none";
   $("raceView").style.display = "none";
