@@ -2157,6 +2157,9 @@ const WATER_Y = H*0.34, WATER_H = H*0.20;
 const RAIL_Y  = H*0.505;          // balustrade base band
 const WALK_Y  = H*0.565;          // famous Bayshore sidewalk
 const ROAD_Y  = H*0.615, ROAD_H = H*0.385;
+// Pre-race camera pull-back: the field lines up behind the start line (world x ≤ 0),
+// so before the gun the camera sits left of 0 to keep the whole lineup on screen.
+const PRE_RACE_CAM = -Math.round(W*0.25);
 
 let skyline = [];                  // Tampa's real silhouette, tiled every 2400px
 function buildSkyline(seedFn){
@@ -2784,7 +2787,7 @@ function startRace(){
   race.length = Math.round(RACE_SECONDS * (159 - 30/n));           // calibrated to front-of-pack pace per field size
   race.kidnapMax = RACE_SECONDS >= 120 ? 3 : RACE_SECONDS >= 60 ? 2 : 1;
   race.leaderRef = null; race.lastLeadComm = 0;
-  race.cam = 0; race.t = 0; race.runT = 0; race.over = false; race.running = false;
+  race.cam = PRE_RACE_CAM; race.t = 0; race.runT = 0; race.over = false; race.running = false;
   race.particles = []; race.pirateEvent = null; race.kidnapCount = 0;
   state.finished = [];
   const cd = $("countdown"), num = $("countNum");
@@ -2804,7 +2807,7 @@ function startRace(){
   if (announcer.active){
     // The announcer runs the whole pre-race. When the derby page opens he
     // announces the field and counts it down, and the gun is held on a fixed
-    // 30-second timer so he always has ample time to finish "GO!" without
+    // 60-second timer so he always has a full minute to finish "GO!" without
     // being rushed or cut off. (No onDone launch — the wait is deliberate.)
     setComment("🎙️ Your announcer is calling the race to the line…", true);
     cd.style.display = "flex"; num.textContent = "🎙️";
@@ -2812,11 +2815,11 @@ function startRace(){
       `You're the live race announcer for the Shamrock Derby on Bayshore Boulevard, with ${n} leprechauns racing for a ${money(pot)} pot. ` +
       `Announce the race with big, high-energy, funny commentary about the field, then count it down and start the race, ` +
       `ending with exactly these words: "Ready... get set... GO!" ` +
-      `Take your time — pace it to run about twenty-five to thirty seconds total — and do not say anything after "GO!".`
+      `Take your time — you have a full minute, so pace it to run about fifty to sixty seconds total — and do not say anything after "GO!".`
     );
-    // Deliberate 30s pre-race window: the race always starts 30 seconds after
+    // Deliberate 60s pre-race window: the race always starts a full minute after
     // the page opens, giving the announcer ample room to announce and count down.
-    announcer.startFailsafe = setTimeout(launchField, 30000);
+    announcer.startFailsafe = setTimeout(launchField, 60000);
   } else {
     // Classic visual countdown with beeps.
     setComment("Runners to the line… the bay is calm, the crowd is not!");
@@ -2973,10 +2976,13 @@ function update(dt){
     if (p.kind === "splash") p.vy += 420*dt;
     return p.life > 0;
   });
-  // camera follows the front of the pack, keeps finish in frame at the end
+  // Before the gun, hold the pull-back so the whole lineup stays on screen; once
+  // running, the camera follows the front of the pack and keeps the finish in frame.
   const camRacers = race.racers.filter(r=>!r.captured);
-  const target = Math.max(0, Math.max(...camRacers.map(r=>r.x)) - W*0.62);
-  race.cam += (Math.min(target, race.length - W*0.85) - race.cam) * Math.min(1, dt*3.2);
+  const target = race.running
+    ? Math.min(Math.max(0, Math.max(...camRacers.map(r=>r.x)) - W*0.62), race.length - W*0.85)
+    : PRE_RACE_CAM;
+  race.cam += (target - race.cam) * Math.min(1, dt*3.2);
   updateLeaderboard();
 }
 
