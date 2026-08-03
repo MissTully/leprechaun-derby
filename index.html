@@ -87,6 +87,42 @@ input:focus,select:focus{outline:3px solid #9BD8AF;border-color:var(--shamrock)}
 .btn.big{width:100%;font-size:22px;padding:16px}
 .hint{font-size:12px;color:#6b8f78;font-weight:700;margin-top:8px;line-height:1.5}
 
+/* ---------- Promo video hero (first screen) ---------- */
+.promo-hero{
+  grid-column:1 / -1;
+  display:grid;grid-template-columns:1.05fr 1fr;gap:22px;align-items:center;
+  background:linear-gradient(135deg,var(--emerald) 0%, #14713F 55%, var(--shamrock) 100%);
+  border-radius:18px;box-shadow:var(--shadow);
+  border:3px solid rgba(255,233,168,.55);
+  padding:22px;color:#fff;overflow:hidden;position:relative;
+}
+.promo-hero::before{
+  content:"";position:absolute;inset:0;pointer-events:none;
+  background:radial-gradient(600px 220px at 88% -60px, rgba(255,233,168,.28), transparent 60%);
+}
+.promo-copy{position:relative;z-index:1}
+.promo-eyebrow{
+  display:inline-block;font-weight:900;font-size:11px;letter-spacing:2.4px;text-transform:uppercase;
+  color:#4a3200;background:var(--gold);border-radius:999px;padding:5px 13px;
+  box-shadow:0 3px 0 var(--gold-deep);margin-bottom:12px;
+}
+.promo-copy h2{
+  font-family:'Lilita One',cursive;font-size:clamp(24px,3.2vw,34px);line-height:1.05;
+  color:#fff;text-shadow:0 3px 0 rgba(0,0,0,.28);margin-bottom:10px;
+}
+.promo-copy h2 .hl{color:#FFE9A8}
+.promo-copy p{font-size:15px;font-weight:700;line-height:1.55;color:#EAF7EC;max-width:44ch}
+.promo-frame{
+  position:relative;z-index:1;width:100%;aspect-ratio:16/9;
+  border-radius:14px;overflow:hidden;background:#0a1c12;
+  border:3px solid rgba(255,255,255,.35);box-shadow:0 10px 24px rgba(0,0,0,.32);
+}
+.promo-frame iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+@media (max-width:760px){
+  .promo-hero{grid-template-columns:1fr;gap:16px;text-align:center}
+  .promo-copy p{margin:0 auto}
+}
+
 /* AI announcer toggle switch (setup page) */
 .announcer-switch{display:flex;align-items:center;gap:12px;background:#fff;border:2px solid #C9DECF;
   border-radius:14px;padding:12px 14px;cursor:pointer;user-select:none;font-weight:800;color:var(--emerald)}
@@ -275,6 +311,24 @@ footer{margin-top:26px;text-align:center;font-size:12px;font-weight:700;color:#7
 
   <!-- ================= SETUP VIEW ================= -->
   <div id="setupView" class="grid">
+    <div class="promo-hero">
+      <div class="promo-copy">
+        <span class="promo-eyebrow">🍀 You're invited to race</span>
+        <h2>Grab a leprechaun and <span class="hl">join the Derby!</span></h2>
+        <p>Watch the quick invite below, then add your name to today's field. Every
+           entry gets a one-of-a-kind leprechaun — and half the pot goes to the cause.</p>
+      </div>
+      <div class="promo-frame">
+        <iframe
+          src="https://www.youtube-nocookie.com/embed/iP7QksKlVYE?rel=0&modestbranding=1"
+          title="Shamrock Derby — join the race!"
+          loading="lazy"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+          referrerpolicy="strict-origin-when-cross-origin"
+          allowfullscreen></iframe>
+      </div>
+    </div>
+
     <div class="panel">
       <h2>Race Setup</h2>
       <div class="sub">The facilitator collects entries, then starts the race.</div>
