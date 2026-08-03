@@ -1960,36 +1960,56 @@ function drawBottle(ctx, x, y, rot){
   ctx.fillStyle = "rgba(0,0,0,.22)";
   ctx.beginPath(); ctx.ellipse(x, y + 2, 24, 5, 0, 0, 7); ctx.fill();
   ctx.save(); ctx.translate(x, y - 10); ctx.rotate(rot);
-  const G = "#1E6B3C", GD = "#14512C";
+  // Jameson palette: green glass, cream label, gold trim, red crest + red foil cap
+  const G = "#1E6B3C", GD = "#123F24", GLASS_HI = "#57A56F",
+        GOLD = "#CBA02F", GOLD_HI = "#F0D27A", CREAM = "#F5EEDA",
+        RED = "#B22C22", RED_HI = "#D8493B", RED_DK = "#7F1C15";
   // body with the classic sloped shoulder into a straight neck
   ctx.fillStyle = G;
   ctx.beginPath();
   ctx.moveTo(-22, -9);
   ctx.lineTo(6, -9);
   ctx.quadraticCurveTo(13, -8, 15, -3.5);
-  ctx.lineTo(24, -3.5);
-  ctx.lineTo(24, 3.5);
+  ctx.lineTo(23, -3.5);
+  ctx.lineTo(23, 3.5);
   ctx.lineTo(15, 3.5);
   ctx.quadraticCurveTo(13, 8, 6, 9);
   ctx.lineTo(-22, 9);
   ctx.quadraticCurveTo(-26, 0, -22, -9);
   ctx.closePath(); ctx.fill();
   ctx.strokeStyle = GD; ctx.lineWidth = 1.6; ctx.stroke();
-  // glass shine along the barrel
-  ctx.fillStyle = "rgba(255,255,255,.28)";
-  roundRect(ctx, -19, -6.5, 22, 3, 1.5); ctx.fill();
-  // cork cap
-  ctx.fillStyle = "#C9A15A"; ctx.fillRect(24, -4.5, 5, 9);
-  ctx.strokeStyle = "#8A6A34"; ctx.lineWidth = 1; ctx.strokeRect(24, -4.5, 5, 9);
-  // cream label with a green oval crest
-  ctx.fillStyle = "#F4EDD8";
-  roundRect(ctx, -17, -7, 18, 14, 2); ctx.fill();
-  ctx.strokeStyle = GD; ctx.lineWidth = 1.2;
-  ctx.beginPath(); ctx.ellipse(-8, 0, 7, 5.4, 0, 0, 7); ctx.stroke();
-  ctx.fillStyle = GD; ctx.font = "900 4.5px Nunito, sans-serif";
+  // glass shine along the barrel (kept to the green shoulder, above the label)
+  ctx.fillStyle = "rgba(255,255,255,.30)";
+  roundRect(ctx, 2, -6.5, 11, 2.4, 1.2); ctx.fill();
+  // gold band where the neck meets the shoulder
+  ctx.fillStyle = GOLD; ctx.fillRect(13.5, -3.6, 2.2, 7.2);
+  ctx.fillStyle = GOLD_HI; ctx.fillRect(13.5, -3.6, 2.2, 1.1);
+  // red foil capsule cap with a gold ring at its base
+  ctx.fillStyle = GOLD; ctx.fillRect(22.5, -4.2, 1.6, 8.4);
+  ctx.fillStyle = RED;
+  roundRect(ctx, 23.7, -4.4, 6.6, 8.8, 2.2); ctx.fill();
+  ctx.strokeStyle = RED_DK; ctx.lineWidth = 0.8; ctx.stroke();
+  ctx.fillStyle = RED_HI; roundRect(ctx, 24, -4, 6, 2.2, 1.4); ctx.fill();  // sheen
+  ctx.strokeStyle = RED_DK; ctx.lineWidth = 0.5;                            // foil creases
+  ctx.beginPath(); ctx.moveTo(26.4, -3.8); ctx.lineTo(26.4, 3.8);
+  ctx.moveTo(28.2, -3.6); ctx.lineTo(28.2, 3.6); ctx.stroke();
+  // cream label with gold banding top and bottom
+  ctx.fillStyle = CREAM;
+  roundRect(ctx, -18, -7.6, 20, 15.2, 2); ctx.fill();
+  ctx.strokeStyle = "rgba(0,0,0,.10)"; ctx.lineWidth = 0.6; ctx.stroke();
+  ctx.fillStyle = GOLD;
+  ctx.fillRect(-18, -7.6, 20, 1.5);   // top gold band
+  ctx.fillRect(-18, 6.1, 20, 1.5);    // bottom gold band
+  // red crest medallion (the Jameson seal) above the wordmark, ringed in gold
+  ctx.fillStyle = RED;
+  ctx.beginPath(); ctx.arc(-8, -2.7, 2.3, 0, 7); ctx.fill();
+  ctx.strokeStyle = GOLD; ctx.lineWidth = 0.8; ctx.stroke();
+  ctx.fillStyle = GOLD_HI;
+  ctx.beginPath(); ctx.arc(-8.7, -3.4, 0.7, 0, 7); ctx.fill();   // tiny highlight
+  // JAMESON wordmark in bottle-green
+  ctx.fillStyle = G; ctx.font = "900 3.7px Nunito, sans-serif";
   ctx.textAlign = "center"; ctx.textBaseline = "middle";
-  ctx.fillText("IRISH", -8, -1);
-  ctx.fillText("WHISKEY", -8, 3.5);
+  ctx.fillText("JAMESON", -8, 3.4);
   ctx.restore();
 }
 
