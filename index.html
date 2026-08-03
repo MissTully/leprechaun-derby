@@ -186,14 +186,13 @@ input:focus,select:focus{outline:3px solid #9BD8AF;border-color:var(--shamrock)}
 #leaderboard .lb-row .pos{width:18px;color:#FFE9A8;font-weight:900}
 #leaderboard .lb-row .dot{width:12px;height:12px;border-radius:50%;border:2px solid #fff;flex:none}
 #leaderboard .lb-row .lb-name{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-/* Live announcer call — a broadcast "lower third" caption pinned to the bottom
-   of the race stage so it stays in the viewer's eyeline during the race. */
+/* Live announcer call — a bold broadcast bar shown ABOVE the race window so it
+   stays easy to read without ever covering the racers. */
 #commentary{
-  position:absolute;left:14px;right:14px;bottom:14px;z-index:5;pointer-events:none;
-  background:linear-gradient(90deg,rgba(8,40,24,.94),rgba(14,66,40,.88));
-  backdrop-filter:blur(6px);
-  border-radius:14px;padding:12px 18px;display:flex;align-items:center;gap:13px;
-  border:2px solid rgba(255,233,168,.6);box-shadow:0 10px 26px rgba(0,0,0,.4);
+  margin-bottom:12px;
+  background:linear-gradient(90deg,#0A3B22,#14713F 55%,#0E5A31);
+  border-radius:14px;padding:13px 18px;display:flex;align-items:center;gap:13px;
+  border:2px solid rgba(255,233,168,.6);box-shadow:var(--shadow);min-height:56px;
 }
 #commentary .live-dot{
   flex:none;width:11px;height:11px;border-radius:50%;background:#FF5147;
@@ -408,6 +407,7 @@ footer{margin-top:26px;text-align:center;font-size:12px;font-weight:700;color:#7
 
   <!-- ================= RACE VIEW ================= -->
   <div id="raceView">
+    <div id="commentary"><span class="live-dot"></span><div class="mic">🎙️</div><p id="commentText">The field is loading in at the start line…</p></div>
     <div class="stage-shell">
       <canvas id="stage" width="1280" height="720"></canvas>
       <div class="race-topbar">
@@ -416,7 +416,6 @@ footer{margin-top:26px;text-align:center;font-size:12px;font-weight:700;color:#7
         <div class="badge">Pot <b id="potRace">$0</b> · Winner takes <b id="winRace">$0</b></div>
       </div>
       <div id="leaderboard"><h3>LIVE LEADERS</h3><div id="lbRows"></div></div>
-      <div id="commentary"><span class="live-dot"></span><div class="mic">🎙️</div><p id="commentText">The field is loading in at the start line…</p></div>
       <div id="countdown"><span id="countNum">3</span></div>
     </div>
     <div class="race-actions">
