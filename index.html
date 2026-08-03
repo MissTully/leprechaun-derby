@@ -84,6 +84,19 @@ input:focus,select:focus{outline:3px solid #9BD8AF;border-color:var(--shamrock)}
 .btn.big{width:100%;font-size:22px;padding:16px}
 .hint{font-size:12px;color:#6b8f78;font-weight:700;margin-top:8px;line-height:1.5}
 
+/* AI announcer toggle switch (setup page) */
+.announcer-switch{display:flex;align-items:center;gap:12px;background:#fff;border:2px solid #C9DECF;
+  border-radius:14px;padding:12px 14px;cursor:pointer;user-select:none;font-weight:800;color:var(--emerald)}
+.announcer-switch .as-label{flex:1;font-size:15px}
+.announcer-switch .as-state{font-family:'Lilita One',cursive;font-size:14px;letter-spacing:.5px;color:#6b8f78;min-width:74px;text-align:right}
+.announcer-switch.on .as-state{color:var(--gold-deep)}
+.as-track{position:relative;width:52px;height:30px;border-radius:999px;background:#C9DECF;transition:background .18s;flex:none}
+.announcer-switch.on .as-track{background:var(--gold)}
+.as-track input{position:absolute;opacity:0;width:100%;height:100%;margin:0;cursor:pointer}
+.as-thumb{position:absolute;top:3px;left:3px;width:24px;height:24px;border-radius:50%;background:#fff;
+  box-shadow:0 2px 4px rgba(0,0,0,.25);transition:transform .18s;pointer-events:none}
+.announcer-switch.on .as-thumb{transform:translateX(22px)}
+
 /* pot math card */
 .pot-math{margin-top:16px;background:linear-gradient(135deg,#0E5A31,#14713F);border-radius:14px;padding:14px 16px;color:#fff}
 .pot-math .line{display:flex;justify-content:space-between;font-weight:800;font-size:14px;padding:5px 0;border-bottom:1px dashed rgba(255,255,255,.25)}
@@ -276,6 +289,12 @@ footer{margin-top:26px;text-align:center;font-size:12px;font-weight:700;color:#7
       </div>
 
       <div style="margin-top:16px;display:grid;gap:10px">
+        <label class="announcer-switch" id="announcerSwitch" for="announcerToggle">
+          <span class="as-label">🎙️ AI Race Announcer</span>
+          <span class="as-track"><input type="checkbox" id="announcerToggle" role="switch"><span class="as-thumb"></span></span>
+          <span class="as-state" id="announcerToggleState">OFF</span>
+        </label>
+        <div class="hint" id="announcerToggleHint">Flip on for a live AI announcer who hypes up the field and counts you down — “Ready… get set… GO!” — to start the race. Asks for microphone access.</div>
         <button class="btn big gold" id="startBtn" disabled>🏁 Start the Derby</button>
         <div class="row">
           <button class="btn ghost" id="demoBtn" style="flex:1">Fill demo field</button>
@@ -2681,23 +2700,52 @@ function startRace(){
   race.cam = 0; race.t = 0; race.runT = 0; race.over = false; race.running = false;
   race.particles = []; race.pirateEvent = null; race.kidnapCount = 0;
   state.finished = [];
-  setComment("Runners to the line… the bay is calm, the crowd is not!");
-  // countdown
   const cd = $("countdown"), num = $("countNum");
-  cd.style.display = "flex";
-  let k = 3;
-  num.textContent = k; beep(440,.12);
-  const iv = setInterval(()=>{
-    k--;
-    if (k > 0){ num.textContent = k; beep(440,.12); }
-    else {
-      num.textContent = "GO!"; beep(720,.25);
-      setTimeout(()=>{ cd.style.display="none"; }, 550);
-      clearInterval(iv);
-      race.running = true;
-      setComment("AND THEY'RE OFF down Bayshore Boulevard!");
-    }
-  }, 950);
+
+  // Drops the field once — flashes "GO!", fires the horn, and starts the sim.
+  // Guarded so the announcer path and its safety timer can't double-launch.
+  function launchField(){
+    if (race.running) return;
+    if (announcer.startFailsafe){ clearTimeout(announcer.startFailsafe); announcer.startFailsafe = null; }
+    num.textContent = "GO!"; beep(720,.25);
+    cd.style.display = "flex";
+    setTimeout(()=>{ cd.style.display="none"; }, 550);
+    race.running = true;
+    setComment("AND THEY'RE OFF down Bayshore Boulevard!");
+  }
+
+  if (announcer.active){
+    // Announcer calls the start himself: a punchy intro + funny commentary,
+    // then he counts the field down and the race launches on his "GO!".
+    setComment("🎙️ Your announcer is taking the mic…", true);
+    cd.style.display = "flex"; num.textContent = "🎙️";
+    enqueueAnnouncer(
+      `You're the live race announcer for the Shamrock Derby down on Bayshore Boulevard. ` +
+      `${n} leprechauns are at the line racing for a pot of ${money(pot)}. ` +
+      `Give a short, high-energy, funny hype-up introducing the race and the field — two or three sentences, no countdown yet.`
+    );
+    enqueueAnnouncer(
+      `Now call the start of the race with a dramatic countdown, exactly: "Riders ready... Ready... get set... GO!"`,
+      { onDone: launchField }
+    );
+    // Failsafe: if the announcer drops mid-intro, never leave racers frozen —
+    // launch anyway after a hard cap. The onDone above normally fires first.
+    announcer.startFailsafe = setTimeout(launchField, 16000);
+  } else {
+    // Classic visual countdown with beeps.
+    setComment("Runners to the line… the bay is calm, the crowd is not!");
+    cd.style.display = "flex";
+    let k = 3;
+    num.textContent = k; beep(440,.12);
+    const iv = setInterval(()=>{
+      k--;
+      if (k > 0){ num.textContent = k; beep(440,.12); }
+      else {
+        clearInterval(iv);
+        launchField();
+      }
+    }, 950);
+  }
   cancelAnimationFrame(race.raf);
   race.prev = performance.now();
   race.raf = requestAnimationFrame(loop);
@@ -3149,7 +3197,7 @@ function canComment(r){
   // racers who've already had airtime yield the mic more often
   return r.mentions === 0 || Math.random() < 1/(1 + r.mentions);
 }
-function setComment(txt){ $("commentText").textContent = txt; race.lastCommentT = race.t; tellAnnouncer(txt); }
+function setComment(txt, mute){ $("commentText").textContent = txt; race.lastCommentT = race.t; if (!mute) tellAnnouncer(txt); }
 
 /* ============ Live AI Announcer (ElevenLabs Conversational AI) ============
    Wires BOTH the live race commentary feed and the awards-ceremony
@@ -3180,13 +3228,37 @@ const announcer = {
   signedUrlEndpoint: "/api/get-signed-url",
   conversation: null, active: false, connecting: false,
   busy: false,        // true from the moment a line is sent until the agent finishes speaking it
-  queue: [],          // pending lines waiting for the mic to clear; each { txt, race }
-  watchdog: null      // safety timer so a dropped/never-spoken line can't stall the queue forever
+  queue: [],          // pending lines waiting for the mic to clear; each { txt, race, onDone }
+  current: null,      // the line currently being spoken (so we can fire its onDone when it ends)
+  watchdog: null,     // safety timer so a dropped/never-spoken line can't stall the queue forever
+  startFailsafe: null // hard cap so an announcer-called race start can never leave the field frozen
 };
+// Keeps every announcer control in sync: the race-view button and the
+// setup-page toggle switch both reflect the one true connection state.
+function syncAnnouncerUI(label){
+  const btn = $("announcerBtn");
+  if (btn) btn.textContent = label;
+  const sw = $("announcerSwitch"), toggle = $("announcerToggle"), st = $("announcerToggleState");
+  if (toggle) toggle.checked = announcer.active;
+  if (sw) sw.classList.toggle("on", announcer.active);
+  if (st) st.textContent = announcer.connecting ? "…" : (announcer.active ? "ON" : "OFF");
+}
 function resetAnnouncerState(){
   announcer.busy = false;
+  announcer.current = null;
   announcer.queue.length = 0;
   if (announcer.watchdog){ clearTimeout(announcer.watchdog); announcer.watchdog = null; }
+  if (announcer.startFailsafe){ clearTimeout(announcer.startFailsafe); announcer.startFailsafe = null; }
+}
+// The current line is done (spoken through, or given up on): fire its
+// completion callback, free the mic, and move to the next line.
+function releaseCurrent(){
+  const done = announcer.current && announcer.current.onDone;
+  announcer.current = null;
+  announcer.busy = false;
+  if (announcer.watchdog){ clearTimeout(announcer.watchdog); announcer.watchdog = null; }
+  if (done){ try{ done(); }catch(e){} }
+  pumpAnnouncerQueue();
 }
 // Send the next queued line, but only when the agent isn't mid-line. Setting
 // busy=true right away closes the window where a burst of events could all
@@ -3196,28 +3268,29 @@ function pumpAnnouncerQueue(){
   const item = announcer.queue.shift();
   if (!item) return;
   announcer.busy = true;
+  announcer.current = item;
   try{
     announcer.conversation.sendUserMessage(item.txt);
     if (announcer.watchdog) clearTimeout(announcer.watchdog);
     // If the agent never starts speaking (dropped message, hiccup), don't wedge
-    // the queue — release busy after a generous pause and try the next line.
-    announcer.watchdog = setTimeout(() => {
-      announcer.watchdog = null; announcer.busy = false; pumpAnnouncerQueue();
-    }, 9000);
+    // the queue — give up on this line after a generous pause and move on. This
+    // also guarantees a line's onDone still fires, so an announcer-driven race
+    // start can never hang waiting on audio that never came.
+    announcer.watchdog = setTimeout(releaseCurrent, 9000);
   }catch(e){
-    announcer.busy = false;
+    releaseCurrent();
   }
 }
 async function toggleAnnouncer(){
   if (announcer.active || announcer.connecting){
     announcer.active = false; announcer.connecting = false;
     resetAnnouncerState();
-    $("announcerBtn").textContent = "🎙️ Live AI Announcer: OFF";
+    syncAnnouncerUI("🎙️ Live AI Announcer: OFF");
     if (announcer.conversation){ try{ await announcer.conversation.endSession(); }catch(e){} announcer.conversation = null; }
     return;
   }
   announcer.connecting = true;
-  $("announcerBtn").textContent = "🎙️ Announcer: connecting…";
+  syncAnnouncerUI("🎙️ Announcer: connecting…");
   try{
     const resp = await fetch(`${announcer.signedUrlEndpoint}?agent_id=${encodeURIComponent(announcer.agentId)}`);
     const body = await resp.json();
@@ -3234,46 +3307,51 @@ async function toggleAnnouncer(){
         if (m && m.mode === "speaking"){
           if (announcer.watchdog){ clearTimeout(announcer.watchdog); announcer.watchdog = null; }
         } else {
-          announcer.busy = false;
-          pumpAnnouncerQueue();
+          releaseCurrent();
         }
       },
       onDisconnect: () => {
         announcer.active = false; announcer.connecting = false; announcer.conversation = null;
         resetAnnouncerState();
-        $("announcerBtn").textContent = "🎙️ Live AI Announcer: OFF";
+        syncAnnouncerUI("🎙️ Live AI Announcer: OFF");
       },
       onError: () => {
         announcer.active = false; announcer.connecting = false; announcer.conversation = null;
         resetAnnouncerState();
-        $("announcerBtn").textContent = "🎙️ Announcer unavailable — retry?";
+        syncAnnouncerUI("🎙️ Announcer unavailable — retry?");
       }
     });
     announcer.active = true; announcer.connecting = false;
     resetAnnouncerState();
-    $("announcerBtn").textContent = "🎙️ Live AI Announcer: ON";
+    syncAnnouncerUI("🎙️ Live AI Announcer: ON");
   }catch(e){
     announcer.active = false; announcer.connecting = false; announcer.conversation = null;
     resetAnnouncerState();
-    $("announcerBtn").textContent = "🎙️ Announcer unavailable — retry?";
+    syncAnnouncerUI("🎙️ Announcer unavailable — retry?");
     console.warn("ElevenLabs announcer failed to start:", e);
   }
 }
-function tellAnnouncer(txt){                        // live race commentary
-  if (!announcer.active || !announcer.conversation) return;
-  // Bursty by nature — drop any race line still waiting so we always speak the
-  // most current call rather than a stale backlog. Ceremony lines are kept.
-  announcer.queue = announcer.queue.filter(item => !item.race);
-  announcer.queue.push({ txt, race: true });
-  pumpAnnouncerQueue();
-}
-function tellAnnouncerDirect(txt){                   // ceremony narration — queued in order, never dropped
+// Core enqueue. opts.race collapses the backlog to the freshest race call;
+// opts.onDone fires once THIS line has been fully spoken (or given up on).
+function enqueueAnnouncer(txt, opts){
+  opts = opts || {};
   if (!announcer.active || !announcer.conversation) return false;
-  announcer.queue.push({ txt, race: false });
+  if (opts.race) announcer.queue = announcer.queue.filter(item => !item.race);
+  announcer.queue.push({ txt, race: !!opts.race, onDone: opts.onDone || null });
   pumpAnnouncerQueue();
   return true;
 }
+function tellAnnouncer(txt){                        // live race commentary
+  // Bursty by nature — drop any race line still waiting so we always speak the
+  // most current call rather than a stale backlog. Ceremony lines are kept.
+  enqueueAnnouncer(txt, { race: true });
+}
+function tellAnnouncerDirect(txt){                   // ceremony narration — queued in order, never dropped
+  return enqueueAnnouncer(txt, {});
+}
 $("announcerBtn").onclick = toggleAnnouncer;
+// Setup-page toggle: same connect/disconnect path, driven by the switch.
+$("announcerToggle").addEventListener("change", () => { toggleAnnouncer(); });
 
 function render(){
   ctx.clearRect(0,0,W,H);
@@ -3657,7 +3735,7 @@ $("backBtn").onclick = ()=>{
   if (announcer.conversation){ try{ announcer.conversation.endSession(); }catch(e){} }
   announcer.conversation = null; announcer.active = false; announcer.connecting = false;
   resetAnnouncerState();
-  $("announcerBtn").textContent = "🎙️ Live AI Announcer: OFF";
+  syncAnnouncerUI("🎙️ Live AI Announcer: OFF");
   $("ceremony").style.display = "none";
   $("raceView").style.display = "none";
   $("setupView").style.display = "grid";
@@ -3671,7 +3749,7 @@ $("newRaceBtn").onclick = ()=>{
   if (announcer.conversation){ try{ announcer.conversation.endSession(); }catch(e){} }
   announcer.conversation = null; announcer.active = false; announcer.connecting = false;
   resetAnnouncerState();
-  $("announcerBtn").textContent = "🎙️ Live AI Announcer: OFF";
+  syncAnnouncerUI("🎙️ Live AI Announcer: OFF");
   $("winnerOverlay").style.display = "none";
   $("raceView").style.display = "none";
   $("setupView").style.display = "grid";
