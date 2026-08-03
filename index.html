@@ -200,6 +200,22 @@ input:focus,select:focus{outline:3px solid #9BD8AF;border-color:var(--shamrock)}
 .winner-card .total-line{font-weight:900;color:#6b5a20;font-size:14px;margin-bottom:14px}
 .winner-actions{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
 
+/* awards gate — interstitial between the race and the ceremony */
+#awardsGate{
+  position:fixed;inset:0;display:none;align-items:center;justify-content:center;z-index:55;
+  background:rgba(8,38,22,.78);backdrop-filter:blur(6px);padding:20px;
+}
+.gate-card{
+  background:linear-gradient(180deg,#FFFDF6,#FFF6DE);border-radius:24px;max-width:460px;width:100%;
+  text-align:center;padding:32px 28px;border:5px solid var(--gold);box-shadow:0 30px 80px rgba(0,0,0,.5);
+  animation:rise .5s cubic-bezier(.2,1.4,.4,1);display:grid;gap:14px;
+}
+.gate-trophy{font-size:52px}
+.gate-eyebrow{font-family:'Lilita One',cursive;color:var(--emerald);font-size:22px;letter-spacing:2px}
+.gate-name{font-family:'Lilita One',cursive;font-size:40px;color:var(--gold-deep);
+  text-shadow:0 2px 0 #fff,0 4px 0 rgba(0,0,0,.12);line-height:1.05;word-break:break-word}
+.gate-sub{font-weight:800;color:#6b5a20;font-size:14px;line-height:1.5;margin:0}
+
 footer{margin-top:26px;text-align:center;font-size:12px;font-weight:700;color:#7fa38d;line-height:1.7}
 
 /* ---------- Awards ceremony broadcast ---------- */
@@ -382,6 +398,18 @@ footer{margin-top:26px;text-align:center;font-size:12px;font-weight:700;color:#7
       <button class="btn gold" id="againBtn">🔁 Run it again</button>
       <button class="btn ghost" id="newRaceBtn">New race</button>
     </div>
+  </div>
+</div>
+
+<!-- ============ AWARDS GATE (race → ceremony) ============ -->
+<div id="awardsGate">
+  <div class="gate-card">
+    <div class="gate-trophy">🏁</div>
+    <div class="gate-eyebrow">THE RACE IS OVER</div>
+    <div class="gate-name" id="awardsGateName">—</div>
+    <p class="gate-sub">Winner of the Shamrock Derby! When the crowd's settled, hand the mic to your announcer to call the awards.</p>
+    <button class="btn big gold" id="beginAwardsBtn">🎙️ Begin the Awards Ceremony</button>
+    <button class="btn ghost" id="skipAwardsBtn">Skip to results →</button>
   </div>
 </div>
 
@@ -2665,6 +2693,8 @@ const LINES_FLAVOR = [
 function startRace(){
   $("setupView").style.display = "none";
   $("raceView").style.display = "block";
+  $("awardsGate").style.display = "none";
+  $("ceremony").style.display = "none";
   $("rematchBtn").style.display = "none";
   const pot = state.contestants.length * state.fee;
   $("potRace").textContent = money(pot);
@@ -3543,8 +3573,21 @@ function crownWinner(r){
     `<div class="aw"><span class="aw-ic">${a.icon}</span><div><b>${a.name}</b> — ${escapeHtml(a.who)}` +
     `<span class="aw-why">${a.why}</span></div></div>`).join("");
 
-  // curtain up on the broadcast after the winner crosses
-  setTimeout(()=>startCeremony(r, awards, pot, cause), 1700);
+  // Don't jump straight into the awards. Let the winner cross and the announcer
+  // land his final race call, then raise a gate so the facilitator kicks off the
+  // awards ceremony when the room is ready — and the announcer, having finished
+  // the race, moves on to announcing the awards.
+  $("awardsGateName").textContent = r.c.name;
+  setTimeout(showAwardsGate, 2600);
+}
+function showAwardsGate(){
+  if (!cer.active) $("awardsGate").style.display = "flex";   // don't cover a replay already in progress
+}
+function beginAwards(){
+  $("awardsGate").style.display = "none";
+  const pot = state.contestants.length * state.fee;
+  const cause = $("causeInput").value.trim() || "the fundraiser";
+  if (race.winnerRef) startCeremony(race.winnerRef, race.awardsData || [], pot, cause);
 }
 function showWinnerCard(){
   const r = race.winnerRef;
@@ -3719,6 +3762,8 @@ function fanfare(){ [523,659,784,1047].forEach((f,i)=>setTimeout(()=>beep(f,.22)
 /* ---------------- wiring ---------------- */
 $("startBtn").onclick = startRace;
 $("skipBtn").onclick = endCeremony;
+$("beginAwardsBtn").onclick = beginAwards;                         // announcer calls the awards
+$("skipAwardsBtn").onclick = ()=>{ $("awardsGate").style.display = "none"; showWinnerCard(); };
 $("voiceBtn").onclick = ()=>{
   cer.voiceOn = !cer.voiceOn;
   $("voiceBtn").textContent = cer.voiceOn ? "🔊 Announcer voice: ON" : "🔇 Announcer voice: OFF";
@@ -3739,6 +3784,7 @@ $("backBtn").onclick = ()=>{
   resetAnnouncerState();
   syncAnnouncerUI("🎙️ Live AI Announcer: OFF");
   $("ceremony").style.display = "none";
+  $("awardsGate").style.display = "none";
   $("raceView").style.display = "none";
   $("setupView").style.display = "grid";
   $("winnerOverlay").style.display = "none";
@@ -3753,6 +3799,7 @@ $("newRaceBtn").onclick = ()=>{
   resetAnnouncerState();
   syncAnnouncerUI("🎙️ Live AI Announcer: OFF");
   $("winnerOverlay").style.display = "none";
+  $("awardsGate").style.display = "none";
   $("raceView").style.display = "none";
   $("setupView").style.display = "grid";
 };
