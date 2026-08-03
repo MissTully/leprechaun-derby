@@ -87,6 +87,42 @@ input:focus,select:focus{outline:3px solid #9BD8AF;border-color:var(--shamrock)}
 .btn.big{width:100%;font-size:22px;padding:16px}
 .hint{font-size:12px;color:#6b8f78;font-weight:700;margin-top:8px;line-height:1.5}
 
+/* ---------- Promo video hero (first screen) ---------- */
+.promo-hero{
+  grid-column:1 / -1;
+  display:grid;grid-template-columns:1.05fr 1fr;gap:22px;align-items:center;
+  background:linear-gradient(135deg,var(--emerald) 0%, #14713F 55%, var(--shamrock) 100%);
+  border-radius:18px;box-shadow:var(--shadow);
+  border:3px solid rgba(255,233,168,.55);
+  padding:22px;color:#fff;overflow:hidden;position:relative;
+}
+.promo-hero::before{
+  content:"";position:absolute;inset:0;pointer-events:none;
+  background:radial-gradient(600px 220px at 88% -60px, rgba(255,233,168,.28), transparent 60%);
+}
+.promo-copy{position:relative;z-index:1}
+.promo-eyebrow{
+  display:inline-block;font-weight:900;font-size:11px;letter-spacing:2.4px;text-transform:uppercase;
+  color:#4a3200;background:var(--gold);border-radius:999px;padding:5px 13px;
+  box-shadow:0 3px 0 var(--gold-deep);margin-bottom:12px;
+}
+.promo-copy h2{
+  font-family:'Lilita One',cursive;font-size:clamp(24px,3.2vw,34px);line-height:1.05;
+  color:#fff;text-shadow:0 3px 0 rgba(0,0,0,.28);margin-bottom:10px;
+}
+.promo-copy h2 .hl{color:#FFE9A8}
+.promo-copy p{font-size:15px;font-weight:700;line-height:1.55;color:#EAF7EC;max-width:44ch}
+.promo-frame{
+  position:relative;z-index:1;width:100%;aspect-ratio:16/9;
+  border-radius:14px;overflow:hidden;background:#0a1c12;
+  border:3px solid rgba(255,255,255,.35);box-shadow:0 10px 24px rgba(0,0,0,.32);
+}
+.promo-frame iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+@media (max-width:760px){
+  .promo-hero{grid-template-columns:1fr;gap:16px;text-align:center}
+  .promo-copy p{margin:0 auto}
+}
+
 /* AI announcer toggle switch (setup page) */
 .announcer-switch{display:flex;align-items:center;gap:12px;background:#fff;border:2px solid #C9DECF;
   border-radius:14px;padding:12px 14px;cursor:pointer;user-select:none;font-weight:800;color:var(--emerald)}
@@ -150,12 +186,28 @@ input:focus,select:focus{outline:3px solid #9BD8AF;border-color:var(--shamrock)}
 #leaderboard .lb-row .pos{width:18px;color:#FFE9A8;font-weight:900}
 #leaderboard .lb-row .dot{width:12px;height:12px;border-radius:50%;border:2px solid #fff;flex:none}
 #leaderboard .lb-row .lb-name{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+/* Live announcer call — a bold broadcast bar shown ABOVE the race window so it
+   stays easy to read without ever covering the racers. */
 #commentary{
-  margin-top:12px;background:var(--card);border-radius:14px;box-shadow:var(--shadow);
-  padding:12px 18px;display:flex;align-items:center;gap:12px;border:1px solid #E3EEE4;min-height:52px;
+  margin-bottom:12px;
+  background:linear-gradient(90deg,#0A3B22,#14713F 55%,#0E5A31);
+  border-radius:14px;padding:13px 18px;display:flex;align-items:center;gap:13px;
+  border:2px solid rgba(255,233,168,.6);box-shadow:var(--shadow);min-height:56px;
 }
-#commentary .mic{font-size:22px}
-#commentary p{font-weight:800;font-size:15px;color:var(--emerald)}
+#commentary .live-dot{
+  flex:none;width:11px;height:11px;border-radius:50%;background:#FF5147;
+  box-shadow:0 0 0 0 rgba(255,81,71,.7);animation:livePulse 1.5s ease-out infinite;
+}
+@keyframes livePulse{
+  0%{box-shadow:0 0 0 0 rgba(255,81,71,.65)}
+  70%{box-shadow:0 0 0 9px rgba(255,81,71,0)}
+  100%{box-shadow:0 0 0 0 rgba(255,81,71,0)}
+}
+#commentary .mic{font-size:clamp(22px,2.4vw,28px);flex:none;filter:drop-shadow(0 2px 3px rgba(0,0,0,.45))}
+#commentary p{
+  font-weight:900;font-size:clamp(15px,1.9vw,21px);line-height:1.25;color:#fff;
+  text-shadow:0 2px 4px rgba(0,0,0,.55);letter-spacing:.2px;
+}
 .race-actions{display:flex;gap:10px;margin-top:12px;flex-wrap:wrap}
 
 /* countdown */
@@ -261,7 +313,7 @@ footer{margin-top:26px;text-align:center;font-size:12px;font-weight:700;color:#7
 
   <header>
     <div class="brand">
-      <div class="clover">🍀</div>
+      <div class="clover">☘️</div>
       <div>
         <h1>SHAMROCK DERBY</h1>
         <small>Bayshore Boulevard · Tampa, Florida</small>
@@ -275,6 +327,24 @@ footer{margin-top:26px;text-align:center;font-size:12px;font-weight:700;color:#7
 
   <!-- ================= SETUP VIEW ================= -->
   <div id="setupView" class="grid">
+    <div class="promo-hero">
+      <div class="promo-copy">
+        <span class="promo-eyebrow">☘️ You're invited to race</span>
+        <h2>Grab a leprechaun and <span class="hl">join the Derby!</span></h2>
+        <p>Watch the quick invite below, then add your name to today's field. Every
+           entry gets a one-of-a-kind leprechaun — and half the pot goes to the cause.</p>
+      </div>
+      <div class="promo-frame">
+        <iframe
+          src="https://www.youtube-nocookie.com/embed/iP7QksKlVYE?rel=0&modestbranding=1"
+          title="Shamrock Derby — join the race!"
+          loading="lazy"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+          referrerpolicy="strict-origin-when-cross-origin"
+          allowfullscreen></iframe>
+      </div>
+    </div>
+
     <div class="panel">
       <h2>Race Setup</h2>
       <div class="sub">The facilitator collects entries, then starts the race.</div>
@@ -331,23 +401,23 @@ footer{margin-top:26px;text-align:center;font-size:12px;font-weight:700;color:#7
         <div class="count-chip"><span id="rosterCount">0</span> / 20 entered</div>
       </div>
       <div class="roster" id="roster"></div>
-      <div class="empty-roster" id="emptyRoster">No contestants yet — add a name to meet your first leprechaun! 🍀</div>
+      <div class="empty-roster" id="emptyRoster">No contestants yet — add a name to meet your first leprechaun! ☘️</div>
     </div>
   </div>
 
   <!-- ================= RACE VIEW ================= -->
   <div id="raceView">
+    <div id="commentary"><span class="live-dot"></span><div class="mic">🎙️</div><p id="commentText">The field is loading in at the start line…</p></div>
     <div class="stage-shell">
       <canvas id="stage" width="1280" height="720"></canvas>
       <div class="race-topbar">
-        <div class="badge">🍀 SHAMROCK DERBY · <b>Bayshore Blvd</b></div>
+        <div class="badge">☘️ SHAMROCK DERBY · <b>Bayshore Blvd</b></div>
         <div class="badge">⏱ <b id="raceClock">0:00</b> · Course <b id="racePct">0%</b></div>
         <div class="badge">Pot <b id="potRace">$0</b> · Winner takes <b id="winRace">$0</b></div>
       </div>
       <div id="leaderboard"><h3>LIVE LEADERS</h3><div id="lbRows"></div></div>
       <div id="countdown"><span id="countNum">3</span></div>
     </div>
-    <div id="commentary"><div class="mic">🎙️</div><p id="commentText">The field is loading in at the start line…</p></div>
     <div class="race-actions">
       <button class="btn ghost" id="backBtn">← Back to setup</button>
       <button class="btn ghost" id="announcerBtn">🎙️ Live AI Announcer: OFF</button>
@@ -1890,36 +1960,56 @@ function drawBottle(ctx, x, y, rot){
   ctx.fillStyle = "rgba(0,0,0,.22)";
   ctx.beginPath(); ctx.ellipse(x, y + 2, 24, 5, 0, 0, 7); ctx.fill();
   ctx.save(); ctx.translate(x, y - 10); ctx.rotate(rot);
-  const G = "#1E6B3C", GD = "#14512C";
+  // Jameson palette: green glass, cream label, gold trim, red crest + red foil cap
+  const G = "#1E6B3C", GD = "#123F24", GLASS_HI = "#57A56F",
+        GOLD = "#CBA02F", GOLD_HI = "#F0D27A", CREAM = "#F5EEDA",
+        RED = "#B22C22", RED_HI = "#D8493B", RED_DK = "#7F1C15";
   // body with the classic sloped shoulder into a straight neck
   ctx.fillStyle = G;
   ctx.beginPath();
   ctx.moveTo(-22, -9);
   ctx.lineTo(6, -9);
   ctx.quadraticCurveTo(13, -8, 15, -3.5);
-  ctx.lineTo(24, -3.5);
-  ctx.lineTo(24, 3.5);
+  ctx.lineTo(23, -3.5);
+  ctx.lineTo(23, 3.5);
   ctx.lineTo(15, 3.5);
   ctx.quadraticCurveTo(13, 8, 6, 9);
   ctx.lineTo(-22, 9);
   ctx.quadraticCurveTo(-26, 0, -22, -9);
   ctx.closePath(); ctx.fill();
   ctx.strokeStyle = GD; ctx.lineWidth = 1.6; ctx.stroke();
-  // glass shine along the barrel
-  ctx.fillStyle = "rgba(255,255,255,.28)";
-  roundRect(ctx, -19, -6.5, 22, 3, 1.5); ctx.fill();
-  // cork cap
-  ctx.fillStyle = "#C9A15A"; ctx.fillRect(24, -4.5, 5, 9);
-  ctx.strokeStyle = "#8A6A34"; ctx.lineWidth = 1; ctx.strokeRect(24, -4.5, 5, 9);
-  // cream label with a green oval crest
-  ctx.fillStyle = "#F4EDD8";
-  roundRect(ctx, -17, -7, 18, 14, 2); ctx.fill();
-  ctx.strokeStyle = GD; ctx.lineWidth = 1.2;
-  ctx.beginPath(); ctx.ellipse(-8, 0, 7, 5.4, 0, 0, 7); ctx.stroke();
-  ctx.fillStyle = GD; ctx.font = "900 4.5px Nunito, sans-serif";
+  // glass shine along the barrel (kept to the green shoulder, above the label)
+  ctx.fillStyle = "rgba(255,255,255,.30)";
+  roundRect(ctx, 2, -6.5, 11, 2.4, 1.2); ctx.fill();
+  // gold band where the neck meets the shoulder
+  ctx.fillStyle = GOLD; ctx.fillRect(13.5, -3.6, 2.2, 7.2);
+  ctx.fillStyle = GOLD_HI; ctx.fillRect(13.5, -3.6, 2.2, 1.1);
+  // red foil capsule cap with a gold ring at its base
+  ctx.fillStyle = GOLD; ctx.fillRect(22.5, -4.2, 1.6, 8.4);
+  ctx.fillStyle = RED;
+  roundRect(ctx, 23.7, -4.4, 6.6, 8.8, 2.2); ctx.fill();
+  ctx.strokeStyle = RED_DK; ctx.lineWidth = 0.8; ctx.stroke();
+  ctx.fillStyle = RED_HI; roundRect(ctx, 24, -4, 6, 2.2, 1.4); ctx.fill();  // sheen
+  ctx.strokeStyle = RED_DK; ctx.lineWidth = 0.5;                            // foil creases
+  ctx.beginPath(); ctx.moveTo(26.4, -3.8); ctx.lineTo(26.4, 3.8);
+  ctx.moveTo(28.2, -3.6); ctx.lineTo(28.2, 3.6); ctx.stroke();
+  // cream label with gold banding top and bottom
+  ctx.fillStyle = CREAM;
+  roundRect(ctx, -18, -7.6, 20, 15.2, 2); ctx.fill();
+  ctx.strokeStyle = "rgba(0,0,0,.10)"; ctx.lineWidth = 0.6; ctx.stroke();
+  ctx.fillStyle = GOLD;
+  ctx.fillRect(-18, -7.6, 20, 1.5);   // top gold band
+  ctx.fillRect(-18, 6.1, 20, 1.5);    // bottom gold band
+  // red crest medallion (the Jameson seal) above the wordmark, ringed in gold
+  ctx.fillStyle = RED;
+  ctx.beginPath(); ctx.arc(-8, -2.7, 2.3, 0, 7); ctx.fill();
+  ctx.strokeStyle = GOLD; ctx.lineWidth = 0.8; ctx.stroke();
+  ctx.fillStyle = GOLD_HI;
+  ctx.beginPath(); ctx.arc(-8.7, -3.4, 0.7, 0, 7); ctx.fill();   // tiny highlight
+  // JAMESON wordmark in bottle-green
+  ctx.fillStyle = G; ctx.font = "900 3.7px Nunito, sans-serif";
   ctx.textAlign = "center"; ctx.textBaseline = "middle";
-  ctx.fillText("IRISH", -8, -1);
-  ctx.fillText("WHISKEY", -8, 3.5);
+  ctx.fillText("JAMESON", -8, 3.4);
   ctx.restore();
 }
 
@@ -2103,6 +2193,9 @@ const WATER_Y = H*0.34, WATER_H = H*0.20;
 const RAIL_Y  = H*0.505;          // balustrade base band
 const WALK_Y  = H*0.565;          // famous Bayshore sidewalk
 const ROAD_Y  = H*0.615, ROAD_H = H*0.385;
+// Pre-race camera pull-back: the field lines up behind the start line (world x ≤ 0),
+// so before the gun the camera sits left of 0 to keep the whole lineup on screen.
+const PRE_RACE_CAM = -Math.round(W*0.25);
 
 let skyline = [];                  // Tampa's real silhouette, tiled every 2400px
 function buildSkyline(seedFn){
@@ -2609,7 +2702,7 @@ const race = {
   particles: [], pirateEvent: null, kidnapCount: 0
 };
 const LINES_EVENT = [
-  n=>`${n} finds a burst of pure Irish luck! 🍀`,
+  n=>`${n} finds a burst of pure Irish luck! ☘️`,
   n=>`${n} is absolutely FLYING down Bayshore!`,
   n=>`A gust off Tampa Bay pushes ${n} forward!`,
   n=>`${n} spotted a pot of gold and floored it!`,
@@ -2730,7 +2823,7 @@ function startRace(){
   race.length = Math.round(RACE_SECONDS * (159 - 30/n));           // calibrated to front-of-pack pace per field size
   race.kidnapMax = RACE_SECONDS >= 120 ? 3 : RACE_SECONDS >= 60 ? 2 : 1;
   race.leaderRef = null; race.lastLeadComm = 0;
-  race.cam = 0; race.t = 0; race.runT = 0; race.over = false; race.running = false;
+  race.cam = PRE_RACE_CAM; race.t = 0; race.runT = 0; race.over = false; race.running = false;
   race.particles = []; race.pirateEvent = null; race.kidnapCount = 0;
   state.finished = [];
   const cd = $("countdown"), num = $("countNum");
@@ -2750,7 +2843,7 @@ function startRace(){
   if (announcer.active){
     // The announcer runs the whole pre-race. When the derby page opens he
     // announces the field and counts it down, and the gun is held on a fixed
-    // 30-second timer so he always has ample time to finish "GO!" without
+    // 90-second timer so he always has ample time to finish "GO!" without
     // being rushed or cut off. (No onDone launch — the wait is deliberate.)
     setComment("🎙️ Your announcer is calling the race to the line…", true);
     cd.style.display = "flex"; num.textContent = "🎙️";
@@ -2758,11 +2851,11 @@ function startRace(){
       `You're the live race announcer for the Shamrock Derby on Bayshore Boulevard, with ${n} leprechauns racing for a ${money(pot)} pot. ` +
       `Announce the race with big, high-energy, funny commentary about the field, then count it down and start the race, ` +
       `ending with exactly these words: "Ready... get set... GO!" ` +
-      `Take your time — pace it to run about twenty-five to thirty seconds total — and do not say anything after "GO!".`
+      `Take your time — you have about ninety seconds, so pace it to run roughly eighty to ninety seconds total — and do not say anything after "GO!".`
     );
-    // Deliberate 30s pre-race window: the race always starts 30 seconds after
+    // Deliberate 90s pre-race window: the race always starts 90 seconds after
     // the page opens, giving the announcer ample room to announce and count down.
-    announcer.startFailsafe = setTimeout(launchField, 30000);
+    announcer.startFailsafe = setTimeout(launchField, 90000);
   } else {
     // Classic visual countdown with beeps.
     setComment("Runners to the line… the bay is calm, the crowd is not!");
@@ -2919,10 +3012,13 @@ function update(dt){
     if (p.kind === "splash") p.vy += 420*dt;
     return p.life > 0;
   });
-  // camera follows the front of the pack, keeps finish in frame at the end
+  // Before the gun, hold the pull-back so the whole lineup stays on screen; once
+  // running, the camera follows the front of the pack and keeps the finish in frame.
   const camRacers = race.racers.filter(r=>!r.captured);
-  const target = Math.max(0, Math.max(...camRacers.map(r=>r.x)) - W*0.62);
-  race.cam += (Math.min(target, race.length - W*0.85) - race.cam) * Math.min(1, dt*3.2);
+  const target = race.running
+    ? Math.min(Math.max(0, Math.max(...camRacers.map(r=>r.x)) - W*0.62), race.length - W*0.85)
+    : PRE_RACE_CAM;
+  race.cam += (target - race.cam) * Math.min(1, dt*3.2);
   updateLeaderboard();
 }
 
@@ -3615,20 +3711,20 @@ function startCeremony(winner, awards, pot, cause){
   cer.scenes = [{
     eyebrow:"THE RACE IS OVER", award:"🎺 AWARDS CEREMONY", name:"",
     praise:"Ladies and gentlemen — your Shamrock Derby honors!",
-    racer:null, prize:"", dur:5,
+    racer:null, prize:"", dur:10,
     speak:"Ladies and gentlemen! The race is over! Please welcome... your Shamrock Derby awards ceremony!"
   }];
   awards.forEach(a=>{
     cer.scenes.push({
       eyebrow:"AWARD", award:`${a.icon} ${a.name}`, name:a.who,
-      praise:cap(a.why)+"!", racer:a.racer||null, prize:"", dur:8,
+      praise:cap(a.why)+"!", racer:a.racer||null, prize:"", dur:16,
       speak:`The ${a.name} goes to... ${a.who}! ${a.why}!`
     });
   });
   cer.scenes.push({
     eyebrow:"AND YOUR SHAMROCK DERBY CHAMPION IS…", award:"🏆", name:winner.c.name,
     praise:`The derby unicorn presents the pot of gold! Ridden home by ${winner.c.lep.lepName}, bib number ${winner.c.bib}!`,
-    racer:winner, champ:true, dur:12,
+    racer:winner, champ:true, dur:24,
     prize:`Takes home ${money(pot/2)} — ${money(pot/2)} to ${cause}!`,
     speak:`And your Shamrock Derby champion is... ${winner.c.name}!! ` +
           `The derby unicorn hands over the pot of gold: ${Math.round(pot/2)} dollars! ` +
