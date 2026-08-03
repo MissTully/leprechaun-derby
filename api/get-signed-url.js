@@ -6,7 +6,8 @@ export default async function handler(req, res) {
   if (req.method === 'OPTIONS') { res.status(204).end(); return; }
   if (req.method !== 'GET') { res.status(405).json({ error: 'Use GET.' }); return; }
 
-  const apiKey = process.env.ELEVENLABS_API_KEY;
+  // Prefer the canonical name; fall back to ELEVENLABS for the var as originally created.
+  const apiKey = process.env.ELEVENLABS_API_KEY || process.env.ELEVENLABS;
   const agentId = (req.query && req.query.agent_id) || process.env.ELEVENLABS_AGENT_ID;
 
   if (!apiKey) {
