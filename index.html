@@ -2718,22 +2718,20 @@ function startRace(){
   }
 
   if (announcer.active){
-    // Announcer calls the start himself: a punchy intro + funny commentary,
-    // then he counts the field down and the race launches on his "GO!".
+    // Announcer calls the start himself. Intro + countdown are ONE short turn
+    // so there's no dead gap between them — the race launches the instant he
+    // finishes "GO!". Kept tight (one hype line) so the gun isn't 30s away.
     setComment("🎙️ Your announcer is taking the mic…", true);
     cd.style.display = "flex"; num.textContent = "🎙️";
     enqueueAnnouncer(
-      `You're the live race announcer for the Shamrock Derby down on Bayshore Boulevard. ` +
-      `${n} leprechauns are at the line racing for a pot of ${money(pot)}. ` +
-      `Give a short, high-energy, funny hype-up introducing the race and the field — two or three sentences, no countdown yet.`
-    );
-    enqueueAnnouncer(
-      `Now call the start of the race with a dramatic countdown, exactly: "Riders ready... Ready... get set... GO!"`,
+      `You're the live race announcer for the Shamrock Derby on Bayshore Boulevard, with ${n} leprechauns racing for a ${money(pot)} pot. ` +
+      `In ONE short, high-energy, funny sentence, hype up the race — then immediately start it by counting down with exactly these words: ` +
+      `"Ready... get set... GO!" Keep the whole thing brief; do not add anything after "GO!".`,
       { onDone: launchField }
     );
-    // Failsafe: if the announcer drops mid-intro, never leave racers frozen —
-    // launch anyway after a hard cap. The onDone above normally fires first.
-    announcer.startFailsafe = setTimeout(launchField, 16000);
+    // Failsafe: if the announcer audio never arrives, never leave racers frozen
+    // — launch anyway after a hard cap. onDone above normally fires first.
+    announcer.startFailsafe = setTimeout(launchField, 12000);
   } else {
     // Classic visual countdown with beeps.
     setComment("Runners to the line… the bay is calm, the crowd is not!");
