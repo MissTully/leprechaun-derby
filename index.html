@@ -2778,11 +2778,14 @@ function update(dt){
       if (r.x >= race.length){
         r.done = true; r.finishT = race.t;
         state.finished.push(r);
-        if (state.finished.length === 1){
-          crownWinner(r);
-        }
       }
     });
+    // crown on the first frame anyone crosses — but pick whoever is truly
+    // furthest past the line, not just the lowest bib in the array. The pack
+    // runs tight, so multiple runners can cross on the same frame.
+    if (!race.over && state.finished.length){
+      crownWinner(state.finished.reduce((a,b)=> b.x > a.x ? b : a));
+    }
     // track the leader: time in front counts toward the Heartbreaker Award,
     // and lead changes get called live (with a cooldown so flip-flops don't spam)
     let lead = null;
