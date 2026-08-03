@@ -1000,10 +1000,13 @@ function drawLeprechaun(ctx, x, y, scale, lep, phase, state, bib, time){
     pointed elf ears (one droops), a golden aura with orbiting shamrocks
     and coins, jaunty hat tilt, one quizzical eyebrow, gap or gold teeth,
     coin-shaped pupils on the greedy ones, crossed eyes, winks…          */
-function drawLeprechaunPortrait(ctx, px, py, R, lep, t){
+function drawLeprechaunPortrait(ctx, px, py, R, lep, t, happy){
   const u = R/46;
   const OUT = "#26331F";
   const q = Math.floor(lep.blinkSeed*97.7);          // quirk dice (deterministic)
+  // The winner's celebration portrait: force a warm, beaming expression —
+  // both eyes open and a big open grin — instead of the quirky roster faces.
+  if (happy) lep = Object.assign({}, lep, { pers: "cheery" });
   ctx.save(); ctx.translate(px, py);
   ctx.lineJoin = "round"; ctx.lineCap = "round";
 
@@ -1103,7 +1106,7 @@ function drawLeprechaunPortrait(ctx, px, py, R, lep, t){
   }
 
   // ---- eyes with seeded weirdness ----
-  const eq = q % 5;   // 0 normal · 1 one giant eye · 2 crossed · 3 coin pupils · 4 wink
+  const eq = happy ? 0 : q % 5;   // 0 normal · 1 one giant eye · 2 crossed · 3 coin pupils · 4 wink
   eye(-1, eq); eye(1, eq);
   brows();
   if (lep.pers === "nervous"){                        // flying sweat drop
@@ -3679,10 +3682,16 @@ function crownWinner(r){
 function showAwardsGate(){
   if (!cer.active) $("awardsGate").style.display = "flex";   // don't cover a replay already in progress
 }
-function beginAwards(){
+async function beginAwards(){
   $("awardsGate").style.display = "none";
   const pot = state.contestants.length * state.fee;
   const cause = $("causeInput").value.trim() || "the fundraiser";
+  // The awards are called by the live AI announcer. If narration is on but the
+  // announcer isn't connected yet, bring Fitzy up first so he does the honors —
+  // the browser voice is only a fallback when the connection can't be made.
+  if (cer.voiceOn && !announcer.active && !announcer.connecting){
+    try{ await toggleAnnouncer(); }catch(e){}
+  }
   if (race.winnerRef) startCeremony(race.winnerRef, race.awardsData || [], pot, cause);
 }
 function showWinnerCard(){
@@ -3693,7 +3702,7 @@ function showWinnerCard(){
   let wt = 0;
   (function winnerAnim(){
     wctx.clearRect(0,0,wc.width,wc.height);
-    drawLeprechaun(wctx, 150, 312, 92, r.c.lep, wt*6, "win", r.c.bib, wt);
+    drawLeprechaunPortrait(wctx, 150, 188, 66, r.c.lep, wt, true);
     wt += 1/60;
     if ($("winnerOverlay").style.display === "flex") requestAnimationFrame(winnerAnim);
   })();
@@ -3784,7 +3793,8 @@ function animateCerCanvas(){
       c2.fillStyle = "#F2B824";
       c2.fillRect(90, 368, 180, 6);
       if (cer.champScene) drawPot(c2, 88, 402, 92, tt);
-      drawLeprechaun(c2, 190, 366, 96, cer.racer.c.lep, tt*7, "win", cer.racer.c.bib, tt);
+      // front-facing, beaming winner rising from the podium
+      drawLeprechaunPortrait(c2, 180, 206, 78, cer.racer.c.lep, tt, true);
     }
     tt += 1/60;
     cer.raf = requestAnimationFrame(anim);
