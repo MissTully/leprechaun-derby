@@ -186,12 +186,29 @@ input:focus,select:focus{outline:3px solid #9BD8AF;border-color:var(--shamrock)}
 #leaderboard .lb-row .pos{width:18px;color:#FFE9A8;font-weight:900}
 #leaderboard .lb-row .dot{width:12px;height:12px;border-radius:50%;border:2px solid #fff;flex:none}
 #leaderboard .lb-row .lb-name{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+/* Live announcer call — a broadcast "lower third" caption pinned to the bottom
+   of the race stage so it stays in the viewer's eyeline during the race. */
 #commentary{
-  margin-top:12px;background:var(--card);border-radius:14px;box-shadow:var(--shadow);
-  padding:12px 18px;display:flex;align-items:center;gap:12px;border:1px solid #E3EEE4;min-height:52px;
+  position:absolute;left:14px;right:14px;bottom:14px;z-index:5;pointer-events:none;
+  background:linear-gradient(90deg,rgba(8,40,24,.94),rgba(14,66,40,.88));
+  backdrop-filter:blur(6px);
+  border-radius:14px;padding:12px 18px;display:flex;align-items:center;gap:13px;
+  border:2px solid rgba(255,233,168,.6);box-shadow:0 10px 26px rgba(0,0,0,.4);
 }
-#commentary .mic{font-size:22px}
-#commentary p{font-weight:800;font-size:15px;color:var(--emerald)}
+#commentary .live-dot{
+  flex:none;width:11px;height:11px;border-radius:50%;background:#FF5147;
+  box-shadow:0 0 0 0 rgba(255,81,71,.7);animation:livePulse 1.5s ease-out infinite;
+}
+@keyframes livePulse{
+  0%{box-shadow:0 0 0 0 rgba(255,81,71,.65)}
+  70%{box-shadow:0 0 0 9px rgba(255,81,71,0)}
+  100%{box-shadow:0 0 0 0 rgba(255,81,71,0)}
+}
+#commentary .mic{font-size:clamp(22px,2.4vw,28px);flex:none;filter:drop-shadow(0 2px 3px rgba(0,0,0,.45))}
+#commentary p{
+  font-weight:900;font-size:clamp(15px,1.9vw,21px);line-height:1.25;color:#fff;
+  text-shadow:0 2px 4px rgba(0,0,0,.55);letter-spacing:.2px;
+}
 .race-actions{display:flex;gap:10px;margin-top:12px;flex-wrap:wrap}
 
 /* countdown */
@@ -399,9 +416,9 @@ footer{margin-top:26px;text-align:center;font-size:12px;font-weight:700;color:#7
         <div class="badge">Pot <b id="potRace">$0</b> · Winner takes <b id="winRace">$0</b></div>
       </div>
       <div id="leaderboard"><h3>LIVE LEADERS</h3><div id="lbRows"></div></div>
+      <div id="commentary"><span class="live-dot"></span><div class="mic">🎙️</div><p id="commentText">The field is loading in at the start line…</p></div>
       <div id="countdown"><span id="countNum">3</span></div>
     </div>
-    <div id="commentary"><div class="mic">🎙️</div><p id="commentText">The field is loading in at the start line…</p></div>
     <div class="race-actions">
       <button class="btn ghost" id="backBtn">← Back to setup</button>
       <button class="btn ghost" id="announcerBtn">🎙️ Live AI Announcer: OFF</button>
@@ -2807,7 +2824,7 @@ function startRace(){
   if (announcer.active){
     // The announcer runs the whole pre-race. When the derby page opens he
     // announces the field and counts it down, and the gun is held on a fixed
-    // 60-second timer so he always has a full minute to finish "GO!" without
+    // 90-second timer so he always has ample time to finish "GO!" without
     // being rushed or cut off. (No onDone launch — the wait is deliberate.)
     setComment("🎙️ Your announcer is calling the race to the line…", true);
     cd.style.display = "flex"; num.textContent = "🎙️";
@@ -2815,11 +2832,11 @@ function startRace(){
       `You're the live race announcer for the Shamrock Derby on Bayshore Boulevard, with ${n} leprechauns racing for a ${money(pot)} pot. ` +
       `Announce the race with big, high-energy, funny commentary about the field, then count it down and start the race, ` +
       `ending with exactly these words: "Ready... get set... GO!" ` +
-      `Take your time — you have a full minute, so pace it to run about fifty to sixty seconds total — and do not say anything after "GO!".`
+      `Take your time — you have about ninety seconds, so pace it to run roughly eighty to ninety seconds total — and do not say anything after "GO!".`
     );
-    // Deliberate 60s pre-race window: the race always starts a full minute after
+    // Deliberate 90s pre-race window: the race always starts 90 seconds after
     // the page opens, giving the announcer ample room to announce and count down.
-    announcer.startFailsafe = setTimeout(launchField, 60000);
+    announcer.startFailsafe = setTimeout(launchField, 90000);
   } else {
     // Classic visual countdown with beeps.
     setComment("Runners to the line… the bay is calm, the crowd is not!");
@@ -3675,20 +3692,20 @@ function startCeremony(winner, awards, pot, cause){
   cer.scenes = [{
     eyebrow:"THE RACE IS OVER", award:"🎺 AWARDS CEREMONY", name:"",
     praise:"Ladies and gentlemen — your Shamrock Derby honors!",
-    racer:null, prize:"", dur:5,
+    racer:null, prize:"", dur:10,
     speak:"Ladies and gentlemen! The race is over! Please welcome... your Shamrock Derby awards ceremony!"
   }];
   awards.forEach(a=>{
     cer.scenes.push({
       eyebrow:"AWARD", award:`${a.icon} ${a.name}`, name:a.who,
-      praise:cap(a.why)+"!", racer:a.racer||null, prize:"", dur:8,
+      praise:cap(a.why)+"!", racer:a.racer||null, prize:"", dur:16,
       speak:`The ${a.name} goes to... ${a.who}! ${a.why}!`
     });
   });
   cer.scenes.push({
     eyebrow:"AND YOUR SHAMROCK DERBY CHAMPION IS…", award:"🏆", name:winner.c.name,
     praise:`The derby unicorn presents the pot of gold! Ridden home by ${winner.c.lep.lepName}, bib number ${winner.c.bib}!`,
-    racer:winner, champ:true, dur:12,
+    racer:winner, champ:true, dur:24,
     prize:`Takes home ${money(pot/2)} — ${money(pot/2)} to ${cause}!`,
     speak:`And your Shamrock Derby champion is... ${winner.c.name}!! ` +
           `The derby unicorn hands over the pot of gold: ${Math.round(pot/2)} dollars! ` +
